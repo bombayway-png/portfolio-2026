@@ -7,7 +7,7 @@ import {
   Globe, ArrowUpRight, CheckCircle2,
   Sparkles, ShieldCheck, Map, Activity,
   Maximize2, X, Lock, LayoutDashboard,
-  Users, LineChart
+  Users, LineChart, Briefcase // ADDED MISSING IMPORT
 } from 'lucide-react';
 
 // Interface for Passion Project data
@@ -32,7 +32,7 @@ export default function Home() {
     { id: 'lilo-auth', title: '01. Entry & Identity', description: 'The front door. Clean authentication and onboarding logic built on Firebase.', imageSrc: '/lilologin.png', altText: 'LILO OS Sign-in' },
     { id: 'lilo-admin-brain', title: '02. Command & Control', description: 'Admin Triage hub. Real-time monitoring and centralized task dispatching.', imageSrc: '/lilo-triage-admin.png', altText: 'LILO OS Admin' },
     { id: 'lilo-issue-detail', title: '03. Contextual Solving', description: 'Drilling into blockers. Capturing bidding details to move stalled tasks forward.', imageSrc: '/lilo-blocking-issue.png', altText: 'LILO OS Blocker' },
-    { id: 'lilo-execution', title: '04. Gamified Execution', description: 'Employee view. Transforming chores into XP-enabled Work Orders.', imageSrc: '/lilo-employee-view.jpeg', altText: 'LILO OS Employee' },
+    { id: 'lilo-execution', title: '04. Gamified Execution', description: 'Employee view. Transforming household chores into XP-enabled Work Orders.', imageSrc: '/lilo-employee-view.jpeg', altText: 'LILO OS Employee' },
     { id: 'lilo-scorecard', title: '05. Feedback Loops', description: 'Individual scorecards. Tracking load and reliability to ensure balance.', imageSrc: '/lilo-employee-scorecard.png', altText: 'LILO OS Scorecard' },
     { id: 'lilo-metrics', title: '06. Operational Insights', description: 'Automated data loops monitoring ROT Index and team reliability.', imageSrc: '/lilo-dashboard-admin.png', altText: 'LILO OS Metrics' },
   ];
@@ -109,7 +109,7 @@ export default function Home() {
               <div className="space-y-4">
                 <ExperienceCard 
                   company="Blizzard Entertainment" role="Product Manager, Battle.net" date="Aug 2025 — Present"
-                  bullets={["Strategy Owner: Video UX for major franchises.", "Delivered Gamepad support on-time.", "Standardized leadership reporting."]}
+                  bullets={["Strategy Owner: Video UX for franchises.", "Delivered Gamepad support on-time.", "Standardized leadership reporting."]}
                   isActive={activeCompany === "Blizzard Entertainment"} onSelect={() => setActiveCompany("Blizzard Entertainment")}
                 />
                 <ExperienceCard 
@@ -138,7 +138,6 @@ export default function Home() {
            </div>
            <div className="w-full md:w-1/3 aspect-square bg-blue-600/10 rounded-3xl border border-blue-500/20 flex items-center justify-center relative">
              <Cpu size={120} className="text-blue-500 opacity-20" />
-             <div className="absolute inset-0 flex items-center justify-center text-blue-400 font-mono text-xs text-center p-8">Building intelligent systems for complex workflows.</div>
            </div>
         </div>
       </section>
@@ -170,7 +169,7 @@ export default function Home() {
   );
 }
 
-// Fixed Sub-components
+// Sub-components
 function OutcomeCard({ icon: Icon, title, sub }: { icon: any, title: string, sub: string }) {
   return (
     <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue-200 group/card">
