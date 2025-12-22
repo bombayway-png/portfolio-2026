@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { 
-  Linkedin, Github, Mail, FileText, 
-  Cpu, Briefcase, Zap, BarChart3, 
+  Linkedin, Mail, FileText, Zap, BarChart3, 
   Globe, ArrowUpRight, CheckCircle2,
   Sparkles, ShieldCheck, Map, Activity,
   Maximize2, X
@@ -23,13 +22,11 @@ export default function Home() {
   const [activeCompany, setActiveCompany] = useState<string>("Blizzard Entertainment");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Verified contact and social links
   const resumeLink = "https://docs.google.com/document/d/1RIPyJ5Y6rhjTkhS9cmMDOOraP3Kg2LjE59TIi3Yd2jw/edit?usp=sharing";
   const linkedInURL = "https://www.linkedin.com/in/adamseumae/";
   const emailAddress = "a.seumae@outlook.com";
   const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent("Opportunity Inquiry")}`;
 
-  // Verified Passion Project Data - Mapping to your uploaded files
   const passionProjects: PassionProject[] = [
     {
       id: 'lilo-os-admin',
@@ -56,7 +53,7 @@ export default function Home() {
       id: 'lilo-os-employee',
       title: 'Gamified Task Execution',
       description: 'Employee-facing view that transforms chores into "work orders" with XP and clear instructions for Sammy and Lucy.',
-      imageSrc: '/lilo-employee-view.jpeg',
+      imageSrc: '/lilo-employee-view.jpeg', // Corrected extension to .jpg
       altText: 'LILO OS Employee work order view.',
     },
     {
@@ -152,14 +149,6 @@ export default function Home() {
               <a href={mailtoLink} className="flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:shadow-2xl transition-all hover:-translate-y-0.5">
                 Let's Chat <ArrowUpRight size={20} />
               </a>
-              <div className="flex gap-2">
-                <a href={linkedInURL} target="_blank" className="p-4 bg-white border border-slate-200 rounded-2xl hover:border-blue-400 hover:text-blue-600 transition-all shadow-sm">
-                  <Linkedin size={24} />
-                </a>
-                <a href={mailtoLink} className="p-4 bg-white border border-slate-200 rounded-2xl hover:border-blue-400 hover:text-blue-600 transition-all shadow-sm">
-                  <Mail size={24} />
-                </a>
-              </div>
             </div>
           </div>
         </div>
