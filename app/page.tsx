@@ -7,7 +7,8 @@ import {
   Globe, ArrowUpRight, CheckCircle2,
   Sparkles, ShieldCheck, Map, Activity,
   Maximize2, X, Lock, LayoutDashboard,
-  Users, LineChart, Briefcase // ADDED MISSING IMPORT
+  Users, LineChart, Briefcase, 
+  Cpu // ADDED MISSING IMPORT
 } from 'lucide-react';
 
 // Interface for Passion Project data
@@ -51,7 +52,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center"><span className="text-white font-black text-xs uppercase italic tracking-tighter">AS</span></div>
-            <span className="tracking-tighter text-lg uppercase hidden sm:block tracking-widest">Adam Seumae</span>
+            <span className="tracking-tighter text-lg uppercase hidden sm:block tracking-widest text-slate-900">Adam Seumae</span>
           </div>
           <div className="flex gap-8 items-center text-sm font-semibold text-slate-500">
             <a href="#bulletin" className="hover:text-blue-600 transition-colors">Bulletin Board</a>
@@ -164,7 +165,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="py-24 text-center text-slate-300 text-[10px] font-medium uppercase tracking-[0.5em] border-t border-slate-50 italic">Adam Seumae | a.seumae@outlook.com | 2026</footer>
+      <footer className="py-24 text-center text-slate-300 text-[10px] font-medium uppercase tracking-[0.5em] border-t border-slate-50 italic text-slate-900">Adam Seumae | a.seumae@outlook.com | 2026</footer>
     </div>
   );
 }
