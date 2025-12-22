@@ -6,7 +6,8 @@ import {
   Linkedin, Mail, FileText, Zap, BarChart3, 
   Globe, ArrowUpRight, CheckCircle2,
   Sparkles, ShieldCheck, Map, Activity,
-  Maximize2, X
+  Maximize2, X, Lock, LayoutDashboard,
+  Users, LineChart
 } from 'lucide-react';
 
 // Interface for Passion Project data
@@ -27,49 +28,49 @@ export default function Home() {
   const emailAddress = "a.seumae@outlook.com";
   const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent("Opportunity Inquiry")}`;
 
-  // Verified Passion Project Data - Mapping to your uploaded files
+  // Chronological Story Order
   const passionProjects: PassionProject[] = [
     {
-      id: 'lilo-os-admin',
-      title: 'LILO OS: Admin Triage',
-      description: 'A comprehensive "family operating system" dashboard for dispatching tasks, tracking squad status, and managing household chaos.',
+      id: 'lilo-auth',
+      title: '01. Entry & Identity',
+      description: 'The front door. Clean, dark-mode authentication and team onboarding logic built on Firebase.',
+      imageSrc: '/lilologin.png',
+      altText: 'LILO OS Sign-in screen.',
+    },
+    {
+      id: 'lilo-admin-brain',
+      title: '02. Command & Control',
+      description: 'The Admin Triage hub. Real-time squad status monitoring and centralized task dispatching.',
       imageSrc: '/lilo-triage-admin.png',
       altText: 'LILO OS Admin Dashboard view.',
     },
     {
-      id: 'lilo-os-blocker',
-      title: 'Contextual Issue Tracking',
-      description: 'Detailed task modals capturing blockers with integrated effort ratings and artifact management.',
+      id: 'lilo-issue-detail',
+      title: '03. Contextual Solving',
+      description: 'Drilling into blockers. Capturing bidding details and artifacts to move stalled tasks forward.',
       imageSrc: '/lilo-blocking-issue.png',
       altText: 'LILO OS Blocker reporting view.',
     },
     {
-      id: 'lilo-os-metrics',
-      title: 'Team Reliability & Scorecards',
-      description: 'Data-driven performance tracking featuring a "ROT Index" and real-time completion rates.',
-      imageSrc: '/lilo-dashboard-admin.png',
-      altText: 'LILO OS Team Metrics dashboard.',
-    },
-    {
-      id: 'lilo-os-employee',
-      title: 'Gamified Task Execution',
-      description: 'Employee-facing view that transforms chores into "work orders" with XP and clear instructions for Sammy and Lucy.',
+      id: 'lilo-execution',
+      title: '04. Gamified Execution',
+      description: 'The "Employee" view. Transforming household chores into XP-enabled Work Orders for the team.',
       imageSrc: '/lilo-employee-view.jpeg',
       altText: 'LILO OS Employee work order view.',
     },
     {
-      id: 'lilo-os-scorecard',
-      title: 'Individual Performance',
-      description: 'Visual scorecards tracking current load and reliability status across team members.',
+      id: 'lilo-scorecard',
+      title: '05. Feedback Loops',
+      description: 'Individual performance scorecards. Tracking current load and reliability to ensure balance.',
       imageSrc: '/lilo-employee-scorecard.png',
       altText: 'LILO OS Employee scorecard.',
     },
     {
-      id: 'lilo-os-auth',
-      title: 'Authentication & Onboarding',
-      description: 'Clean, dark-mode entry points for account creation and team code integration.',
-      imageSrc: '/lilologin.png',
-      altText: 'LILO OS Sign-in screen.',
+      id: 'lilo-metrics',
+      title: '06. Operational Insights',
+      description: 'The high-level view. Monitoring ROT Index and team reliability through automated data loops.',
+      imageSrc: '/lilo-dashboard-admin.png',
+      altText: 'LILO OS Team Metrics dashboard.',
     },
   ];
 
@@ -136,7 +137,7 @@ export default function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
               </span>
-              Product Battle.net App @ Blizzard
+              Product @ Blizzard Battle.net
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-slate-900">
               Product Leader. <br />
@@ -144,7 +145,7 @@ export default function Home() {
             </h1>
             <p className="text-xl md:text-2xl text-slate-500 leading-relaxed mb-12 max-w-2xl font-medium">
               Over a decade of experience driving strategic vision at <strong>Amazon, Microsoft, and Blizzard</strong>. I specialize in launching products that drive 
-              <span className="text-slate-900 font-bold italic"> profitability, team satisfaction, and reducing waste.</span>
+              <span className="text-slate-900 font-bold italic"> profitability, team satisfaction, and operational efficiency.</span>
             </p>
             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
               <a href={mailtoLink} className="flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:shadow-2xl transition-all hover:-translate-y-0.5">
@@ -155,7 +156,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Key Outcomes Section with Fixed Icons */}
+      {/* Key Outcomes Section */}
       <section id="engineering" className="py-24 bg-slate-50 border-y border-slate-100">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -191,7 +192,7 @@ export default function Home() {
       {/* Experience Section */}
       <section id="experience" className="py-32 max-w-6xl mx-auto px-6">
         <h2 className="text-5xl font-extrabold text-slate-900 tracking-tight italic mb-20 underline decoration-blue-600 decoration-4 underline-offset-8">
-          Recent Professional Experience
+          Professional Experience
         </h2>
         <div className="space-y-8">
           <ExperienceCard 
@@ -214,9 +215,14 @@ export default function Home() {
 
       {/* Passion Projects Section - Sammy and Lucy views */}
       <section id="passion-projects" className="py-32 max-w-6xl mx-auto px-6 border-t border-slate-100">
-        <h2 className="text-5xl font-extrabold text-slate-900 tracking-tight italic mb-20 underline decoration-blue-600 decoration-4 underline-offset-8">
-          Passion Projects
-        </h2>
+        <div className="max-w-2xl mb-16">
+          <h2 className="text-5xl font-extrabold text-slate-900 tracking-tight italic mb-6 underline decoration-blue-600 decoration-4 underline-offset-8">
+            Passion Projects
+          </h2>
+          <p className="text-lg text-slate-500 font-medium italic">
+            Building tools to solve real-world problems. LILO OS is a "Family Operating System" designed to dispatch the chaos of home management.
+          </p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {passionProjects.map((project) => (
             <div 
@@ -246,7 +252,7 @@ export default function Home() {
   );
 }
 
-// Fixed OutcomeCard Sub-component to satisfy TypeScript build
+// Sub-components
 function OutcomeCard({ icon: Icon, title, sub }: { icon: any, title: string, sub: string }) {
   return (
     <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue-200 group/card">
