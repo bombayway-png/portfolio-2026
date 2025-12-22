@@ -26,12 +26,12 @@ export default function Home() {
 
   // Chronological Story Order for Passion Projects
   const passionProjects: PassionProject[] = [
-    { id: 'lilo-auth', title: '01. Entry & Identity', description: 'Authentication and onboarding logic built on Firebase.', imageSrc: '/lilologin.png', altText: 'LILO OS Sign-in' },
-    { id: 'lilo-admin-brain', title: '02. Command & Control', description: 'Admin Triage hub. Real-time monitoring and task dispatching.', imageSrc: '/lilo-triage-admin.png', altText: 'LILO OS Admin' },
-    { id: 'lilo-issue-detail', title: '03. Contextual Solving', description: 'Drilling into blockers. Capturing bidding details to move tasks forward.', imageSrc: '/lilo-blocking-issue.png', altText: 'LILO OS Blocker' },
-    { id: 'lilo-execution', title: '04. Gamified Execution', description: 'Employee view. Transforming household chores into XP-enabled Work Orders.', imageSrc: '/lilo-employee-view.jpeg', altText: 'LILO OS Employee' },
-    { id: 'lilo-scorecard', title: '05. Feedback Loops', description: 'Individual scorecards tracking current load and reliability.', imageSrc: '/lilo-employee-scorecard.png', altText: 'LILO OS Scorecard' },
-    { id: 'lilo-metrics', title: '06. Operational Insights', description: 'Automated loops monitoring ROT Index and team reliability.', imageSrc: '/lilo-dashboard-admin.png', altText: 'LILO OS Metrics' },
+    { id: 'lilo-auth', title: '01. Entry & Identity', description: 'Authentication and onboarding logic built on Firebase for secure team entry.', imageSrc: '/lilologin.png', altText: 'LILO OS Sign-in' },
+    { id: 'lilo-admin-brain', title: '02. Command & Control', description: 'Admin Triage hub. Real-time monitoring and task dispatching center.', imageSrc: '/lilo-triage-admin.png', altText: 'LILO OS Admin' },
+    { id: 'lilo-issue-detail', title: '03. Contextual Solving', description: 'Drilling into blockers. Capturing bidding details to move stalled tasks forward.', imageSrc: '/lilo-blocking-issue.png', altText: 'LILO OS Blocker' },
+    { id: 'lilo-execution', title: '04. Gamified Execution', description: 'Employee view. Transforming tasks into XP-enabled Work Orders for the squad.', imageSrc: '/lilo-employee-view.jpeg', altText: 'LILO OS Employee' },
+    { id: 'lilo-scorecard', title: '05. Feedback Loops', description: 'Individual scorecards tracking current load and reliability for Sammy and Lucy.', imageSrc: '/lilo-employee-scorecard.png', altText: 'LILO OS Scorecard' },
+    { id: 'lilo-metrics', title: '06. Operational Insights', description: 'Automated loops monitoring ROT Index and team completion reliability.', imageSrc: '/lilo-dashboard-admin.png', altText: 'LILO OS Metrics' },
   ];
 
   return (
@@ -59,12 +59,12 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero */}
+      {/* Hero Section */}
       <header className="pt-40 pb-20 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row gap-12 items-center md:items-start">
           <div className="relative group shrink-0">
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-            <div className="relative w-48 h-48 bg-white rounded-3xl overflow-hidden border-2 border-white shadow-2xl">
+            <div className="relative w-48 h-48 md:w-56 md:h-56 bg-white rounded-3xl overflow-hidden border-2 border-white shadow-2xl">
               <Image src="/headshot.jpeg" alt="Headshot" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
             </div>
             <a href={linkedInURL} target="_blank" className="absolute -bottom-4 -right-4 bg-white p-3 rounded-2xl shadow-xl border border-slate-100 hover:scale-110 transition-transform">
@@ -77,22 +77,22 @@ export default function Home() {
               Product @ Blizzard Battle.net
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-slate-900">Product Leader. <br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent italic tracking-tight">Strategic Builder.</span></h1>
-            <p className="text-xl text-slate-500 max-w-2xl font-medium">Over 10 years driving strategic vision at <strong>Amazon, AWS, Microsoft, and Blizzard</strong>. Specializing in reducing waste and driving global profitability.</p>
+            <p className="text-xl text-slate-500 max-w-2xl font-medium italic">Over 10 years of product leadership at <strong>Amazon, AWS, Microsoft, and Blizzard</strong>. Specializing in reducing waste and driving global profitability.</p>
           </div>
         </div>
       </header>
 
-      {/* Restructured Professional Bulletin Board */}
+      {/* Professional Bulletin Board Section */}
       <section id="bulletin" className="py-24 bg-slate-50 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold mb-16 italic text-slate-900 tracking-tight">Professional Bulletin Board</h2>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             
-            {/* Left Column: Global Impact Matrix (Smaller, Weight to left) */}
+            {/* Left Column: Global Impact Matrix (4 cols) */}
             <div className="lg:col-span-4 space-y-8">
-              <h3 className="text-xs uppercase font-black tracking-widest text-slate-400 flex items-center gap-2"><Activity size={14} /> Global Impact Matrix</h3>
-              <div className="grid grid-cols-2 lg:grid-cols-2 gap-3">
-                <OutcomeCard icon={Zap} title="On-Time Delivery" sub="Battle.net Gamepad" />
+              <h3 className="text-xs uppercase font-black tracking-widest text-slate-400 flex items-center gap-2"><Activity size={14} /> Impact Matrix</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <OutcomeCard icon={Zap} title="On-Time Delivery" sub="Battle.net Handheld" />
                 <OutcomeCard icon={ShieldCheck} title="MVP Launch" sub="Airloom AI Ops" />
                 <OutcomeCard icon={BarChart3} title="$6M Saved" sub="AWS Avoidance" />
                 <OutcomeCard icon={Globe} title="80% Coverage" sub="Alexa Ad Growth" />
@@ -101,44 +101,35 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Detailed Experience (Heavy weight to right) */}
+            {/* Right Column: Detailed Experience Narrative (8 cols) */}
             <div className="lg:col-span-8 space-y-8">
-              <h3 className="text-xs uppercase font-black tracking-widest text-slate-400 flex items-center gap-2"><Briefcase size={14} /> Narrative Experience</h3>
+              <h3 className="text-xs uppercase font-black tracking-widest text-slate-400 flex items-center gap-2"><Briefcase size={14} /> Leadership Experience</h3>
               
-              {/* Blizzard Card */}
               <ExperienceCard 
-                company="Blizzard Entertainment" 
-                role="Product Manager, Battle.net" 
-                date="Aug 2025 — Present"
+                company="Blizzard Entertainment" role="Product Manager, Battle.net" date="Aug 2025 — Present"
                 bullets={[
-                  "Strategy Owner: Video UX for major franchises (WoW, CoD, Overwatch).",
-                  "Delivered gamepad support for Battle.net Xbox handheld devices on-time.",
-                  "Launched executive BI dashboards and standardized leadership reporting."
+                  "Strategy Owner for Video UX across WoW, CoD, and Overwatch.",
+                  "Successfully shipped gamepad support for Xbox handheld devices on-time.",
+                  "Launched standardized executive BI dashboards for leadership reporting."
                 ]}
                 isCurrent={true}
               />
 
-              {/* Airloom Card */}
               <ExperienceCard 
-                company="Airloom AI" 
-                role="Product Ops & Customer Development" 
-                date="2024 — 2025"
+                company="Airloom AI" role="Product Ops & Customer Development" date="2024 — 2025"
                 bullets={[
-                  "Successfully co-delivered the Minimum Viable Product (MVP) to market.",
-                  "Engineered core business operations: feedback loops and bug reporting."
+                  "Delivered the AI Search Minimum Viable Product (MVP) to market.",
+                  "Architected core feedback loops and bug reporting operations."
                 ]}
               />
 
-              {/* Amazon / AWS / Alexa Card */}
               <ExperienceCard 
-                company="Amazon, AWS & Alexa" 
-                role="Product & Program Management" 
-                date="2017 — 2024"
+                company="Amazon, AWS & Alexa" role="Product & Program Management" date="2017 — 2024"
                 bullets={[
-                  "AWS: Managed migration off 3P software, avoiding $6M in contract costs.",
-                  "Alexa Ads: Increased domain Click-Through-Rate (CTR) from 1.2% to 1.8%.",
-                  "International: Automated benchmarking across 15 locales defining global metrics.",
-                  "Alexa Preview: Scaled expansion across the Americas increasing pipeline by 20x."
+                  "AWS: Avoided $6M in software costs via strategic 3P migration.",
+                  "Alexa Ads: Improved domain CTR from 1.2% to 1.8% in Q1.",
+                  "International: Automated global benchmarking across 15 locales.",
+                  "Expansion: Scaled Alexa Preview across the Americas, growing pipeline 20x."
                 ]}
               />
             </div>
@@ -146,13 +137,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Engineering / AI Proof */}
+      {/* Engineering / AI Proof - FIX APPLIED HERE */}
       <section className="py-24 max-w-7xl mx-auto px-6">
         <div className="bg-slate-900 rounded-[2.5rem] p-10 md:p-14 shadow-2xl text-white relative overflow-hidden flex flex-col md:flex-row gap-12 items-center border border-slate-800">
            <div className="flex-1">
-              <h3 className="text-blue-400 font-mono text-sm mb-4 tracking-widest uppercase italic font-bold"><Sparkles className="inline mr-2" size={16} /> // Tech Stack</h3>
+              <h3 className="text-blue-400 font-mono text-sm mb-4 tracking-widest uppercase italic font-bold"><Sparkles className="inline mr-2" size={16} /> // Technical Proof</h3>
               <h2 className="text-4xl font-bold mb-6 italic tracking-tight">AI Product Development</h2>
-              <p className="text-slate-400 text-lg leading-relaxed mb-10 font-light">Engineered a context-aware Agentic AI System to Read > Categotize > Label > Draft > Review > Revise > Send Email. "Agentic AI" refers to artificial intelligence systems that can act autonomously to achieve a specific goal, much like a proactive digital teammate or a personal research assistant. Unlike standard AI that simply responds to a single prompt and stops, agentic AI can think, plan, use tools, and make decisions without constant human supervision.</p>
+              <p className="text-slate-400 text-lg leading-relaxed mb-10 font-light">
+                Engineered a context-aware Agentic AI System to Read &gt; Categorize &gt; Label &gt; Draft &gt; Review &gt; Revise &gt; Send Email. 
+                Built to operate autonomously, this system plans and executes multi-step goals without constant supervision.
+              </p>
               <div className="flex flex-wrap gap-3 font-mono text-[10px] uppercase tracking-widest font-bold">
                 {['React.js', 'OpenAI API', 'Vercel', 'Firebase'].map(tech => (
                   <span key={tech} className="px-4 py-1.5 bg-slate-800 rounded-lg border border-slate-700 text-blue-300 underline underline-offset-4">{tech}</span>
@@ -165,11 +159,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Passion Projects: LILO OS Story */}
+      {/* Passion Projects: The LILO OS Story */}
       <section id="passion-projects" className="py-32 max-w-7xl mx-auto px-6 border-t border-slate-100">
         <div className="max-w-2xl mb-16">
           <h2 className="text-5xl font-extrabold text-slate-900 tracking-tight italic mb-6 underline decoration-blue-600 decoration-4 underline-offset-8">Passion Projects</h2>
-          <p className="text-lg text-slate-500 font-medium italic font-light">A case study in "Family Operations." LILO OS is a custom platform designed to dispatch home management chaos through data and gamification.</p>
+          <p className="text-lg text-slate-500 font-medium italic font-light">LILO OS is a case study in "Family Operations." Designed to solve household friction through data-driven task management.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {passionProjects.map((project) => (
@@ -197,8 +191,8 @@ function OutcomeCard({ icon: Icon, title, sub }: { icon: any, title: string, sub
   return (
     <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm transition-all duration-300 hover:border-blue-300 group/card">
       <div className="text-blue-600 mb-2 group-hover/card:scale-110 transition-transform"><Icon size={20} /></div>
-      <h4 className="font-bold text-slate-900 text-xs tracking-tight leading-tight">{title}</h4>
-      <p className="text-[9px] text-slate-400 uppercase font-bold tracking-widest mt-1">{sub}</p>
+      <h4 className="font-bold text-slate-900 text-[10px] tracking-tight leading-tight">{title}</h4>
+      <p className="text-[8px] text-slate-400 uppercase font-bold tracking-widest mt-1">{sub}</p>
     </div>
   );
 }
