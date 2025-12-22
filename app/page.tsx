@@ -6,12 +6,9 @@ import {
   Linkedin, Mail, FileText, Zap, BarChart3, 
   Globe, ArrowUpRight, CheckCircle2,
   Sparkles, ShieldCheck, Map, Activity,
-  Maximize2, X, Lock, LayoutDashboard,
-  Users, LineChart, Briefcase, 
-  Cpu // ADDED MISSING IMPORT
+  Maximize2, X, Briefcase, Cpu
 } from 'lucide-react';
 
-// Interface for Passion Project data
 interface PassionProject {
   id: string;
   title: string;
@@ -21,7 +18,6 @@ interface PassionProject {
 }
 
 export default function Home() {
-  const [activeCompany, setActiveCompany] = useState<string>("Blizzard Entertainment");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const resumeLink = "https://docs.google.com/document/d/1RIPyJ5Y6rhjTkhS9cmMDOOraP3Kg2LjE59TIi3Yd2jw/edit?usp=sharing";
@@ -30,12 +26,12 @@ export default function Home() {
 
   // Chronological Story Order for Passion Projects
   const passionProjects: PassionProject[] = [
-    { id: 'lilo-auth', title: '01. Entry & Identity', description: 'The front door. Clean authentication and onboarding logic built on Firebase.', imageSrc: '/lilologin.png', altText: 'LILO OS Sign-in' },
-    { id: 'lilo-admin-brain', title: '02. Command & Control', description: 'Admin Triage hub. Real-time monitoring and centralized task dispatching.', imageSrc: '/lilo-triage-admin.png', altText: 'LILO OS Admin' },
-    { id: 'lilo-issue-detail', title: '03. Contextual Solving', description: 'Drilling into blockers. Capturing bidding details to move stalled tasks forward.', imageSrc: '/lilo-blocking-issue.png', altText: 'LILO OS Blocker' },
+    { id: 'lilo-auth', title: '01. Entry & Identity', description: 'Authentication and onboarding logic built on Firebase.', imageSrc: '/lilologin.png', altText: 'LILO OS Sign-in' },
+    { id: 'lilo-admin-brain', title: '02. Command & Control', description: 'Admin Triage hub. Real-time monitoring and task dispatching.', imageSrc: '/lilo-triage-admin.png', altText: 'LILO OS Admin' },
+    { id: 'lilo-issue-detail', title: '03. Contextual Solving', description: 'Drilling into blockers. Capturing bidding details to move tasks forward.', imageSrc: '/lilo-blocking-issue.png', altText: 'LILO OS Blocker' },
     { id: 'lilo-execution', title: '04. Gamified Execution', description: 'Employee view. Transforming household chores into XP-enabled Work Orders.', imageSrc: '/lilo-employee-view.jpeg', altText: 'LILO OS Employee' },
-    { id: 'lilo-scorecard', title: '05. Feedback Loops', description: 'Individual scorecards. Tracking load and reliability to ensure balance.', imageSrc: '/lilo-employee-scorecard.png', altText: 'LILO OS Scorecard' },
-    { id: 'lilo-metrics', title: '06. Operational Insights', description: 'Automated data loops monitoring ROT Index and team reliability.', imageSrc: '/lilo-dashboard-admin.png', altText: 'LILO OS Metrics' },
+    { id: 'lilo-scorecard', title: '05. Feedback Loops', description: 'Individual scorecards tracking current load and reliability.', imageSrc: '/lilo-employee-scorecard.png', altText: 'LILO OS Scorecard' },
+    { id: 'lilo-metrics', title: '06. Operational Insights', description: 'Automated loops monitoring ROT Index and team reliability.', imageSrc: '/lilo-dashboard-admin.png', altText: 'LILO OS Metrics' },
   ];
 
   return (
@@ -48,6 +44,7 @@ export default function Home() {
         </div>
       )}
 
+      {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-slate-100 font-bold">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -64,7 +61,7 @@ export default function Home() {
 
       {/* Hero */}
       <header className="pt-40 pb-20 px-6 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-12 items-center">
+        <div className="flex flex-col md:flex-row gap-12 items-center md:items-start">
           <div className="relative group shrink-0">
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
             <div className="relative w-48 h-48 bg-white rounded-3xl overflow-hidden border-2 border-white shadow-2xl">
@@ -80,45 +77,70 @@ export default function Home() {
               Product @ Blizzard Battle.net
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-slate-900">Product Leader. <br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent italic tracking-tight">Strategic Builder.</span></h1>
-            <p className="text-xl text-slate-500 max-w-2xl">Over a decade driving strategy at <strong>Amazon, Microsoft, and Blizzard</strong>. Specializing in launching products that reduce waste and drive profitability.</p>
+            <p className="text-xl text-slate-500 max-w-2xl font-medium">Over 10 years driving strategic vision at <strong>Amazon, AWS, Microsoft, and Blizzard</strong>. Specializing in reducing waste and driving global profitability.</p>
           </div>
         </div>
       </header>
 
-      {/* Bulletin Board Section */}
+      {/* Restructured Professional Bulletin Board */}
       <section id="bulletin" className="py-24 bg-slate-50 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-bold mb-12 italic text-slate-900 tracking-tight">Professional Bulletin Board</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <h2 className="text-4xl font-bold mb-16 italic text-slate-900 tracking-tight">Professional Bulletin Board</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             
-            {/* Left Column: Outcomes Matrix */}
-            <div className="lg:col-span-2">
-              <h3 className="text-xs uppercase font-black tracking-widest text-slate-400 mb-6 flex items-center gap-2"><Activity size={14} /> Global Impact Matrix</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <OutcomeCard icon={Zap} title="On-Time Delivery" sub="Battle.net Gamepad Support" />
+            {/* Left Column: Global Impact Matrix (Smaller, Weight to left) */}
+            <div className="lg:col-span-4 space-y-8">
+              <h3 className="text-xs uppercase font-black tracking-widest text-slate-400 flex items-center gap-2"><Activity size={14} /> Global Impact Matrix</h3>
+              <div className="grid grid-cols-2 lg:grid-cols-2 gap-3">
+                <OutcomeCard icon={Zap} title="On-Time Delivery" sub="Battle.net Gamepad" />
                 <OutcomeCard icon={ShieldCheck} title="MVP Launch" sub="Airloom AI Ops" />
-                <OutcomeCard icon={BarChart3} title="$6M Saved" sub="AWS Cost Avoidance" />
+                <OutcomeCard icon={BarChart3} title="$6M Saved" sub="AWS Avoidance" />
                 <OutcomeCard icon={Globe} title="80% Coverage" sub="Alexa Ad Growth" />
-                <OutcomeCard icon={Activity} title="15 Locales" sub="Global Benchmarking Automation" />
-                <OutcomeCard icon={Map} title="The Americas" sub="Alexa Preview Expansion" />
+                <OutcomeCard icon={Activity} title="15 Locales" sub="Benchmarking" />
+                <OutcomeCard icon={Map} title="Expansion" sub="Alexa Preview" />
               </div>
             </div>
 
-            {/* Right Column: Experience Card */}
-            <div className="lg:col-span-1">
-              <h3 className="text-xs uppercase font-black tracking-widest text-slate-400 mb-6 flex items-center gap-2"><Briefcase size={14} /> Current Engagement</h3>
-              <div className="space-y-4">
-                <ExperienceCard 
-                  company="Blizzard Entertainment" role="Product Manager, Battle.net" date="Aug 2025 — Present"
-                  bullets={["Strategy Owner: Video UX for franchises.", "Delivered Gamepad support on-time.", "Standardized leadership reporting."]}
-                  isActive={activeCompany === "Blizzard Entertainment"} onSelect={() => setActiveCompany("Blizzard Entertainment")}
-                />
-                <ExperienceCard 
-                  company="Airloom AI" role="Product Ops" date="2024 — 2025"
-                  bullets={["Delivered AI Search MVP to market.", "Engineered core business operations."]}
-                  isActive={activeCompany === "Airloom AI"} onSelect={() => setActiveCompany("Airloom AI")}
-                />
-              </div>
+            {/* Right Column: Detailed Experience (Heavy weight to right) */}
+            <div className="lg:col-span-8 space-y-8">
+              <h3 className="text-xs uppercase font-black tracking-widest text-slate-400 flex items-center gap-2"><Briefcase size={14} /> Narrative Experience</h3>
+              
+              {/* Blizzard Card */}
+              <ExperienceCard 
+                company="Blizzard Entertainment" 
+                role="Product Manager, Battle.net" 
+                date="Aug 2025 — Present"
+                bullets={[
+                  "Strategy Owner: Video UX for major franchises (WoW, CoD, Overwatch).",
+                  "Delivered gamepad support for Battle.net Xbox handheld devices on-time.",
+                  "Launched executive BI dashboards and standardized leadership reporting."
+                ]}
+                isCurrent={true}
+              />
+
+              {/* Airloom Card */}
+              <ExperienceCard 
+                company="Airloom AI" 
+                role="Product Ops & Customer Development" 
+                date="2024 — 2025"
+                bullets={[
+                  "Successfully co-delivered the Minimum Viable Product (MVP) to market.",
+                  "Engineered core business operations: feedback loops and bug reporting."
+                ]}
+              />
+
+              {/* Amazon / AWS / Alexa Card */}
+              <ExperienceCard 
+                company="Amazon, AWS & Alexa" 
+                role="Product & Program Management" 
+                date="2017 — 2024"
+                bullets={[
+                  "AWS: Managed migration off 3P software, avoiding $6M in contract costs.",
+                  "Alexa Ads: Increased domain Click-Through-Rate (CTR) from 1.2% to 1.8%.",
+                  "International: Automated benchmarking across 15 locales defining global metrics.",
+                  "Alexa Preview: Scaled expansion across the Americas increasing pipeline by 20x."
+                ]}
+              />
             </div>
           </div>
         </div>
@@ -126,11 +148,11 @@ export default function Home() {
 
       {/* Engineering / AI Proof */}
       <section className="py-24 max-w-7xl mx-auto px-6">
-        <div className="bg-slate-900 rounded-[2.5rem] p-10 md:p-14 shadow-2xl text-white relative overflow-hidden flex flex-col md:flex-row gap-12 items-center">
+        <div className="bg-slate-900 rounded-[2.5rem] p-10 md:p-14 shadow-2xl text-white relative overflow-hidden flex flex-col md:flex-row gap-12 items-center border border-slate-800">
            <div className="flex-1">
               <h3 className="text-blue-400 font-mono text-sm mb-4 tracking-widest uppercase italic font-bold"><Sparkles className="inline mr-2" size={16} /> // Tech Stack</h3>
               <h2 className="text-4xl font-bold mb-6 italic tracking-tight">AI Product Development</h2>
-              <p className="text-slate-400 text-lg leading-relaxed mb-10">Designed a context-aware LLM agent using OpenAI API and Firebase. Built to help teams develop AI products through dynamic persona logic.</p>
+              <p className="text-slate-400 text-lg leading-relaxed mb-10 font-light">Engineered a context-aware LLM agent using OpenAI API and Firebase. Built to help teams master AI product cycles through dynamic persona logic.</p>
               <div className="flex flex-wrap gap-3 font-mono text-[10px] uppercase tracking-widest font-bold">
                 {['React.js', 'OpenAI API', 'Vercel', 'Firebase'].map(tech => (
                   <span key={tech} className="px-4 py-1.5 bg-slate-800 rounded-lg border border-slate-700 text-blue-300 underline underline-offset-4">{tech}</span>
@@ -143,11 +165,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Passion Projects: The LILO Story */}
+      {/* Passion Projects: LILO OS Story */}
       <section id="passion-projects" className="py-32 max-w-7xl mx-auto px-6 border-t border-slate-100">
         <div className="max-w-2xl mb-16">
           <h2 className="text-5xl font-extrabold text-slate-900 tracking-tight italic mb-6 underline decoration-blue-600 decoration-4 underline-offset-8">Passion Projects</h2>
-          <p className="text-lg text-slate-500 font-medium italic">Solving real-world friction. LILO OS is a "Family Operating System" designed to dispatch the chaos of home management.</p>
+          <p className="text-lg text-slate-500 font-medium italic font-light">A case study in "Family Operations." LILO OS is a custom platform designed to dispatch home management chaos through data and gamification.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {passionProjects.map((project) => (
@@ -173,27 +195,29 @@ export default function Home() {
 // Sub-components
 function OutcomeCard({ icon: Icon, title, sub }: { icon: any, title: string, sub: string }) {
   return (
-    <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue-200 group/card">
-      <div className="text-blue-600 mb-3 group-hover/card:scale-110 transition-transform"><Icon size={28} /></div>
-      <h4 className="font-bold text-slate-900 mb-1 tracking-tight">{title}</h4>
-      <p className="text-xs text-slate-400 uppercase font-bold tracking-[0.15em] italic">{sub}</p>
+    <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm transition-all duration-300 hover:border-blue-300 group/card">
+      <div className="text-blue-600 mb-2 group-hover/card:scale-110 transition-transform"><Icon size={20} /></div>
+      <h4 className="font-bold text-slate-900 text-xs tracking-tight leading-tight">{title}</h4>
+      <p className="text-[9px] text-slate-400 uppercase font-bold tracking-widest mt-1">{sub}</p>
     </div>
   );
 }
 
-function ExperienceCard({ company, role, date, bullets, isActive, onSelect }: any) {
+function ExperienceCard({ company, role, date, bullets, isCurrent = false }: any) {
   return (
-    <div onClick={onSelect} className={`cursor-pointer p-6 rounded-2xl border transition-all duration-500 ${isActive ? 'bg-white border-blue-200 shadow-lg scale-[1.02]' : 'bg-transparent border-slate-100 opacity-50 grayscale'}`}>
-      <div className="flex justify-between items-start mb-4">
+    <div className={`p-8 rounded-2xl border transition-all duration-500 bg-white ${isCurrent ? 'border-blue-200 shadow-lg ring-1 ring-blue-50' : 'border-slate-100 hover:shadow-md'}`}>
+      <div className="flex justify-between items-start mb-6">
         <div>
-          <h4 className="font-bold text-slate-900 italic text-lg">{company}</h4>
-          <p className="text-sm text-blue-600 font-medium">{role}</p>
+          <h4 className="font-bold text-slate-900 italic text-2xl tracking-tight">{company}</h4>
+          <p className="text-lg text-blue-600 font-semibold italic">{role}</p>
         </div>
-        <div className="text-[10px] font-mono font-bold text-slate-400">{date}</div>
+        <div className="text-xs font-mono font-bold text-slate-400 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">{date}</div>
       </div>
-      <ul className="space-y-2">
+      <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
         {bullets.map((b: string, i: number) => (
-          <li key={i} className="text-xs text-slate-500 flex gap-2"><span className="text-blue-400">///</span> {b}</li>
+          <li key={i} className="text-sm text-slate-600 flex gap-3 font-light leading-relaxed">
+            <span className="text-blue-400 font-black tracking-tighter shrink-0 mt-0.5">///</span> {b}
+          </li>
         ))}
       </ul>
     </div>
