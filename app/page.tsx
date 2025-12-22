@@ -152,7 +152,7 @@ export default function Home() {
            <div className="flex-1">
               <h3 className="text-blue-400 font-mono text-sm mb-4 tracking-widest uppercase italic font-bold"><Sparkles className="inline mr-2" size={16} /> // Tech Stack</h3>
               <h2 className="text-4xl font-bold mb-6 italic tracking-tight">AI Product Development</h2>
-              <p className="text-slate-400 text-lg leading-relaxed mb-10 font-light">Engineered a context-aware LLM agent using OpenAI API and Firebase. Built to help teams master AI product cycles through dynamic persona logic.</p>
+              <p className="text-slate-400 text-lg leading-relaxed mb-10 font-light">Engineered a context-aware Agentic AI System to Read > Categotize > Label > Draft > Review > Revise > Send Email. "Agentic AI" refers to artificial intelligence systems that can act autonomously to achieve a specific goal, much like a proactive digital teammate or a personal research assistant. Unlike standard AI that simply responds to a single prompt and stops, agentic AI can think, plan, use tools, and make decisions without constant human supervision.</p>
               <div className="flex flex-wrap gap-3 font-mono text-[10px] uppercase tracking-widest font-bold">
                 {['React.js', 'OpenAI API', 'Vercel', 'Firebase'].map(tech => (
                   <span key={tech} className="px-4 py-1.5 bg-slate-800 rounded-lg border border-slate-700 text-blue-300 underline underline-offset-4">{tech}</span>
