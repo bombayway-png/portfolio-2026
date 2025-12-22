@@ -54,7 +54,7 @@ export default function Home() {
       id: 'lilo-os-employee',
       title: 'Gamified Task Execution',
       description: 'Employee-facing view that transforms chores into "work orders" with XP and clear instructions for Sammy and Lucy.',
-      imageSrc: '/lilo-employee-view.jpg',
+      imageSrc: '/lilo-employee-view.jpeg',
       altText: 'LILO OS Employee work order view.',
     },
     {
