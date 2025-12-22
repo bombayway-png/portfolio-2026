@@ -27,6 +27,7 @@ export default function Home() {
   const emailAddress = "a.seumae@outlook.com";
   const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent("Opportunity Inquiry")}`;
 
+  // Verified Passion Project Data - Mapping to your uploaded files
   const passionProjects: PassionProject[] = [
     {
       id: 'lilo-os-admin',
@@ -53,7 +54,7 @@ export default function Home() {
       id: 'lilo-os-employee',
       title: 'Gamified Task Execution',
       description: 'Employee-facing view that transforms chores into "work orders" with XP and clear instructions for Sammy and Lucy.',
-      imageSrc: '/lilo-employee-view.jpeg', // Corrected extension to .jpg
+      imageSrc: '/lilo-employee-view.jpg',
       altText: 'LILO OS Employee work order view.',
     },
     {
@@ -154,7 +155,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Engineering proof & Key Outcomes */}
+      {/* Key Outcomes Section with Fixed Icons */}
       <section id="engineering" className="py-24 bg-slate-50 border-y border-slate-100">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -175,12 +176,12 @@ export default function Home() {
             <div>
               <h2 className="text-4xl font-bold mb-8 tracking-tight text-slate-900 italic">Key Outcomes</h2>
               <div className="grid grid-cols-2 gap-4">
-                <OutcomeCard icon={<Zap />} title="On-Time Delivery" sub="Battle.net Gamepad Support" />
-                <OutcomeCard icon={<ShieldCheck />} title="MVP Launch" sub="Airloom AI Ops" />
-                <OutcomeCard icon={<BarChart3 />} title="$6M Saved" sub="AWS Cost Avoidance" />
-                <OutcomeCard icon={<Globe />} title="80% Coverage" sub="Alexa Ad Growth" />
-                <OutcomeCard icon={<Activity />} title="15 Locales" sub="Global Benchmarking Automation" />
-                <OutcomeCard icon={<Map />} title="The Americas" sub="Alexa Preview Expansion" />
+                <OutcomeCard icon={Zap} title="On-Time Delivery" sub="Battle.net Gamepad Support" />
+                <OutcomeCard icon={ShieldCheck} title="MVP Launch" sub="Airloom AI Ops" />
+                <OutcomeCard icon={BarChart3} title="$6M Saved" sub="AWS Cost Avoidance" />
+                <OutcomeCard icon={Globe} title="80% Coverage" sub="Alexa Ad Growth" />
+                <OutcomeCard icon={Activity} title="15 Locales" sub="Global Benchmarking Automation" />
+                <OutcomeCard icon={Map} title="The Americas" sub="Alexa Preview Expansion" />
               </div>
             </div>
           </div>
@@ -211,7 +212,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Passion Projects Section */}
+      {/* Passion Projects Section - Sammy and Lucy views */}
       <section id="passion-projects" className="py-32 max-w-6xl mx-auto px-6 border-t border-slate-100">
         <h2 className="text-5xl font-extrabold text-slate-900 tracking-tight italic mb-20 underline decoration-blue-600 decoration-4 underline-offset-8">
           Passion Projects
@@ -245,12 +246,12 @@ export default function Home() {
   );
 }
 
-// Sub-components
-function OutcomeCard({ icon, title, sub }: { icon: React.ReactNode, title: string, sub: string }) {
+// Fixed OutcomeCard Sub-component to satisfy TypeScript build
+function OutcomeCard({ icon: Icon, title, sub }: { icon: any, title: string, sub: string }) {
   return (
     <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue-200 group/card">
       <div className="text-blue-600 mb-3 group-hover/card:scale-110 transition-transform">
-        {React.cloneElement(icon as React.ReactElement, { size: 28 })}
+        <Icon size={28} />
       </div>
       <h4 className="font-bold text-slate-900 mb-1 tracking-tight">{title}</h4>
       <p className="text-xs text-slate-400 uppercase font-bold tracking-[0.15em] italic">{sub}</p>
