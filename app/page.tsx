@@ -41,14 +41,14 @@ export default function Home() {
     {
       id: 'lilo-os-blocker',
       title: 'Contextual Issue Tracking',
-      description: 'Detailed task modals capturing blockers (e.g., drywall bids) with integrated effort ratings and artifact management.',
+      description: 'Detailed task modals capturing blockers with integrated effort ratings and artifact management.',
       imageSrc: '/lilo-blocking-issue.png',
       altText: 'LILO OS Blocker reporting view.',
     },
     {
       id: 'lilo-os-metrics',
       title: 'Team Reliability & Scorecards',
-      description: 'Data-driven performance tracking featuring a "ROT Index" (tasks pending > 5 days) and real-time completion rates.',
+      description: 'Data-driven performance tracking featuring a "ROT Index" and real-time completion rates.',
       imageSrc: '/lilo-dashboard-admin.png',
       altText: 'LILO OS Team Metrics dashboard.',
     },
@@ -62,14 +62,14 @@ export default function Home() {
     {
       id: 'lilo-os-scorecard',
       title: 'Individual Performance',
-      description: 'Visual scorecards tracking current load and reliability status across team members to prevent operational burnout.',
+      description: 'Visual scorecards tracking current load and reliability status across team members.',
       imageSrc: '/lilo-employee-scorecard.png',
       altText: 'LILO OS Employee scorecard.',
     },
     {
       id: 'lilo-os-auth',
       title: 'Authentication & Onboarding',
-      description: 'Clean, dark-mode entry points for account creation and team code integration to scale the family unit.',
+      description: 'Clean, dark-mode entry points for account creation and team code integration.',
       imageSrc: '/lilologin.png',
       altText: 'LILO OS Sign-in screen.',
     },
@@ -124,12 +124,7 @@ export default function Home() {
             <div className="relative w-48 h-48 md:w-56 md:h-56 bg-white rounded-3xl overflow-hidden border-2 border-white shadow-2xl">
               <Image src="/headshot.jpeg" alt="Adam Seumae Headshot" fill className="object-cover transition-transform duration-500 group-hover:scale-110" priority />
             </div>
-            {/* LinkedIn Verified Badge */}
-            <a 
-              href={linkedInURL}
-              target="_blank"
-              className="absolute -bottom-4 -right-4 bg-white p-3 rounded-2xl shadow-xl border border-slate-100 hover:scale-110 transition-transform group/link"
-            >
+            <a href={linkedInURL} target="_blank" className="absolute -bottom-4 -right-4 bg-white p-3 rounded-2xl shadow-xl border border-slate-100 hover:scale-110 transition-transform group/link">
               <div className="flex items-center gap-2">
                 <Linkedin size={20} className="text-[#0077b5]" />
                 <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 group-hover/link:text-blue-600">Verified</span>
@@ -151,7 +146,7 @@ export default function Home() {
             </h1>
             <p className="text-xl md:text-2xl text-slate-500 leading-relaxed mb-12 max-w-2xl font-medium">
               Over a decade of experience driving strategic vision at <strong>Amazon, Microsoft, and Blizzard</strong>. I specialize in launching products that drive 
-              <span className="text-slate-900 font-bold italic"> profitability, team satisfaction, customer satisfaction and reducing waste.</span>
+              <span className="text-slate-900 font-bold italic"> profitability, team satisfaction, and reducing waste.</span>
             </p>
             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
               <a href={mailtoLink} className="flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:shadow-2xl transition-all hover:-translate-y-0.5">
