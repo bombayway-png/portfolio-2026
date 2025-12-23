@@ -44,17 +44,16 @@ export default function Home() {
   const outcomeRef = useRef<HTMLTextAreaElement>(null);
   const bottleneckRef = useRef<HTMLTextAreaElement>(null);
 
-  // Dynamic placeholder for use cases
-  const bottleneckPlaceholder = "e.g. Lead Automation, Multi-tenant application, Web Design, Data & Insights\n\nMe or My Team is overwhelmed by repetitive manual tasks...\n\nData Synthesis: Need to extract insights from thousands of reviews...";
+  // Professional Placeholders derived from Resume Experience
+  const outcomePlaceholder = "e.g. Design a scalable GTM engine that automates customer intake and increases operational efficiency by 30%...";
+  const bottleneckPlaceholder = "e.g. High manual overhead in lead management, legacy system technical debt, or a lack of real-time BI dashboards to track cross-functional KPIs...";
 
   // Shared effect to adjust height for both textareas
   useEffect(() => {
-    // Adjust Outcome height
     if (outcomeRef.current) {
       outcomeRef.current.style.height = 'auto';
       outcomeRef.current.style.height = `${outcomeRef.current.scrollHeight}px`;
     }
-    // Adjust Bottleneck height
     if (bottleneckRef.current) {
       bottleneckRef.current.style.height = 'auto';
       bottleneckRef.current.style.height = `${bottleneckRef.current.scrollHeight}px`;
@@ -70,7 +69,6 @@ export default function Home() {
     setActiveFilter(null);
   };
 
-  // Shared class for crisp, clear inputs (Standard upright text for user readability)
   const inputClasses = "w-full text-xl md:text-2xl font-semibold text-slate-900 border-b-2 border-slate-200 focus:border-blue-600 outline-none py-3 bg-transparent placeholder:text-slate-400 placeholder:font-normal placeholder:not-italic transition-colors";
 
   return (
@@ -105,7 +103,7 @@ export default function Home() {
               <span className="text-blue-600">I Deploy AI Agents.</span>
             </h1>
             <p className="text-lg md:text-2xl text-slate-500 max-w-3xl font-medium italic mb-10 leading-relaxed mx-auto md:mx-0">
-              Bridging the gap between Enterprise Strategy and Code. Leveraging 10+ years of experience at <strong>Amazon (Alexa, Ads, Benchmarking), AWS (Revenue Ops), and Microsoft (Blizzard, Xbox)</strong> to build Serverless React Applications and Autonomous Agents.
+              Bridging the gap between Enterprise Strategy and Code. Leveraging 10+ years of experience at <strong>Amazon, AWS, Microsoft, and Blizzard</strong> to build Serverless React Applications and Autonomous Agents.
             </p>
             
             <div className="bg-slate-900 text-white py-4 px-6 rounded-2xl mb-12 inline-block shadow-xl font-mono text-sm md:text-base font-bold tracking-tight">
@@ -132,9 +130,24 @@ export default function Home() {
              </p>
            </div>
            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <TriadCard icon={LayoutDashboard} title="UX Architecture" desc="Not all designers fully understand backend scalability. I build reactive interfaces that handle heavy loads." color="bg-blue-50 text-blue-600" />
-              <TriadCard icon={Server} title="Core Infrastructure" desc="AI is New to the Old school backend engineers. I architect secure, serverless systems ready for automation." color="bg-slate-900 text-white" />
-              <TriadCard icon={Bot} title="Agentic Intelligence" desc="I build your app with automation baked in—agents that plan, decide, and act without supervision." color="bg-blue-600 text-white" />
+              <TriadCard 
+                icon={LayoutDashboard} 
+                title="UX Architecture" 
+                desc="Bridging complex backends with intuitive frontends. From Blizzard’s global consumption UX to context-aware AI interfaces, I design scalable, high-engagement products." 
+                color="bg-blue-50 text-blue-600" 
+              />
+              <TriadCard 
+                icon={Server} 
+                title="Core Infrastructure" 
+                desc="Architecting the nervous systems of global organizations. Drawing from AWS and Amazon, I build secure, serverless frameworks that eliminate legacy debt." 
+                color="bg-slate-900 text-white" 
+              />
+              <TriadCard 
+                icon={Bot} 
+                title="Agentic Intelligence" 
+                desc="Deploying autonomous LLM agents that transform manual workflows into automated pipelines using React.js, Firebase, and real-time OpenAI integration." 
+                color="bg-blue-600 text-white" 
+              />
            </div>
         </section>
 
@@ -142,13 +155,13 @@ export default function Home() {
         <ServicePillarSection 
           title="Pillar 1: App & Web Development"
           pitch="I engineer reactive, high-performance frontends."
-          proofTitle="Fantasy Locker Room"
-          proofBody={<>A real-time engagement platform built on <strong>React.js and Vite</strong> with a <strong>Tailwind CSS</strong> aesthetic.</>}
+          proofTitle="Feature Owner @ Blizzard"
+          proofBody={<>Delivered gamepad support for <strong>Battle.net on Xbox</strong> handheld devices and owned the <strong>Video Consumption UX</strong> for World of Warcraft.</>}
           capabilities={[
             { title: "Real-Time Data:", desc: "Implemented Firebase Snapshot Listeners to update interfaces instantly." },
-            { title: "Dynamic UI:", desc: "Created conditional rendering logic for live leaderboards and analytics." }
+            { title: "Cross-Functional:", desc: "Driving fast-follow improvements to meet MVP deliverables at scale." }
           ]}
-          corporateScale="Ownership of the Video Consumption UX for Blizzard franchises like World of Warcraft and Call of Duty."
+          corporateScale="Ownership of high-traffic UX for Blizzard franchises including World of Warcraft and Call of Duty."
           icon={Code2}
           visualColor="text-blue-400"
         />
@@ -156,13 +169,13 @@ export default function Home() {
         <ServicePillarSection 
           title="Pillar 2: Backend & Systems Integration"
           pitch="I build the Central Nervous System of your business."
-          proofTitle="LILO OS"
-          proofBody={<>Developed a native desktop application using <strong>Electron</strong> that integrates <strong>Gmail APIs</strong>.</>}
+          proofTitle="Operational Excellence @ AWS"
+          proofBody={<>Engineered internal solutions at <strong>AWS</strong> to avoid $6M contract renewals and optimized roadmap monitoring for leadership.</>}
           capabilities={[
             { title: "Security First:", desc: "Utilizing serverless node.js backends to ensure zero-trust security." },
-            { title: "Identity Management:", desc: "Custom Firebase Authentication logic to map usernames to secure sessions." }
+            { title: "BI Intelligence:", desc: "Launched KPI dashboards for executive-level reporting and prioritization scoring." }
           ]}
-          corporateScale="At AWS, I engineered tooling that saved the organization $6M in contract renewals."
+          corporateScale="Designed benchmarking automation across 15 international locales for Alexa International."
           icon={Database}
           visualColor="text-slate-400"
         />
@@ -184,56 +197,39 @@ export default function Home() {
       {/* --- Intake Portal --- */}
       <AnimatePresence>
         {activeFilter === 'intake' && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }} 
-            className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto py-12 md:py-20 relative text-left">
-              <button 
-                onClick={() => setActiveFilter(null)} 
-                className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"
-              >
-                <X size={24} />
-              </button>
-              
+              <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={24} /></button>
               <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase text-slate-900">customer intake</h2>
-              
               <form className="space-y-8 md:space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-slate-900">
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Full Name</label>
                     <input className={inputClasses} placeholder="John Smith" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
                   </div>
-
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Email Address</label>
                     <input className={inputClasses} placeholder="john@company.com" type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
                   </div>
-
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Company</label>
                     <input className={inputClasses} placeholder="Acme Corp" value={formData.company} onChange={(e) => setFormData({...formData, company: e.target.value})} />
                   </div>
-
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Project Budget</label>
-                    <input className={inputClasses} placeholder="e.g. $500" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+                    <input className={inputClasses} placeholder="e.g. $5,000" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                   </div>
-
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
                     <textarea 
                       ref={outcomeRef}
                       className={`${inputClasses} resize-none overflow-hidden`}
                       rows={1}
-                      placeholder="Define the goal for this project. For example, create a landing page for my business listing to increase my online presence." 
+                      placeholder={outcomePlaceholder}
                       value={formData.outcome} 
                       onChange={(e) => setFormData({...formData, outcome: e.target.value})} 
                     />
                   </div>
-
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Current Bottleneck</label>
                     <textarea 
@@ -246,12 +242,7 @@ export default function Home() {
                     />
                   </div>
                 </div>
-
-                <button 
-                  type="button" 
-                  onClick={handleSendEmail} 
-                  className="w-full bg-blue-600 text-white py-6 md:py-8 rounded-2xl md:rounded-[2rem] text-xl md:text-3xl font-black italic uppercase shadow-2xl hover:scale-[1.02] transition-all"
-                >
+                <button type="button" onClick={handleSendEmail} className="w-full bg-blue-600 text-white py-6 md:py-8 rounded-2xl md:rounded-[2rem] text-xl md:text-3xl font-black italic uppercase shadow-2xl hover:scale-[1.02] transition-all">
                   Submit Intake Form
                 </button>
               </form>
@@ -269,8 +260,8 @@ function TriadCard({ icon: Icon, title, desc, color }: TriadProps) {
   return (
     <div className={`p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] ${color} space-y-4 md:space-y-6 shadow-xl text-left`}>
       <Icon size={32} />
-      <h3 className="text-2xl md:text-3xl font-black italic uppercase tracking-tighter leading-none">{title}</h3>
-      <p className="text-base md:text-lg font-medium italic opacity-90">{desc}</p>
+      <h3 className="text-xl md:text-2xl font-black italic uppercase tracking-tighter leading-tight">{title}</h3>
+      <p className="text-sm md:text-base font-medium leading-relaxed opacity-90">{desc}</p>
     </div>
   );
 }
@@ -282,9 +273,7 @@ function ServicePillarSection({ title, pitch, proofTitle, proofBody, capabilitie
         <div className="space-y-8 order-2 lg:order-1">
           <div>
             <h2 className="text-sm font-black uppercase tracking-[0.3em] text-blue-600 mb-4 italic">{title}</h2>
-            <p className="text-2xl md:text-4xl font-black italic text-slate-900 leading-tight">
-              &quot;{pitch}&quot;
-            </p>
+            <p className="text-2xl md:text-4xl font-black italic text-slate-900 leading-tight">&quot;{pitch}&quot;</p>
           </div>
           <div className="space-y-6">
             <h3 className="text-xl font-black italic uppercase tracking-tighter">
@@ -308,8 +297,7 @@ function ServicePillarSection({ title, pitch, proofTitle, proofBody, capabilitie
           <div className="pt-6 border-t border-slate-200">
             <h4 className="text-sm font-black uppercase tracking-widest text-slate-400 italic mb-3">Corporate Scale</h4>
             <p className="text-lg text-slate-600 italic font-medium leading-relaxed flex gap-3">
-              <ShieldCheck size={24} className="text-blue-600 shrink-0" />
-              {corporateScale}
+              <ShieldCheck size={24} className="text-blue-600 shrink-0" /> {corporateScale}
             </p>
           </div>
         </div>
