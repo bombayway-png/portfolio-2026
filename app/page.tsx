@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Zap, BarChart3, Globe, Sparkles, ShieldCheck, Map, Activity, TrendingUp, Wallet, X
+  ShieldCheck, TrendingUp, Wallet, X
 } from 'lucide-react';
 
 type FilterState = 'intake' | null;
@@ -23,6 +22,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden">
+      {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center">
         <div className="max-w-7xl mx-auto px-6 w-full flex justify-between items-center font-bold">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -38,6 +38,7 @@ export default function Home() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-6">
+        {/* HERO SECTION */}
         <section className="pt-48 pb-24 text-center md:text-left">
           <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-10 italic uppercase">
             Scale Your Operations. <br />
@@ -61,11 +62,12 @@ export default function Home() {
           </div>
         </section>
 
+        {/* PROBLEM/SOLUTION BLOCK */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-16 py-32 border-y border-slate-100 mb-24">
           <div className="space-y-6">
             <h3 className="text-blue-600 font-black uppercase tracking-[0.3em] text-xs">
               {/* // The Bottleneck */}
-              // The Bottleneck
+              {`// The Bottleneck`}
             </h3>
             <p className="text-4xl font-bold italic leading-tight text-slate-400">
               Your team is bogged down by repetitive technical tasks. You are scaling headcount, <span className="text-slate-900">not efficiency.</span>
@@ -74,7 +76,7 @@ export default function Home() {
           <div className="space-y-6">
             <h3 className="text-blue-600 font-black uppercase tracking-[0.3em] text-xs">
               {/* // The Solution */}
-              // The Solution
+              {`// The Solution`}
             </h3>
             <p className="text-4xl font-bold italic leading-tight">
               Stop hiring humans to do robot work. I build custom autonomous workforces that handle execution while you <span className="underline decoration-blue-500 underline-offset-8">focus on strategy.</span>
@@ -82,6 +84,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* AUTHORITY SECTION */}
         <section className="py-24 mb-24">
           <h2 className="text-center text-sm font-black uppercase tracking-[0.5em] text-slate-300 mb-20">Authority & Proven ROI</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
