@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ShieldCheck, TrendingUp, Wallet, X, Zap, Database, Linkedin, Terminal, Code2, Workflow, Sparkles, LayoutDashboard, Server, Bot
+  ShieldCheck, X, Database, Linkedin, Code2, Workflow, Sparkles, LayoutDashboard, Server, Bot
 } from 'lucide-react';
 
 type FilterState = 'intake' | null;
 
-// --- Interfaces ---
+// --- Interfaces for Type Safety ---
 interface TriadProps { icon: React.ElementType; title: string; desc: string; color: string; }
 interface ServicePillarProps {
   title: string;
@@ -60,7 +60,7 @@ export default function Home() {
 
       <main className="max-w-7xl mx-auto px-6 md:px-12 pt-32 md:pt-48 pb-24">
         
-        {/* --- 1. THE FULL-STACK ARCHITECT HERO --- */}
+        {/* --- 1. HERO SECTION: FULL-STACK ARCHITECT --- */}
         <section className="flex flex-col md:flex-row gap-12 md:gap-16 items-center mb-16 md:mb-24 text-center md:text-left">
           <div className="flex-1 order-2 md:order-1">
             <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-8 italic uppercase text-slate-900">
@@ -68,12 +68,11 @@ export default function Home() {
               <span className="text-blue-600">I Deploy AI Agents.</span>
             </h1>
             <p className="text-lg md:text-2xl text-slate-500 max-w-3xl font-medium italic mb-10 leading-relaxed mx-auto md:mx-0">
-              Bridging the gap between Enterprise Strategy and Code. Leveraging 10+ years at <strong>AWS, Amazon, and Microsoft</strong> to build Serverless React Applications, Python-based Autonomous Agents, and Scaleable Cloud Infrastructure.
+              Bridging the gap between Enterprise Strategy and Code. Leveraging 10+ years at <strong>AWS, Amazon, and Microsoft</strong> to build Serverless React Applications and Autonomous Agents.
             </p>
             
-            {/* The "Tech Stack" Visual Bar */}
             <div className="bg-slate-900 text-white py-4 px-6 rounded-2xl mb-12 inline-block shadow-xl font-mono text-sm md:text-base font-bold tracking-tight">
-              <span className="text-blue-400">Python 3.x</span> | React.js (Vite) | Firebase | Vercel | Electron | <span className="text-blue-400">OpenAI GPT-4o</span>
+              Python 3.x | React.js (Vite) | Firebase | Vercel | Electron | OpenAI GPT-4o
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -87,89 +86,62 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- 2. THE "ABOUT ME" PIVOT (Integration Play) --- */}
+        {/* --- 2. THE INTEGRATION PLAY --- */}
         <section className="mb-24 md:mb-40 text-center md:text-left">
            <div className="max-w-4xl mx-auto mb-16">
              <h2 className="text-sm font-black uppercase tracking-[0.5em] text-blue-600 mb-6 italic text-center">The Technical Architect</h2>
-             <p className="text-2xl md:text-3xl font-black italic text-slate-900 leading-tight mb-6 text-center">
-               I am a builder who understands the boardroom.
-             </p>
-             <p className="text-lg text-slate-500 font-medium italic leading-relaxed text-center">
-               With over a decade of experience at <strong>Microsoft, Blizzard, and Amazon</strong>, I transitioned from managing products to engineering them. I specialize in <strong>Distributed Agentic Architecture</strong>—separating &quot;Thinking&quot; (Python Agents), &quot;Memory&quot; (Firebase), and &quot;Control&quot; (React/Electron Apps).
+             <p className="text-2xl md:text-3xl font-black italic text-slate-900 leading-tight mb-6 text-center text-balance">
+               I build autonomous systems that <strong>Ingest</strong> complex datasets, <strong>Synthesize</strong> intent, and <strong>Execute</strong> multi-step objectives.
              </p>
            </div>
            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <TriadCard icon={LayoutDashboard} title="UX Architecture" desc="Most designers don't understand backend scalability. I build reactive interfaces that handle heavy loads." color="bg-blue-50 text-blue-600" />
-              <TriadCard icon={Server} title="Core Infrastructure" desc="Most backend engineers don't understand AI. I architect secure, serverless systems ready for automation." color="bg-slate-900 text-white" />
+              <TriadCard icon={LayoutDashboard} title="UX Architecture" desc="Most designers don&apos;t understand backend scalability. I build reactive interfaces that handle heavy loads." color="bg-blue-50 text-blue-600" />
+              <TriadCard icon={Server} title="Core Infrastructure" desc="Most backend engineers don&apos;t understand AI. I architect secure, serverless systems ready for automation." color="bg-slate-900 text-white" />
               <TriadCard icon={Bot} title="Agentic Intelligence" desc="I build your app with automation baked in—agents that plan, decide, and act without supervision." color="bg-blue-600 text-white" />
            </div>
         </section>
 
-        {/* --- SERVICE PILLAR 1: High-Fidelity App & Web Development --- */}
+        {/* --- 3. SERVICE PILLARS --- */}
         <ServicePillarSection 
-          title="Pillar 1: High-Fidelity App & Web Development"
-          pitch="I don't just design interfaces; I engineer reactive, high-performance frontends."
+          title="Pillar 1: App & Web Development"
+          pitch="I engineer reactive, high-performance frontends."
           proofTitle="The Proof: Fantasy Locker Room"
-          proofBody={<>A real-time engagement platform built on <strong>React.js and Vite</strong> with a <strong>Tailwind CSS</strong> &quot;Dark Mode&quot; aesthetic.</>}
+          proofBody={<>A real-time engagement platform built on <strong>React.js and Vite</strong> with a <strong>Tailwind CSS</strong> aesthetic.</>}
           capabilities={[
-            { title: "Real-Time Data:", desc: "Implemented Firebase Snapshot Listeners to update interfaces instantly without page refreshes." },
-            { title: "Dynamic UI:", desc: "Created collapsible, conditional rendering logic for live leaderboards and analytics." }
+            { title: "Real-Time Data:", desc: "Implemented Firebase Snapshot Listeners to update interfaces instantly." },
+            { title: "Dynamic UI:", desc: "Created conditional rendering logic for live leaderboards and analytics." }
           ]}
-          corporateScale="My background includes owning the Video Consumption UX for Blizzard franchises like World of Warcraft and Call of Duty."
+          corporateScale="Ownership of the Video Consumption UX for Blizzard franchises like Call of Duty."
           icon={Code2}
           visualColor="text-blue-400"
         />
 
-        {/* --- SERVICE PILLAR 2: Backend Architecture & Systems Integration --- */}
         <ServicePillarSection 
-          title="Pillar 2: Backend Architecture & Systems Integration"
-          pitch="I build the &quot;Central Nervous System&quot; of your business, integrating APIs, databases, and authentication."
+          title="Pillar 2: Backend & Systems Integration"
+          pitch="I build the Central Nervous System of your business."
           proofTitle="The Proof: LILO OS"
-          proofBody={<>Developed a native desktop application using <strong>Electron</strong> that integrates <strong>Gmail APIs</strong> and local Python scripts to automate executive workflows.</>}
+          proofBody={<>Developed a native desktop application using <strong>Electron</strong> that integrates <strong>Gmail APIs</strong>.</>}
           capabilities={[
-            { title: "Security First:", desc: "Utilizing .env configurations and serverless node.js backends to ensure zero-trust security for API keys." },
-            { title: "Identity Management:", desc: "Custom Firebase Authentication logic to map usernames to secure user sessions." }
+            { title: "Security First:", desc: "Utilizing serverless node.js backends to ensure zero-trust security." },
+            { title: "Identity Management:", desc: "Custom Firebase Authentication logic to map usernames to secure sessions." }
           ]}
-          corporateScale="At AWS, I engineered custom internal tooling that migrated the organization off a 3rd-party provider, saving $6M in contract renewals."
+          corporateScale="At AWS, I engineered tooling that saved the organization $6M in contract renewals."
           icon={Database}
           visualColor="text-slate-400"
         />
 
-        {/* --- SERVICE PILLAR 3: Agentic AI & Automation --- */}
-        <ServicePillarSection 
-          title="Pillar 3: Agentic AI & Automation (The Secret Sauce)"
-          pitch="Chatbots are easy. I build Context-Aware Agents that know who you are and what you need before you ask."
-          proofTitle="The Proof: Context-Aware Agents"
-          proofBody={<>
-            <ul className="list-disc list-inside space-y-2">
-              <li><strong>&quot;Frankie&quot; Agent:</strong> Uses Identity Resolution to inject specific user data into system prompts for hyper-personalized analysis.</li>
-              <li><strong>Multi-Agent Workflows:</strong> Architecting systems where agents &quot;talk&quot; to each other (e.g., LILO Triage System).</li>
-            </ul>
-          </>}
-          capabilities={[
-            { title: "Strategic Implementation:", desc: "At Amazon International, I automated benchmarking across 15 locales, utilizing \"Observed Turn Error Rate\" to catch competitive gaps." }
-          ]}
-          corporateScale="" // Intentionally left blank as it's merged into capabilities for this pillar
-          icon={Sparkles}
-          visualColor="text-blue-400"
-        />
-
-        {/* --- CONVERSION STRATEGY: THE AUDIT OFFER --- */}
+        {/* --- 4. THE AUDIT OFFER --- */}
         <section className="bg-blue-600 rounded-[3rem] p-12 md:p-20 text-center text-white mb-24 shadow-2xl">
           <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">
             Free &quot;Human-in-the-Loop&quot; Audit
           </h2>
           <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
-            Not sure where to start? I will review your current technical workflow. If I can&apos;t find a way to use <strong>Agentic AI</strong> to reduce your manual workload by <strong>20%</strong>, the consultation is free.
-          </p>
-          <p className="text-sm uppercase tracking-widest font-black italic mb-12 opacity-75">
-            Based on my experience increasing customer pipelines by 20x at Amazon.
+            If I can&apos;t find a way to use <strong>Agentic AI</strong> to reduce your manual workload by <strong>20%</strong>, the consultation is free.
           </p>
           <button onClick={() => setActiveFilter('intake')} className="bg-white text-blue-600 px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl italic uppercase">
             Claim My Free Audit
           </button>
         </section>
-
       </main>
 
       {/* --- Intake Portal (Architecture Phase) --- */}
@@ -177,7 +149,7 @@ export default function Home() {
         {activeFilter === 'intake' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto py-12 md:py-20 relative text-left">
-              <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={24} className="md:w-8 md:h-8"/></button>
+              <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={24} /></button>
               <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase italic">Architecture Phase</h2>
               <form className="space-y-8 md:space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-slate-900">
@@ -189,27 +161,6 @@ export default function Home() {
                       <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Company</label>
                       <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Company" value={formData.company} onChange={(e) => setFormData({...formData, company: e.target.value})} />
                    </div>
-                   <div className="space-y-3">
-                      <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Business Email</label>
-                      <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
-                   </div>
-                   <div className="space-y-3">
-                      <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Budget Range</label>
-                      <select className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent bg-white" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})}>
-                        <option value="">Select Range</option>
-                        <option value="0-5k">$0 - $5k</option>
-                        <option value="5k-10k">$5k - $10k</option>
-                        <option value="10k+">$10k+</option>
-                      </select>
-                   </div>
-                </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
-                  <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent text-slate-900" placeholder="Primary Goal" value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
-                </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Operational Bottleneck Details</label>
-                  <textarea rows={3} className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent text-slate-900" placeholder="Describe the friction..." value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} />
                 </div>
                 <button type="button" onClick={handleSendEmail} className="w-full bg-blue-600 text-white py-6 md:py-8 rounded-2xl md:rounded-[2rem] text-xl md:text-3xl font-black italic uppercase shadow-2xl hover:scale-[1.02] transition-all">
                   Begin Architecture
@@ -225,18 +176,16 @@ export default function Home() {
 
 // --- Sub-Components ---
 
-// Triad Card Component
 function TriadCard({ icon: Icon, title, desc, color }: TriadProps) {
   return (
     <div className={`p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] ${color} space-y-4 md:space-y-6 shadow-xl text-left`}>
-      <Icon size={32} className="md:w-10 md:h-10" />
+      <Icon size={32} />
       <h3 className="text-2xl md:text-3xl font-black italic uppercase tracking-tighter leading-none">{title}</h3>
       <p className="text-base md:text-lg font-medium italic opacity-90">{desc}</p>
     </div>
   );
 }
 
-// New Reusable Service Pillar Section Component
 function ServicePillarSection({ title, pitch, proofTitle, proofBody, capabilities, corporateScale, icon: Icon, visualColor }: ServicePillarProps) {
   return (
     <section className="bg-slate-50 rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-16 mb-16 md:mb-24 relative overflow-hidden">
@@ -252,9 +201,7 @@ function ServicePillarSection({ title, pitch, proofTitle, proofBody, capabilitie
             <h3 className="text-xl font-black italic uppercase tracking-tighter">
               <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded mr-2">The Proof</span> {proofTitle}
             </h3>
-            <p className="text-lg text-slate-600 italic font-medium leading-relaxed">
-              {proofBody}
-            </p>
+            <p className="text-lg text-slate-600 italic font-medium leading-relaxed">{proofBody}</p>
           </div>
           <div className="space-y-4">
              <h4 className="text-sm font-black uppercase tracking-widest text-slate-400 italic">Technical Capabilities</h4>
@@ -269,22 +216,16 @@ function ServicePillarSection({ title, pitch, proofTitle, proofBody, capabilitie
                 ))}
              </ul>
           </div>
-          {corporateScale && (
-            <div className="pt-6 border-t border-slate-200">
-              <h4 className="text-sm font-black uppercase tracking-widest text-slate-400 italic mb-3">Corporate Scale</h4>
-              <p className="text-lg text-slate-600 italic font-medium leading-relaxed flex gap-3">
-                <ShieldCheck size={24} className="text-blue-600 shrink-0" />
-                {corporateScale}
-              </p>
-            </div>
-          )}
+          <div className="pt-6 border-t border-slate-200">
+            <h4 className="text-sm font-black uppercase tracking-widest text-slate-400 italic mb-3">Corporate Scale</h4>
+            <p className="text-lg text-slate-600 italic font-medium leading-relaxed flex gap-3">
+              <ShieldCheck size={24} className="text-blue-600 shrink-0" />
+              {corporateScale}
+            </p>
+          </div>
         </div>
-        
-        {/* Visual Column */}
         <div className="relative h-64 md:h-full min-h-[300px] lg:min-h-[600px] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-slate-900 flex items-center justify-center order-1 lg:order-2">
-            <div className={`absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-${visualColor.replace('text-', '')} to-transparent`}></div>
             <Icon className={`${visualColor} w-32 h-32 md:w-48 md:h-48 opacity-30`} />
-            {/* A subtle grid pattern overlay for technical feel */}
             <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '20px 20px', opacity: 0.2 }}></div>
         </div>
       </div>
