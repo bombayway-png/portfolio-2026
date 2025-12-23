@@ -44,7 +44,7 @@ export default function Home() {
   const bottleneckRef = useRef<HTMLTextAreaElement>(null);
 
   // Dynamic placeholder for use cases
-  const bottleneckPlaceholder = "e.g. Lead Automation: Manual LinkedIn follow-ups are failing...\n\nCustomer Support: Team is overwhelmed by repetitive FAQs...\n\nData Synthesis: Need to extract insights from thousands of reviews...";
+  const bottleneckPlaceholder = "e.g. Lead Automation, Multi-tenant application, Web Design, Data & Insights\n\nCustomer Support: Team is overwhelmed by repetitive FAQs...\n\nData Synthesis: Need to extract insights from thousands of reviews...";
 
   // Effect to adjust height of textarea based on content
   useEffect(() => {
