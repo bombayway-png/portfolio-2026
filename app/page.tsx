@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ShieldCheck, X, Database, Linkedin, Code2, Workflow, LayoutDashboard, Server, Bot
+  ShieldCheck, X, Database, Linkedin, Code2, Workflow, LayoutDashboard, Server, Bot, ChevronDown
 } from 'lucide-react';
 
 type FilterState = 'intake' | null;
@@ -34,6 +34,7 @@ export default function Home() {
     name: '', 
     email: '', 
     company: '', 
+    projectType: '', // Added for dropdown selection
     description: '', 
     outcome: '', 
     budget: '' 
@@ -48,6 +49,12 @@ export default function Home() {
   const outcomePlaceholder = "e.g. Design a scalable GTM engine that automates customer intake and increases operational efficiency by 30%...";
   const bottleneckPlaceholder = "e.g. High manual overhead in lead management, legacy system technical debt, or a lack of real-time BI dashboards to track cross-functional KPIs...";
 
+  // Helper to open portal with specific intent
+  const openPortal = (defaultType: string = '') => {
+    setFormData(prev => ({ ...prev, projectType: defaultType }));
+    setActiveFilter('intake');
+  };
+
   // Shared effect to adjust height for both textareas
   useEffect(() => {
     if (outcomeRef.current) {
@@ -61,15 +68,15 @@ export default function Home() {
   }, [formData.outcome, formData.description, activeFilter]);
 
   const handleSendEmail = () => {
-    const subject = encodeURIComponent(`Architect My System: ${formData.company}`);
+    const subject = encodeURIComponent(`Architect My System [${formData.projectType}]: ${formData.company}`);
     const body = encodeURIComponent(
-      `Full Name: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company}\nOutcome: ${formData.outcome}\nBudget: ${formData.budget}\nBottleneck: ${formData.description}`
+      `Full Name: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company}\nProject Intent: ${formData.projectType}\nOutcome: ${formData.outcome}\nBudget: ${formData.budget}\nBottleneck: ${formData.description}`
     );
     window.location.href = `mailto:a.seumae@outlook.com?subject=${subject}&body=${body}`;
     setActiveFilter(null);
   };
 
-  const inputClasses = "w-full text-xl md:text-2xl font-semibold text-slate-900 border-b-2 border-slate-200 focus:border-blue-600 outline-none py-3 bg-transparent placeholder:text-slate-400 placeholder:font-normal placeholder:not-italic transition-colors";
+  const inputClasses = "w-full text-xl md:text-2xl font-semibold text-slate-900 border-b-2 border-slate-200 focus:border-blue-600 outline-none py-3 bg-transparent placeholder:text-slate-400 placeholder:font-normal placeholder:not-italic transition-colors appearance-none";
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden">
@@ -86,7 +93,7 @@ export default function Home() {
             <a href="https://www.linkedin.com/in/adamseumae/" target="_blank" rel="noopener noreferrer" className="p-2 text-slate-400 hover:text-blue-600 transition-colors">
               <Linkedin size={20} className="md:w-6 md:h-6" />
             </a>
-            <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-[10px] md:text-sm uppercase italic">
+            <button onClick={() => openPortal()} className="bg-blue-600 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-[10px] md:text-sm uppercase italic">
               Get Started
             </button>
           </div>
@@ -111,7 +118,7 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-black hover:scale-105 transition-all shadow-xl shadow-blue-100 italic uppercase">
+              <button onClick={() => openPortal()} className="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-black hover:scale-105 transition-all shadow-xl shadow-blue-100 italic uppercase">
                 Start Building
               </button>
             </div>
@@ -188,7 +195,10 @@ export default function Home() {
           <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
             Let&apos;s find some time and chat <strong>Agentic AI</strong>, <strong>Building Custom Applications</strong>, and <strong>Updating your Personal website</strong>
           </p>
-          <button onClick={() => setActiveFilter('intake')} className="bg-white text-blue-600 px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl italic uppercase">
+          <button 
+            onClick={() => openPortal('An AI Strategy Consult')} 
+            className="bg-white text-blue-600 px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl italic uppercase"
+          >
             Schedule a Call
           </button>
         </section>
@@ -203,6 +213,28 @@ export default function Home() {
               <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase text-slate-900">customer intake</h2>
               <form className="space-y-8 md:space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-slate-900">
+                  
+                  {/* Dropdown Selection: First Field for Clarity */}
+                  <div className="space-y-3 md:col-span-2 relative">
+                    <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">I am interested in...</label>
+                    <div className="relative">
+                      <select 
+                        className={inputClasses} 
+                        value={formData.projectType} 
+                        onChange={(e) => setFormData({...formData, projectType: e.target.value})}
+                      >
+                        <option value="" disabled>Select an option</option>
+                        <option value="An AI Strategy Consult">An AI Strategy Consult</option>
+                        <option value="Build your first AI Agent">Build your first AI Agent</option>
+                        <option value="Build Multiple AI Autonomous Agents">Build Multiple AI Autonomous Agents</option>
+                        <option value="Build a business landing page">Build a business landing page</option>
+                        <option value="Build a Multi-User Application">Build a Multi-User Application</option>
+                        <option value="Data Synthesis: Visualization and Insights">Data Synthesis: Visualization and Insights</option>
+                      </select>
+                      <ChevronDown className="absolute right-0 bottom-4 text-slate-400 pointer-events-none" size={24} />
+                    </div>
+                  </div>
+
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Full Name</label>
                     <input className={inputClasses} placeholder="John Smith" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
@@ -217,7 +249,7 @@ export default function Home() {
                   </div>
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Project Budget</label>
-                    <input className={inputClasses} placeholder="e.g. $500" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+                    <input className={inputClasses} placeholder="e.g. $5,000" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                   </div>
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
