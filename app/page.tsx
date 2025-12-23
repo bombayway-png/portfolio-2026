@@ -143,7 +143,7 @@ export default function Home() {
 
         {/* --- Service Offerings --- */}
         <section className="bg-slate-900 rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-24 text-white mb-20">
-          <h2 className="text-3xl md:text-6xl font-black italic mb-12 md:mb-20 uppercase tracking-tighter underline decoration-blue-500 underline-offset-8">What You&apos;re Buying:</h2>
+          <h2 className="text-3xl md:text-6xl font-black italic mb-12 md:mb-20 uppercase tracking-tighter underline decoration-blue-500 underline-offset-8">What You&apos;ll Get:</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
             <ServiceItem num="01" title="Workflow Audit" desc="Identifying high-friction manual tasks ripe for agentic replacement." />
             <ServiceItem num="02" title="Agent Architecture" desc="Designing custom AI agents to handle high-volume processing." />
