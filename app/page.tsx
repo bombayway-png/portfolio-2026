@@ -40,19 +40,26 @@ export default function Home() {
   };
   const [formData, setFormData] = useState(initialFormState);
   
-  // Ref for the auto-expanding bottleneck textarea
+  // Refs for the auto-expanding textareas
+  const outcomeRef = useRef<HTMLTextAreaElement>(null);
   const bottleneckRef = useRef<HTMLTextAreaElement>(null);
 
   // Dynamic placeholder for use cases
   const bottleneckPlaceholder = "e.g. Lead Automation, Multi-tenant application, Web Design, Data & Insights\n\nMe or My Team is overwhelmed by repetitive manual tasks...\n\nData Synthesis: Need to extract insights from thousands of reviews...";
 
-  // Effect to adjust height of textarea based on content
+  // Shared effect to adjust height for both textareas
   useEffect(() => {
+    // Adjust Outcome height
+    if (outcomeRef.current) {
+      outcomeRef.current.style.height = 'auto';
+      outcomeRef.current.style.height = `${outcomeRef.current.scrollHeight}px`;
+    }
+    // Adjust Bottleneck height
     if (bottleneckRef.current) {
       bottleneckRef.current.style.height = 'auto';
       bottleneckRef.current.style.height = `${bottleneckRef.current.scrollHeight}px`;
     }
-  }, [formData.description, activeFilter]);
+  }, [formData.outcome, formData.description, activeFilter]);
 
   const handleSendEmail = () => {
     const subject = encodeURIComponent(`Architect My System: ${formData.company}`);
@@ -191,7 +198,7 @@ export default function Home() {
                 <X size={24} />
               </button>
               
-              <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase">customer intake</h2>
+              <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase text-slate-900">customer intake</h2>
               
               <form className="space-y-8 md:space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-slate-900">
@@ -217,7 +224,14 @@ export default function Home() {
 
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
-                    <input className={inputClasses} placeholder="Define the goal for this project. For example, create a landing page for my business listing to increase my online presence." value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
+                    <textarea 
+                      ref={outcomeRef}
+                      className={`${inputClasses} resize-none overflow-hidden`}
+                      rows={1}
+                      placeholder="Define the goal for this project. For example, create a landing page for my business listing to increase my online presence." 
+                      value={formData.outcome} 
+                      onChange={(e) => setFormData({...formData, outcome: e.target.value})} 
+                    />
                   </div>
 
                   <div className="space-y-3 md:col-span-2">
