@@ -134,7 +134,7 @@ export default function Home() {
 
             <div className="space-y-2">
               <label className="text-[10px] uppercase font-black tracking-widest text-slate-400 ml-2 flex gap-2 items-center"><Target size={12} /> Desired Outcome</label>
-              <textarea placeholder="What is the project goal and/or autonomous outcome are you looking for?" rows={3} className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-blue-500 outline-none transition-all resize-none" onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
+              <textarea placeholder="What is the project goal and/or autonomous outcome you want to achieve?" rows={3} className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-blue-500 outline-none transition-all resize-none" onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
