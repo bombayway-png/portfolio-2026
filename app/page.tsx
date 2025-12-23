@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -39,6 +39,20 @@ export default function Home() {
     budget: '' 
   };
   const [formData, setFormData] = useState(initialFormState);
+  
+  // Ref for the auto-expanding bottleneck textarea
+  const bottleneckRef = useRef<HTMLTextAreaElement>(null);
+
+  // Dynamic placeholder for use cases
+  const bottleneckPlaceholder = `Lead Automation: Manual LinkedIn follow-ups are failing...\nCustomer Support: Team is overwhelmed by repetitive FAQs...\nData Synthesis: Need to extract insights from thousands of reviews...\nContent Ops: Turning webinars into social clips takes 10+ hours...`;
+
+  // Effect to adjust height of textarea based on content
+  useEffect(() => {
+    if (bottleneckRef.current) {
+      bottleneckRef.current.style.height = 'auto';
+      bottleneckRef.current.style.height = `${bottleneckRef.current.scrollHeight}px`;
+    }
+  }, [formData.description, activeFilter]);
 
   const handleSendEmail = () => {
     const subject = encodeURIComponent(`Architect My System: ${formData.company}`);
@@ -58,7 +72,7 @@ export default function Home() {
             <div className="w-8 h-8 md:w-9 md:h-9 bg-slate-900 rounded-lg flex items-center justify-center">
               <span className="text-white text-[10px] md:text-xs">AS</span>
             </div>
-            <span className="text-xs md:text-base tracking-tighter">Technical Product Architect</span>
+            <span className="text-xs md:text-base tracking-tighter">AI Product Architect</span>
           </div>
           <div className="flex items-center gap-3 md:gap-4">
             <a href="https://www.linkedin.com/in/adamseumae/" target="_blank" rel="noopener noreferrer" className="p-2 text-slate-400 hover:text-blue-600 transition-colors">
@@ -157,7 +171,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* --- Intake Portal (Intake Phase) --- */}
+      {/* --- Intake Portal --- */}
       <AnimatePresence>
         {activeFilter === 'intake' && (
           <motion.div 
@@ -178,40 +192,41 @@ export default function Home() {
               
               <form className="space-y-8 md:space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-slate-900">
-                  {/* Field 1: Name */}
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Full Name</label>
                     <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="John Smith" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
                   </div>
 
-                  {/* Field 2: Email */}
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Email Address</label>
                     <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Email" type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
                   </div>
 
-                  {/* Field 3: Company */}
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Company</label>
                     <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Company Name" value={formData.company} onChange={(e) => setFormData({...formData, company: e.target.value})} />
                   </div>
 
-                  {/* Field 4: Budget */}
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Project Budget</label>
                     <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="e.g. $750" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                   </div>
 
-                  {/* Field 5: Outcome */}
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
                     <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="What does success look like?" value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
                   </div>
 
-                  {/* Field 6: Bottleneck */}
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Current Bottleneck</label>
-                    <textarea className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent resize-none" rows={1} placeholder="I dont have a website for my business listing and I am missing leads... Manual tasks that AI agents can solve" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} />
+                    <textarea 
+                      ref={bottleneckRef}
+                      className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent resize-none overflow-hidden transition-all duration-200" 
+                      rows={1} 
+                      placeholder={bottleneckPlaceholder} 
+                      value={formData.description} 
+                      onChange={(e) => setFormData({...formData, description: e.target.value})} 
+                    />
                   </div>
                 </div>
 
