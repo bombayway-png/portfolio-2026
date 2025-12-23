@@ -10,6 +10,14 @@ import {
   Clock, Database, Target, DollarSign, Phone, User
 } from 'lucide-react';
 
+interface PassionProject {
+  id: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  altText: string;
+}
+
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -44,8 +52,26 @@ export default function Home() {
     window.location.href = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
   };
 
+  // Restored Full LILO OS Dataset
+  const passionProjects: PassionProject[] = [
+    { id: 'lilo-auth', title: '01. Entry & Identity', description: 'Secure onboarding and authentication logic built on Firebase.', imageSrc: '/lilologin.png', altText: 'LILO OS Sign-in' },
+    { id: 'lilo-admin-brain', title: '02. Command & Control', description: 'Centralized triage for real-time monitoring and autonomous dispatching.', imageSrc: '/lilo-triage-admin.png', altText: 'LILO OS Admin' },
+    { id: 'lilo-issue-detail', title: '03. Contextual Awareness', description: 'Synthesizing complex blockers into actionable data points.', imageSrc: '/lilo-blocking-issue.png', altText: 'LILO OS Blocker' },
+    { id: 'lilo-execution', title: '04. Autonomous Action', description: 'A field-ready execution layer transforming goals into work orders.', imageSrc: '/lilo-employee-view.jpeg', altText: 'LILO OS Employee' },
+    { id: 'lilo-scorecard', title: '05. Reliability Loops', description: 'Tracking individual performance scorecards for Sammy and Lucy.', imageSrc: '/lilo-employee-scorecard.png', altText: 'LILO OS Scorecard' },
+    { id: 'lilo-metrics', title: '06. Operational Insights', description: 'Automated data synthesis to monitor health and operational friction.', imageSrc: '/lilo-dashboard-admin.png', altText: 'LILO OS Metrics' },
+  ];
+
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100">
+      {/* Lightbox Overlay */}
+      {selectedImage && (
+        <div className="fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out" onClick={() => setSelectedImage(null)}>
+          <button className="absolute top-8 right-8 text-white hover:text-blue-400 transition-colors"><X size={32} /></button>
+          <div className="relative w-full max-w-6xl aspect-video"><Image src={selectedImage} alt="Expanded view" fill className="object-contain" /></div>
+        </div>
+      )}
+
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-slate-100 font-bold">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -70,7 +96,7 @@ export default function Home() {
           </div>
           <div className="max-w-4xl text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
-              <Sparkles className="text-blue-500" size={12} /> Fractional AI Leadership
+              <Sparkles className="text-blue-500" size={12} /> Strategic AI Implementation
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-slate-900 italic">Building Intelligent <br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent italic tracking-tight underline decoration-blue-500/30">Agentic Engines.</span></h1>
             <p className="text-xl text-slate-500 max-w-2xl font-medium italic mb-10 leading-relaxed">
@@ -97,12 +123,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 2: Refined Project Intake Form */}
+      {/* Section 2: Project Intake Form */}
       <section id="intake" className="py-24 bg-slate-50 border-y border-slate-100 scroll-mt-20">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-extrabold text-slate-900 mb-4 italic tracking-tight">Project Intake</h2>
-            <p className="text-slate-500 font-medium italic font-light italic">Define your use case to begin the architecture process.</p>
+            <p className="text-slate-500 font-medium italic font-light">Define your use case to begin the architecture process.</p>
           </div>
           <form className="space-y-8 bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-200">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -129,12 +155,12 @@ export default function Home() {
             
             <div className="space-y-2">
               <label className="text-[10px] uppercase font-black tracking-widest text-slate-400 ml-2 flex gap-2 items-center"><Database size={12} /> Opportunity Description</label>
-              <textarea placeholder="Tell me about the project you want to build. Describe the manual workflow or process you want to automate..." rows={4} className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-blue-500 outline-none transition-all resize-none" onChange={(e) => setFormData({...formData, description: e.target.value})} />
+              <textarea placeholder="Describe the manual workflow or data chaos you want to automate..." rows={4} className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-blue-500 outline-none transition-all resize-none" onChange={(e) => setFormData({...formData, description: e.target.value})} />
             </div>
 
             <div className="space-y-2">
               <label className="text-[10px] uppercase font-black tracking-widest text-slate-400 ml-2 flex gap-2 items-center"><Target size={12} /> Desired Outcome</label>
-              <textarea placeholder="What is the project goal and/or autonomous outcome you want to achieve?" rows={3} className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-blue-500 outline-none transition-all resize-none" onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
+              <textarea placeholder="What autonomous outcome are you looking for?" rows={3} className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-blue-500 outline-none transition-all resize-none" onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -148,7 +174,7 @@ export default function Home() {
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] uppercase font-black tracking-widest text-slate-400 ml-2 flex gap-2 items-center text-blue-500"><DollarSign size={12} /> Budget Range (Optional)</label>
-                <input type="text" placeholder="e.g. $1 - $50k" className="w-full px-6 py-4 bg-blue-50/30 rounded-2xl border border-blue-100 focus:border-blue-500 outline-none transition-all" onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+                <input type="text" placeholder="e.g. $25k - $50k" className="w-full px-6 py-4 bg-blue-50/30 rounded-2xl border border-blue-100 focus:border-blue-500 outline-none transition-all" onChange={(e) => setFormData({...formData, budget: e.target.value})} />
               </div>
             </div>
 
@@ -159,7 +185,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 3: Impact Matrix */}
+      {/* Section 3: Global Impact Matrix */}
       <section id="bulletin" className="py-24 max-w-7xl mx-auto px-6 text-center">
         <h2 className="text-4xl font-bold mb-16 italic text-slate-900 tracking-tight underline decoration-blue-500 decoration-2 underline-offset-8">Global Impact Matrix</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -172,7 +198,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 4: LILO Case Study */}
+      {/* Section 4: LILO Case Study (RESTORED FULL DEMO) */}
       <section id="passion-projects" className="py-32 max-w-7xl mx-auto px-6 border-t border-slate-100">
         <div className="max-w-2xl mb-16">
           <h2 className="text-5xl font-extrabold text-slate-900 tracking-tight italic mb-6">LILO OS Case Study</h2>
@@ -181,10 +207,15 @@ export default function Home() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {['lilologin.png', 'lilo-triage-admin.png', 'lilo-blocking-issue.png'].map((img, idx) => (
-            <div key={idx} className="group rounded-3xl overflow-hidden border border-slate-200 bg-white transition-all hover:border-blue-200">
+          {passionProjects.map((project) => (
+            <div key={project.id} className="group rounded-3xl overflow-hidden border border-slate-200 bg-white transition-all hover:border-blue-200 cursor-zoom-in" onClick={() => setSelectedImage(project.imageSrc)}>
               <div className="relative h-56 w-full bg-slate-900">
-                <Image src={`/${img}`} alt="LILO Case Study" fill className="object-cover opacity-90 transition-all group-hover:scale-105 group-hover:opacity-100" />
+                <Image src={project.imageSrc} alt={project.altText} fill className="object-cover opacity-90 transition-all group-hover:scale-105 group-hover:opacity-100" />
+                <div className="absolute top-4 right-4 p-2 bg-white/20 backdrop-blur-md rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"><Maximize2 size={16} className="text-white" /></div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-2 tracking-tight italic group-hover:text-blue-600 transition-colors">{project.title}</h3>
+                <p className="text-slate-600 leading-relaxed text-sm font-light">{project.description}</p>
               </div>
             </div>
           ))}
