@@ -104,7 +104,7 @@ export default function Home() {
                     <h3 className="text-blue-400 font-mono text-sm mb-6 uppercase tracking-widest font-bold">// Technical Proof</h3>
                     <h2 className="text-4xl md:text-5xl font-bold mb-8 italic">Agentic Engine Design</h2>
                     <p className="text-slate-400 text-xl leading-relaxed mb-10 font-light italic">
-                      I build autonomous systems that **Ingest** complex datasets, **Synthesize** intent, and **Execute** multi-step objectives without constant human supervision. 
+                      I build autonomous systems that **Ingest** complex datasets, **Synthesize** intent, and **Execute** multi-step objectives without constant supervision. Whether refining operational friction or scaling global logic, I architect the "Agentic Engines" that plan, decide, and act for your business. 
                     </p>
                     <div className="flex flex-wrap gap-3 font-mono text-[10px] uppercase font-bold tracking-widest">
                       {['React.js', 'OpenAI API', 'Vercel', 'Firebase'].map(t => <span key={t} className="px-4 py-1.5 bg-slate-800 rounded-lg border border-slate-700 text-blue-300">{t}</span>)}
