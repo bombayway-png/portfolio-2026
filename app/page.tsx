@@ -109,7 +109,7 @@ export default function Home() {
               </div>
             </div>
             <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl bg-slate-900 flex items-center justify-center">
-               < BarChart3 className="text-blue-600 w-24 h-24 opacity-20" />
+               <BarChart3 className="text-blue-600 w-24 h-24 opacity-20" />
             </div>
           </div>
         </section>
@@ -149,7 +149,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* --- Intake Portal --- */}
+      {/* --- Intake Portal with REVISED BUDGET RANGES --- */}
       <AnimatePresence>
         {activeFilter === 'intake' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-6 overflow-y-auto">
@@ -174,9 +174,10 @@ export default function Home() {
                       <label className="text-xs font-black uppercase tracking-widest text-blue-600">Budget Range</label>
                       <select className="w-full text-3xl font-bold border-b-4 border-slate-200 focus:border-blue-600 outline-none py-4 text-slate-900 italic bg-transparent" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})}>
                         <option value="">Select Range</option>
+                        {/* REVISED RANGES PER USER REQUEST */}
+                        <option value="0-5k">$0 - $5k</option>
                         <option value="5k-10k">$5k - $10k</option>
-                        <option value="10k-25k">$10k - $25k</option>
-                        <option value="25k+">$25k+</option>
+                        <option value="10k+">$10k+</option>
                       </select>
                    </div>
                 </div>
