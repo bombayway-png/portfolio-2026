@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ShieldCheck, X, Database, Linkedin, Code2, Workflow, Sparkles, LayoutDashboard, Server, Bot
+  ShieldCheck, X, Database, Linkedin, Code2, Workflow, LayoutDashboard, Server, Bot
 } from 'lucide-react';
 
 type FilterState = 'intake' | null;
@@ -60,7 +60,7 @@ export default function Home() {
 
       <main className="max-w-7xl mx-auto px-6 md:px-12 pt-32 md:pt-48 pb-24">
         
-        {/* --- 1. HERO SECTION: FULL-STACK ARCHITECT --- */}
+        {/* --- 1. HERO SECTION: THE BUILDER NARRATIVE --- */}
         <section className="flex flex-col md:flex-row gap-12 md:gap-16 items-center mb-16 md:mb-24 text-center md:text-left">
           <div className="flex-1 order-2 md:order-1">
             <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-8 italic uppercase text-slate-900">
@@ -86,10 +86,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- 2. THE INTEGRATION PLAY --- */}
+        {/* --- 2. THE INTEGRATION TRIAD --- */}
         <section className="mb-24 md:mb-40 text-center md:text-left">
            <div className="max-w-4xl mx-auto mb-16">
-             <h2 className="text-sm font-black uppercase tracking-[0.5em] text-blue-600 mb-6 italic text-center">The Technical Architect</h2>
+             <h2 className="text-sm font-black uppercase tracking-[0.5em] text-blue-600 mb-6 italic text-center">The Integration Play</h2>
              <p className="text-2xl md:text-3xl font-black italic text-slate-900 leading-tight mb-6 text-center text-balance">
                I build autonomous systems that <strong>Ingest</strong> complex datasets, <strong>Synthesize</strong> intent, and <strong>Execute</strong> multi-step objectives.
              </p>
@@ -101,7 +101,7 @@ export default function Home() {
            </div>
         </section>
 
-        {/* --- 3. SERVICE PILLARS --- */}
+        {/* --- 3. SERVICE PILLARS (FRONTEND, BACKEND, AI) --- */}
         <ServicePillarSection 
           title="Pillar 1: App & Web Development"
           pitch="I engineer reactive, high-performance frontends."
@@ -130,7 +130,7 @@ export default function Home() {
           visualColor="text-slate-400"
         />
 
-        {/* --- 4. THE AUDIT OFFER --- */}
+        {/* --- 4. THE AUDIT CONVERSION OFFER --- */}
         <section className="bg-blue-600 rounded-[3rem] p-12 md:p-20 text-center text-white mb-24 shadow-2xl">
           <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">
             Free &quot;Human-in-the-Loop&quot; Audit
@@ -174,7 +174,7 @@ export default function Home() {
   );
 }
 
-// --- Sub-Components ---
+// --- Internal UI Components ---
 
 function TriadCard({ icon: Icon, title, desc, color }: TriadProps) {
   return (
