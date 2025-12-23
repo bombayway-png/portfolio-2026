@@ -6,7 +6,7 @@ import {
   Linkedin, Mail, FileText, Zap, BarChart3, 
   Globe, ArrowUpRight, CheckCircle2,
   Sparkles, ShieldCheck, Map, Activity,
-  Maximize2, X, Briefcase, Cpu, Calendar
+  Maximize2, X, Briefcase, Cpu, Calendar, Send
 } from 'lucide-react';
 
 interface PassionProject {
@@ -22,8 +22,12 @@ export default function Home() {
 
   const resumeLink = "https://docs.google.com/document/d/1RIPyJ5Y6rhjTkhS9cmMDOOraP3Kg2LjE59TIi3Yd2jw/edit?usp=sharing";
   const linkedInURL = "https://www.linkedin.com/in/adamseumae/";
-  // Replace this with your actual Calendly or scheduling link
-  const schedulingLink = "https://calendly.com/your-profile"; 
+  
+  // Professional Mailto Routing for iCloud/Outlook
+  const emailAddress = "a.seumae@outlook.com";
+  const emailSubject = encodeURIComponent("AI Strategy Consultation Inquiry");
+  const emailBody = encodeURIComponent("Hi Adam,\n\nI saw your Agentic AI proof of work and your experience at Blizzard/Amazon. I'd like to discuss a potential AI use case for my business.\n\nBest,");
+  const schedulingLink = `mailto:${emailAddress}?subject=${emailSubject}&body=${emailBody}`;
 
   const passionProjects: PassionProject[] = [
     { id: 'lilo-auth', title: '01. Entry & Identity', description: 'Secure onboarding and authentication logic for proprietary team data.', imageSrc: '/lilologin.png', altText: 'LILO OS Sign-in' },
@@ -49,12 +53,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center"><span className="text-white font-black text-xs uppercase italic tracking-tighter">AS</span></div>
-            <span className="tracking-tighter text-lg uppercase hidden sm:block tracking-widest text-slate-900">Adam Seumae</span>
+            <span className="tracking-tighter text-lg uppercase hidden sm:block tracking-widest text-slate-900 font-bold">Adam Seumae</span>
           </div>
           <div className="flex gap-8 items-center text-sm font-semibold text-slate-500">
             <a href="#engineering" className="hover:text-blue-600 transition-colors">AI Capabilities</a>
             <a href="#bulletin" className="hover:text-blue-600 transition-colors">Impact</a>
-            <a href={schedulingLink} target="_blank" className="bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all flex items-center gap-2 font-bold shadow-lg shadow-blue-200"><Calendar size={16} /> Schedule Session</a>
+            <a href={schedulingLink} className="bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all flex items-center gap-2 font-bold shadow-lg shadow-blue-200"><Send size={16} /> Contact Adam</a>
           </div>
         </div>
       </nav>
@@ -70,67 +74,61 @@ export default function Home() {
           </div>
           <div className="max-w-4xl text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
-              <Sparkles className="text-blue-500" size={12} /> Strategic AI Implementation
+              <Sparkles className="text-blue-500" size={12} /> Fractional AI Leadership
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-slate-900 italic">Intelligent Systems for <br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent italic tracking-tight underline decoration-blue-500/30">Complex Workflows.</span></h1>
             <p className="text-xl text-slate-500 max-w-2xl font-medium italic mb-10 leading-relaxed">
-              Leveraging a decade of product leadership at <strong>Amazon, AWS, and Blizzard</strong> to help organizations bridge the gap between complex data and autonomous action.
+              Leveraging over 10 years of leadership at <strong>Amazon, Microsoft, and Blizzard</strong> to architect the Agentic Engines of the future.
             </p>
             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
               <a href={schedulingLink} className="flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:shadow-2xl transition-all hover:-translate-y-1">
-                Schedule Strategy Session <ArrowUpRight size={20} />
+                Request Strategy Session <ArrowUpRight size={20} />
               </a>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Section 1: AI Capabilities (Broad "Lead to Water" narrative) */}
+      {/* Section 1: AI Capabilities */}
       <section id="engineering" className="py-24 max-w-7xl mx-auto px-6">
         <div className="bg-slate-900 rounded-[2.5rem] p-10 md:p-14 shadow-2xl text-white relative overflow-hidden flex flex-col lg:flex-row gap-16 items-center border border-slate-800">
            <div className="flex-1">
               <h3 className="text-blue-400 font-mono text-sm mb-4 tracking-widest uppercase italic font-bold">// Strategic Capability</h3>
               <h2 className="text-4xl md:text-5xl font-bold mb-8 italic tracking-tight">Agentic Engine Design</h2>
               <p className="text-slate-400 text-xl leading-relaxed mb-10 font-light italic">
-                I build autonomous systems that **Ingest** complex datasets, **Synthesize** intent, and **Execute** multi-step objectives without constant supervision. 
-                Whether refining operational friction or scaling global logic, I architect the "Agentic Engines" that plan, decide, and act for your business.
+                I build autonomous systems that **Ingest** complex datasets, **Synthesize** intent, and **Execute** multi-step objectives without constant human supervision. 
               </p>
               <div className="grid grid-cols-2 gap-6 text-sm font-mono text-blue-300">
                 <div className="flex items-center gap-2"><CheckCircle2 size={16} /> Data Synthesis</div>
                 <div className="flex items-center gap-2"><CheckCircle2 size={16} /> Autonomous Planning</div>
                 <div className="flex items-center gap-2"><CheckCircle2 size={16} /> Real-time Execution</div>
-                <div className="flex items-center gap-2"><CheckCircle2 size={16} /> Strategic GTM</div>
+                <div className="flex items-center gap-2"><CheckCircle2 size={16} /> Scalable GTM</div>
               </div>
            </div>
            <div className="w-full lg:w-1/3 aspect-square bg-blue-600/10 rounded-[3rem] border border-blue-500/20 flex items-center justify-center relative shadow-inner">
              <Cpu size={120} className="text-blue-500 opacity-20 animate-pulse" />
-             <div className="absolute inset-0 flex items-center justify-center text-blue-400 font-mono text-xs text-center p-12 italic">
-               "Designing the future of proactive digital teammates."
-             </div>
            </div>
         </div>
       </section>
 
-      {/* Section 2: Professional Bulletin Board (Quantitative Proof) */}
+      {/* Section 2: Professional Bulletin Board */}
       <section id="bulletin" className="py-24 bg-slate-50 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold mb-16 italic text-slate-900 tracking-tight text-center underline decoration-blue-500 decoration-2 underline-offset-8">Global Impact Matrix</h2>
           
-          {/* 3x2 Impact Matrix */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             <OutcomeCard icon={Zap} title="Efficiency" sub="Battle.net Handheld Launch" />
             <OutcomeCard icon={ShieldCheck} title="Velocity" sub="Airloom AI MVP Strategy" />
             <OutcomeCard icon={BarChart3} title="Scale" sub="$6M AWS Cost Avoidance" />
             <OutcomeCard icon={Globe} title="Growth" sub="80% Alexa Ad Coverage" />
-            <OutcomeCard icon={Activity} title="Automation" sub="Global Benchmarking (15 Locales)" />
+            <OutcomeCard icon={Activity} title="Automation" sub="Global Benchmarking" />
             <OutcomeCard icon={Map} title="Expansion" sub="Alexa Americas Preview" />
           </div>
 
-          {/* Stacked Career Narrative */}
           <div className="max-w-5xl mx-auto space-y-8">
             <ExperienceCard 
               company="Blizzard Entertainment" role="Product Manager, Battle.net" date="Aug 2025 — Present"
-              bullets={["Directing Video UX strategy for major global franchises.", "Delivered hardware-optimized handheld support on-time.", "Standardizing executive data reporting and BI workflows."]}
+              bullets={["Directing Video UX strategy for major franchises.", "Delivered hardware-optimized handheld support on-time.", "Standardizing executive reporting and BI workflows."]}
               isCurrent={true}
             />
             <ExperienceCard 
@@ -139,13 +137,13 @@ export default function Home() {
             />
             <ExperienceCard 
               company="Amazon, AWS & Alexa" role="Product & Program Management" date="2017 — 2024"
-              bullets={["AWS: Saved $6M through strategic migration of global 3P software.", "Alexa Ads: Optimized CTR from 1.2% to 1.8% through AI-driven benchmarking.", "Expansion: Scaled Alexa's footprint across the Americas through automated pipelines."]}
+              bullets={["AWS: Saved $6M through strategic migration of global 3P software.", "Alexa Ads: Optimized CTR from 1.2% to 1.8% through AI-driven benchmarking.", "Expansion: Scaled Alexa's footprint across the Americas."]}
             />
           </div>
         </div>
       </section>
 
-      {/* Section 3: Passion Projects (The Case Study) */}
+      {/* Section 3: Passion Projects */}
       <section id="passion-projects" className="py-32 max-w-7xl mx-auto px-6">
         <div className="max-w-2xl mb-16">
           <h2 className="text-5xl font-extrabold text-slate-900 tracking-tight italic mb-6">Case Study: LILO OS</h2>
@@ -171,7 +169,7 @@ export default function Home() {
 
       <footer className="py-24 text-center border-t border-slate-50">
         <p className="text-slate-300 text-[10px] font-medium uppercase tracking-[0.5em] italic mb-8">Adam Seumae | Product Leadership | 2026</p>
-        <a href={schedulingLink} target="_blank" className="text-blue-600 font-bold hover:underline decoration-2 underline-offset-4">Ready to build? Schedule your Strategy Session &rarr;</a>
+        <a href={schedulingLink} className="text-blue-600 font-bold hover:underline decoration-2 underline-offset-4 font-mono uppercase tracking-widest text-xs italic">Build your Agentic Engine &rarr;</a>
       </footer>
     </div>
   );
