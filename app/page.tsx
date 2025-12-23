@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ShieldCheck, TrendingUp, Wallet, X, Zap, Cpu, BarChart3, Sparkles, LayoutDashboard, Database
+  ShieldCheck, TrendingUp, Wallet, X, Zap, Cpu, BarChart3, Sparkles, LayoutDashboard, Database, Linkedin
 } from 'lucide-react';
 
 type FilterState = 'intake' | null;
@@ -28,7 +28,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden">
-      {/* Navigation */}
+      {/* --- Sticky Navigation --- */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center px-6">
         <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
           <div className="flex items-center gap-2 font-black italic uppercase">
@@ -37,14 +37,24 @@ export default function Home() {
             </div>
             <span>Adam Seumae</span>
           </div>
-          <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-6 py-2.5 rounded-full font-bold text-sm uppercase italic">
-            Build My Agent Workforce
-          </button>
+          <div className="flex items-center gap-4">
+            <a 
+              href="https://www.linkedin.com/in/aseumae/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
+            >
+              <Linkedin size={24} />
+            </a>
+            <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-6 py-2.5 rounded-full font-bold text-sm uppercase italic">
+              Build My Agent Workforce
+            </button>
+          </div>
         </div>
       </nav>
 
       <main className="max-w-7xl mx-auto px-6 pt-48 pb-24 text-left">
-        {/* HERO SECTION WITH HEADSHOT */}
+        {/* --- Hero Section --- */}
         <section className="flex flex-col md:flex-row gap-16 items-center mb-32">
           <div className="flex-1">
             <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-10 italic uppercase">
@@ -54,23 +64,33 @@ export default function Home() {
             <p className="text-xl md:text-2xl text-slate-500 max-w-2xl font-medium italic mb-12 leading-relaxed">
               Deploy intelligent agentic engines to automate complex workflows. Architected by an expert with 10+ years at <strong>Amazon, AWS, and Microsoft</strong>.
             </p>
-            <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl shadow-blue-100 italic uppercase">
-              Build My Agent Workforce
-            </button>
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl shadow-blue-100 italic uppercase">
+                Build My Agent Workforce
+              </button>
+              <a 
+                href="https://www.linkedin.com/in/aseumae/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 border-4 border-slate-100 px-10 py-5 rounded-full text-xl font-black hover:bg-slate-50 transition-all italic uppercase text-slate-400 hover:text-blue-600"
+              >
+                <Linkedin size={24} /> Authority Profile
+              </a>
+            </div>
           </div>
           <div className="relative w-64 h-64 md:w-96 md:h-96 rounded-[4rem] overflow-hidden shadow-2xl grayscale">
-             <Image src="/headshot.jpeg" alt="Adam Seumae" fill className="object-cover" priority />
+             <Image src="/headshot.jpg" alt="Adam Seumae" fill className="object-cover" priority />
           </div>
         </section>
 
-        {/* OUTCOME CARDS */}
+        {/* --- Outcome Metrics --- */}
         <section className="mb-40 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <ProofCard icon={Wallet} metric="$6M Saved" context="AWS Contract Renewals" app="Identified inefficiencies and built internal autonomous solutions to stop cash bleed." />
-            <ProofCard icon={TrendingUp} metric="20x Growth" context="Amazon Pipeline" app="Deployed systems that scaled outreach and operations without increasing headcount." />
+            <ProofCard icon={Wallet} metric="$6M Saved" context="AWS Contract Renewals" app="Identified inefficiencies and built internal autonomous solutions." />
+            <ProofCard icon={TrendingUp} metric="20x Growth" context="Amazon Pipeline" app="Deployed systems that scaled outreach without increasing headcount." />
             <ProofCard icon={ShieldCheck} metric="MVP to Market" context="Airloom AI" app="Established architecture and SOPs to launch AI-driven products fast." />
         </section>
 
-        {/* NEW: LILO OS DESCRIPTION */}
+        {/* --- LILO OS --- */}
         <section className="bg-slate-50 rounded-[4rem] p-12 md:p-24 mb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
@@ -94,7 +114,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* BIG FACTS FRANKIE */}
+        {/* --- Big Facts Frankie --- */}
         <section className="bg-slate-50 rounded-[4rem] p-12 md:p-24 mb-40">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
@@ -104,7 +124,7 @@ export default function Home() {
               <h3 className="text-5xl font-black italic uppercase tracking-tighter leading-none">
                 Big Facts Frankie: <br /> <span className="text-blue-600">The Fantasy Agent</span>
               </h3>
-              <p className="text-xl text-slate-500 italic font-medium">
+              <p className="text-xl text-slate-500 italic font-medium leading-relaxed">
                 Built an autonomous multimedia persona that generates real-time video scripts and content using a custom LLM-stack.
               </p>
               <div className="flex gap-4">
@@ -118,7 +138,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SERVICES */}
+        {/* --- Service Offerings --- */}
         <section className="bg-slate-900 rounded-[4rem] p-12 md:p-24 text-white mb-20">
           <h2 className="text-4xl md:text-6xl font-black italic mb-20 uppercase tracking-tighter underline decoration-blue-500 underline-offset-8">What You&apos;re Buying:</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
@@ -129,14 +149,13 @@ export default function Home() {
         </section>
       </main>
 
-      {/* RESTORED INTAKE PORTAL WITH 6 QUESTIONS */}
+      {/* --- Intake Portal --- */}
       <AnimatePresence>
         {activeFilter === 'intake' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto py-20 relative text-left">
               <button onClick={() => setActiveFilter(null)} className="absolute top-8 right-8 p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={32}/></button>
               <h2 className="text-6xl md:text-8xl font-black italic mb-12 uppercase italic">Intake Phase</h2>
-              
               <form className="space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                    <div className="space-y-4">
@@ -162,7 +181,7 @@ export default function Home() {
                    </div>
                 </div>
                 <div className="space-y-4">
-                  <label className="text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome (e.g., Save 10 hours/week)</label>
+                  <label className="text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
                   <input className="w-full text-3xl font-bold border-b-4 border-slate-200 focus:border-blue-600 outline-none py-4 text-slate-900 italic bg-transparent" placeholder="Primary Goal" value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
                 </div>
                 <div className="space-y-4">
