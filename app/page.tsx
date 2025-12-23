@@ -44,7 +44,7 @@ export default function Home() {
   const bottleneckRef = useRef<HTMLTextAreaElement>(null);
 
   // Dynamic placeholder for use cases
-  const bottleneckPlaceholder = `Lead Automation: Manual LinkedIn follow-ups are failing...\nCustomer Support: Team is overwhelmed by repetitive FAQs...\nData Synthesis: Need to extract insights from thousands of reviews...\nContent Ops: Turning webinars into social clips takes 10+ hours...`;
+  const bottleneckPlaceholder = "e.g. Lead Automation: Manual LinkedIn follow-ups are failing...\n\nCustomer Support: Team is overwhelmed by repetitive FAQs...\n\nData Synthesis: Need to extract insights from thousands of reviews...";
 
   // Effect to adjust height of textarea based on content
   useEffect(() => {
@@ -62,6 +62,9 @@ export default function Home() {
     window.location.href = `mailto:a.seumae@outlook.com?subject=${subject}&body=${body}`;
     setActiveFilter(null);
   };
+
+  // Shared class for crisp, clear inputs (Standard upright text for user readability)
+  const inputClasses = "w-full text-xl md:text-2xl font-semibold text-slate-900 border-b-2 border-slate-200 focus:border-blue-600 outline-none py-3 bg-transparent placeholder:text-slate-400 placeholder:font-normal placeholder:not-italic transition-colors";
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden">
@@ -194,36 +197,36 @@ export default function Home() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-slate-900">
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Full Name</label>
-                    <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="John Smith" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
+                    <input className={inputClasses} placeholder="John Smith" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
                   </div>
 
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Email Address</label>
-                    <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Email" type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                    <input className={inputClasses} placeholder="john@company.com" type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
                   </div>
 
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Company</label>
-                    <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Company Name" value={formData.company} onChange={(e) => setFormData({...formData, company: e.target.value})} />
+                    <input className={inputClasses} placeholder="Acme Corp" value={formData.company} onChange={(e) => setFormData({...formData, company: e.target.value})} />
                   </div>
 
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Project Budget</label>
-                    <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="e.g. $750" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+                    <input className={inputClasses} placeholder="e.g. $5k - $15k" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                   </div>
 
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
-                    <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="What does success look like?" value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
+                    <input className={inputClasses} placeholder="e.g. Reduce manual data entry by 80%..." value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
                   </div>
 
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Current Bottleneck</label>
                     <textarea 
                       ref={bottleneckRef}
-                      className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent resize-none overflow-hidden transition-all duration-200" 
-                      rows={1} 
-                      placeholder={bottleneckPlaceholder} 
+                      className={`${inputClasses} resize-none overflow-hidden`}
+                      rows={3} 
+                      placeholder={bottleneckPlaceholder}
                       value={formData.description} 
                       onChange={(e) => setFormData({...formData, description: e.target.value})} 
                     />
