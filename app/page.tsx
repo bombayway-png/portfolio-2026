@@ -217,7 +217,7 @@ export default function Home() {
                   </div>
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Project Budget</label>
-                    <input className={inputClasses} placeholder="e.g. $5,000" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+                    <input className={inputClasses} placeholder="e.g. $500" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                   </div>
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
