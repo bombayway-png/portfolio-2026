@@ -52,7 +52,7 @@ export default function Home() {
               <Linkedin size={20} className="md:w-6 md:h-6" />
             </a>
             <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-[10px] md:text-sm uppercase italic">
-              Build My Workforce
+              Get Started
             </button>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function Home() {
               <span className="text-blue-600">I Deploy AI Agents.</span>
             </h1>
             <p className="text-lg md:text-2xl text-slate-500 max-w-3xl font-medium italic mb-10 leading-relaxed mx-auto md:mx-0">
-              Bridging the gap between Enterprise Strategy and Code. Leveraging 10+ years at <strong>AWS, Amazon, and Microsoft</strong> to build Serverless React Applications and Autonomous Agents.
+              Bridging the gap between Enterprise Strategy and Code. Leveraging 10+ years of experience at <strong>Amazon (Alexa,Ads,Benchmarking) AWS (Revenue Ops), and Microsoft (Blizzard, Xbox)</strong> to build Serverless React Applications and Autonomous Agents.
             </p>
             
             <div className="bg-slate-900 text-white py-4 px-6 rounded-2xl mb-12 inline-block shadow-xl font-mono text-sm md:text-base font-bold tracking-tight">
@@ -77,7 +77,7 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-black hover:scale-105 transition-all shadow-xl shadow-blue-100 italic uppercase">
-                Start My Build
+                Start Building
               </button>
             </div>
           </div>
@@ -95,8 +95,8 @@ export default function Home() {
              </p>
            </div>
            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <TriadCard icon={LayoutDashboard} title="UX Architecture" desc="Most designers don&apos;t understand backend scalability. I build reactive interfaces that handle heavy loads." color="bg-blue-50 text-blue-600" />
-              <TriadCard icon={Server} title="Core Infrastructure" desc="Most backend engineers don&apos;t understand AI. I architect secure, serverless systems ready for automation." color="bg-slate-900 text-white" />
+              <TriadCard icon={LayoutDashboard} title="UX Architecture" desc="Not all designers fully understand backend scalability. I build reactive interfaces that handle heavy loads." color="bg-blue-50 text-blue-600" />
+              <TriadCard icon={Server} title="Core Infrastructure" desc="AI is New to the Old school backend engineers. I architect secure, serverless systems ready for automation." color="bg-slate-900 text-white" />
               <TriadCard icon={Bot} title="Agentic Intelligence" desc="I build your app with automation baked in—agents that plan, decide, and act without supervision." color="bg-blue-600 text-white" />
            </div>
         </section>
@@ -105,13 +105,13 @@ export default function Home() {
         <ServicePillarSection 
           title="Pillar 1: App & Web Development"
           pitch="I engineer reactive, high-performance frontends."
-          proofTitle="The Proof: Fantasy Locker Room"
+          proofTitle="Fantasy Locker Room"
           proofBody={<>A real-time engagement platform built on <strong>React.js and Vite</strong> with a <strong>Tailwind CSS</strong> aesthetic.</>}
           capabilities={[
             { title: "Real-Time Data:", desc: "Implemented Firebase Snapshot Listeners to update interfaces instantly." },
             { title: "Dynamic UI:", desc: "Created conditional rendering logic for live leaderboards and analytics." }
           ]}
-          corporateScale="Ownership of the Video Consumption UX for Blizzard franchises like Call of Duty."
+          corporateScale="Ownership of the Video Consumption UX for Blizzard franchises like World of Warcraft and Call of Duty."
           icon={Code2}
           visualColor="text-blue-400"
         />
@@ -119,7 +119,7 @@ export default function Home() {
         <ServicePillarSection 
           title="Pillar 2: Backend & Systems Integration"
           pitch="I build the Central Nervous System of your business."
-          proofTitle="The Proof: LILO OS"
+          proofTitle="LILO OS"
           proofBody={<>Developed a native desktop application using <strong>Electron</strong> that integrates <strong>Gmail APIs</strong>.</>}
           capabilities={[
             { title: "Security First:", desc: "Utilizing serverless node.js backends to ensure zero-trust security." },
@@ -136,10 +136,10 @@ export default function Home() {
             Free &quot;Human-in-the-Loop&quot; Audit
           </h2>
           <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
-            If I can&apos;t find a way to use <strong>Agentic AI</strong> to reduce your manual workload by <strong>20%</strong>, the consultation is free.
+            Let&apos;s find some time and chat <strong>Agentic AI</strong>, <strong>Building Custom Applications</strong>,<strong>Updating your Personal website</strong>
           </p>
           <button onClick={() => setActiveFilter('intake')} className="bg-white text-blue-600 px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl italic uppercase">
-            Claim My Free Audit
+            Schedule a Call
           </button>
         </section>
       </main>
