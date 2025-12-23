@@ -46,7 +46,7 @@ export default function Home() {
   const bottleneckRef = useRef<HTMLTextAreaElement>(null);
 
   // Professional Placeholders derived from Resume Experience
-  const outcomePlaceholder = "e.g. Design a scalable GTM engine that automates customer intake and increases operational efficiency by 30%...";
+  const outcomePlaceholder = "Provide a clear description on the desired goal.";
   const bottleneckPlaceholder = "e.g. High manual overhead in lead management, legacy system technical debt, or a lack of real-time BI dashboards to track cross-functional KPIs...";
 
   // Helper to open portal with specific intent
@@ -249,7 +249,7 @@ export default function Home() {
                   </div>
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Project Budget</label>
-                    <input className={inputClasses} placeholder="e.g. $5,000" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+                    <input className={inputClasses} placeholder="e.g. $500" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                   </div>
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
