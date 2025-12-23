@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ShieldCheck, TrendingUp, Wallet, X, Zap, Cpu, BarChart3, Sparkles
+  ShieldCheck, TrendingUp, Wallet, X, Zap, Cpu, BarChart3, Sparkles, LayoutDashboard, Database
 } from 'lucide-react';
 
 type FilterState = 'intake' | null;
@@ -28,7 +28,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden">
-      {/* --- Navigation --- */}
+      {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center px-6">
         <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
           <div className="flex items-center gap-2 font-black italic uppercase">
@@ -44,14 +44,14 @@ export default function Home() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-6 pt-48 pb-24 text-left">
-        {/* --- Hero Section --- */}
+        {/* HERO SECTION WITH HEADSHOT */}
         <section className="flex flex-col md:flex-row gap-16 items-center mb-32">
           <div className="flex-1">
             <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-10 italic uppercase">
               Scale Your Operations. <br />
               <span className="text-blue-600">Remove the &quot;Human.&quot;</span>
             </h1>
-            <p className="text-xl md:text-2xl text-slate-500 max-w-2xl font-medium italic mb-12">
+            <p className="text-xl md:text-2xl text-slate-500 max-w-2xl font-medium italic mb-12 leading-relaxed">
               Deploy intelligent agentic engines to automate complex workflows. Architected by an expert with 10+ years at <strong>Amazon, AWS, and Microsoft</strong>.
             </p>
             <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl shadow-blue-100 italic uppercase">
@@ -63,14 +63,38 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- Outcome Metric Cards --- */}
+        {/* OUTCOME CARDS */}
         <section className="mb-40 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <ProofCard icon={Wallet} metric="$6M Saved" context="AWS Contract Renewals" app="Identified inefficiencies and built internal autonomous solutions." />
-            <ProofCard icon={TrendingUp} metric="20x Growth" context="Amazon Pipeline" app="Deployed systems that scaled outreach without increasing headcount." />
+            <ProofCard icon={Wallet} metric="$6M Saved" context="AWS Contract Renewals" app="Identified inefficiencies and built internal autonomous solutions to stop cash bleed." />
+            <ProofCard icon={TrendingUp} metric="20x Growth" context="Amazon Pipeline" app="Deployed systems that scaled outreach and operations without increasing headcount." />
             <ProofCard icon={ShieldCheck} metric="MVP to Market" context="Airloom AI" app="Established architecture and SOPs to launch AI-driven products fast." />
         </section>
 
-        {/* --- Passion Project (Agentic Engine) --- */}
+        {/* NEW: LILO OS DESCRIPTION */}
+        <section className="bg-slate-50 rounded-[4rem] p-12 md:p-24 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-600 px-4 py-2 rounded-full font-black text-xs uppercase tracking-widest italic">
+                <LayoutDashboard size={14}/> Flagship: LILO OS
+              </div>
+              <h3 className="text-5xl font-black italic uppercase tracking-tighter leading-none">
+                LILO OS: <br /> <span className="text-blue-600">The Agentic Engine</span>
+              </h3>
+              <p className="text-xl text-slate-500 italic font-medium leading-relaxed">
+                Developed a centralized autonomous framework to orchestrate complex logistics and lead intake, reducing operational overhead by 85%.
+              </p>
+              <div className="flex gap-4">
+                 <div className="flex items-center gap-2 font-bold text-sm italic uppercase text-slate-400"><Database size={16}/> AWS Core</div>
+                 <div className="flex items-center gap-2 font-bold text-sm italic uppercase text-slate-400"><Zap size={16}/> Auto-Orchestration</div>
+              </div>
+            </div>
+            <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl bg-slate-900 flex items-center justify-center">
+               <BarChart3 className="text-blue-600 w-24 h-24 opacity-20" />
+            </div>
+          </div>
+        </section>
+
+        {/* BIG FACTS FRANKIE */}
         <section className="bg-slate-50 rounded-[4rem] p-12 md:p-24 mb-40">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
@@ -94,7 +118,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- Service Offerings --- */}
+        {/* SERVICES */}
         <section className="bg-slate-900 rounded-[4rem] p-12 md:p-24 text-white mb-20">
           <h2 className="text-4xl md:text-6xl font-black italic mb-20 uppercase tracking-tighter underline decoration-blue-500 underline-offset-8">What You&apos;re Buying:</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
@@ -105,7 +129,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* --- Restored Intake Portal with 6 Questions --- */}
+      {/* RESTORED INTAKE PORTAL WITH 6 QUESTIONS */}
       <AnimatePresence>
         {activeFilter === 'intake' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-6 overflow-y-auto">
