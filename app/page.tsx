@@ -89,7 +89,7 @@ export default function Home() {
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-slate-900 italic">Building Intelligent <br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent italic tracking-tight underline decoration-blue-500/30">Agentic Engines.</span></h1>
             <p className="text-xl text-slate-500 max-w-2xl font-medium italic mb-10 leading-relaxed">
-              Over 10 years of leadership at <strong>Amazon, AWS, and Blizzard</strong> architecting autonomous systems.
+              Over 10 years of product experience at <strong>Airloom AI, Amazon, AWS and Microsoft (Xbox, Blizzard)</strong> architecting autonomous systems to solve customer problems globally.
             </p>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function Home() {
               <h3 className="text-blue-400 font-mono text-sm mb-4 tracking-widest uppercase italic font-bold">// Technical Proof</h3>
               <h2 className="text-4xl md:text-5xl font-bold mb-6 italic tracking-tight">Agentic Engine Design</h2>
               <p className="text-slate-400 text-xl leading-relaxed mb-10 font-light italic">
-                I build autonomous systems that **Ingest** complex datasets, **Synthesize** intent, and **Execute** multi-step objectives without constant human supervision. 
+                I build autonomous systems that **Ingest** complex datasets, **Synthesize** intent, and **Execute** multi-step objectives without constant supervision. Whether refining operational friction or scaling global logic, I architect the "Agentic Engines" that plan, decide, and act for your business.
               </p>
               <div className="flex flex-wrap gap-3 font-mono text-[10px] uppercase tracking-widest font-bold">
                 {['React.js', 'OpenAI API', 'Vercel', 'Firebase'].map(tech => (
