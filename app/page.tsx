@@ -10,7 +10,13 @@ import {
 type FilterState = 'intake' | null;
 
 // --- Interfaces for Type Safety ---
-interface TriadProps { icon: React.ElementType; title: string; desc: string; color: string; }
+interface TriadProps { 
+  icon: React.ElementType; 
+  title: string; 
+  desc: string; 
+  color: string; 
+}
+
 interface ServicePillarProps {
   title: string;
   pitch: string;
@@ -68,7 +74,7 @@ export default function Home() {
               <span className="text-blue-600">I Deploy AI Agents.</span>
             </h1>
             <p className="text-lg md:text-2xl text-slate-500 max-w-3xl font-medium italic mb-10 leading-relaxed mx-auto md:mx-0">
-              Bridging the gap between Enterprise Strategy and Code. Leveraging 10+ years of experience at <strong>Amazon (Alexa,Ads,Benchmarking) AWS (Revenue Ops), and Microsoft (Blizzard, Xbox)</strong> to build Serverless React Applications and Autonomous Agents.
+              Bridging the gap between Enterprise Strategy and Code. Leveraging 10+ years of experience at <strong>Amazon (Alexa, Ads, Benchmarking), AWS (Revenue Ops), and Microsoft (Blizzard, Xbox)</strong> to build Serverless React Applications and Autonomous Agents.
             </p>
             
             <div className="bg-slate-900 text-white py-4 px-6 rounded-2xl mb-12 inline-block shadow-xl font-mono text-sm md:text-base font-bold tracking-tight">
@@ -101,7 +107,7 @@ export default function Home() {
            </div>
         </section>
 
-        {/* --- 3. SERVICE PILLARS (FRONTEND, BACKEND, AI) --- */}
+        {/* --- 3. SERVICE PILLARS --- */}
         <ServicePillarSection 
           title="Pillar 1: App & Web Development"
           pitch="I engineer reactive, high-performance frontends."
@@ -136,7 +142,7 @@ export default function Home() {
             Free &quot;Human-in-the-Loop&quot; Audit
           </h2>
           <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
-            Let&apos;s find some time and chat <strong>Agentic AI</strong>, <strong>Building Custom Applications</strong>,<strong>Updating your Personal website</strong>
+            Let&apos;s find some time and chat <strong>Agentic AI</strong>, <strong>Building Custom Applications</strong>, and <strong>Updating your Personal website</strong>
           </p>
           <button onClick={() => setActiveFilter('intake')} className="bg-white text-blue-600 px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl italic uppercase">
             Schedule a Call
@@ -144,13 +150,13 @@ export default function Home() {
         </section>
       </main>
 
-      {/* --- Intake Portal (Architecture Phase) --- */}
+      {/* --- Intake Portal --- */}
       <AnimatePresence>
         {activeFilter === 'intake' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto py-12 md:py-20 relative text-left">
               <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={24} /></button>
-              <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase italic">Architecture Phase</h2>
+              <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase">Architecture Phase</h2>
               <form className="space-y-8 md:space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-slate-900">
                    <div className="space-y-3">
