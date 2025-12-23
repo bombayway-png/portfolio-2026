@@ -14,12 +14,26 @@ interface ServiceProps { num: string; title: string; desc: string; }
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState<FilterState>(null);
-  const initialFormState = { name: '', email: '', company: '', description: '' };
+  const initialFormState = { 
+    name: '', 
+    email: '', 
+    company: '', 
+    description: '',
+    outcome: '',
+    budget: ''
+  };
   const [formData, setFormData] = useState(initialFormState);
 
   const handleSendEmail = () => {
     const subject = encodeURIComponent(`Build My Agent Workforce: ${formData.company}`);
-    const body = encodeURIComponent(`Full Name: ${formData.name}\nEmail: ${formData.email}\nDescription: ${formData.description}`);
+    const body = encodeURIComponent(
+      `Full Name: ${formData.name}\n` +
+      `Email: ${formData.email}\n` +
+      `Company: ${formData.company}\n` +
+      `Desired Outcome: ${formData.outcome}\n` +
+      `Budget Range: ${formData.budget}\n` +
+      `Bottleneck: ${formData.description}`
+    );
     window.location.href = `mailto:a.seumae@outlook.com?subject=${subject}&body=${body}`;
     setActiveFilter(null);
   };
@@ -40,7 +54,7 @@ export default function Home() {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 pt-48">
+      <main className="max-w-7xl mx-auto px-6 pt-48 pb-24">
         <section className="flex flex-col md:flex-row gap-16 items-center mb-32">
           <div className="flex-1 text-center md:text-left">
             <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-10 italic uppercase">
@@ -55,52 +69,25 @@ export default function Home() {
             </button>
           </div>
           <div className="relative w-64 h-64 md:w-96 md:h-96 rounded-[4rem] overflow-hidden shadow-2xl grayscale">
+             {/* Ensure headshot.jpg is in your /public folder */}
              <Image src="/headshot.jpg" alt="Adam Seumae" fill className="object-cover" priority />
           </div>
         </section>
 
-        <div className="flex flex-wrap items-center justify-center md:justify-start gap-12 opacity-30 grayscale border-t border-slate-100 pt-12 italic font-black text-2xl tracking-tighter mb-40 uppercase">
-          <span>Amazon</span><span>AWS</span><span>Microsoft</span><span>Xbox</span><span>Blizzard</span><span>Airloom AI</span>
-        </div>
-
-        <section className="mb-40">
-          <h2 className="text-sm font-black uppercase tracking-[0.5em] text-slate-300 mb-16 text-center">Proven ROI & Authority</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <ProofCard icon={Wallet} metric="$6M Saved" context="AWS Contract Renewals" app="Identified inefficiencies and built internal autonomous solutions to stop cash bleed." />
-            <ProofCard icon={TrendingUp} metric="20x Growth" context="Amazon Pipeline" app="Deployed systems that scaled outreach and operations without increasing headcount." />
-            <ProofCard icon={ShieldCheck} metric="MVP to Market" context="Airloom AI" app="Established architecture and SOPs to launch AI-driven products from scratch." />
-          </div>
+        {/* --- Outcome Metrics --- */}
+        <section className="mb-40 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <ProofCard icon={Wallet} metric="$6M Saved" context="AWS Contract Renewals" app="Identified inefficiencies and built internal autonomous solutions." />
+            <ProofCard icon={TrendingUp} metric="20x Growth" context="Amazon Pipeline" app="Deployed systems that scaled outreach without increasing headcount." />
+            <ProofCard icon={ShieldCheck} metric="MVP to Market" context="Airloom AI" app="Established architecture and SOPs to launch AI-driven products fast." />
         </section>
 
-        <section className="bg-slate-50 rounded-[4rem] p-12 md:p-24 mb-40">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-600 px-4 py-2 rounded-full font-black text-xs uppercase tracking-widest italic">
-                <Sparkles size={14}/> Passion Project: Agentic Engine
-              </div>
-              <h3 className="text-5xl font-black italic uppercase tracking-tighter leading-none">
-                Big Facts Frankie: <br /> <span className="text-blue-600">The Fantasy Agent</span>
-              </h3>
-              <p className="text-xl text-slate-500 italic font-medium">
-                Built an autonomous multimedia persona that generates real-time video scripts and content using a custom LLM-stack.
-              </p>
-              <div className="flex gap-4">
-                 <div className="flex items-center gap-2 font-bold text-sm italic uppercase text-slate-400"><Cpu size={16}/> GPT-4o</div>
-                 <div className="flex items-center gap-2 font-bold text-sm italic uppercase text-slate-400"><Zap size={16}/> Agentic Flow</div>
-              </div>
-            </div>
-            <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl bg-slate-900 flex items-center justify-center">
-               <BarChart3 className="text-blue-600 w-24 h-24 opacity-20" />
-            </div>
-          </div>
-        </section>
-
+        {/* --- Service Offerings --- */}
         <section className="bg-slate-900 rounded-[4rem] p-12 md:p-24 text-white mb-40">
           <h2 className="text-4xl md:text-6xl font-black italic mb-20 uppercase tracking-tighter underline decoration-blue-500 underline-offset-8">What You&apos;re Buying:</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-            <ServiceItem num="01" title="Workflow Audit" desc="Identifying high-friction manual tasks ripe for autonomous agentic replacement." />
-            <ServiceItem num="02" title="Agent Architecture" desc="Designing custom AI agents to handle high-volume processing and output." />
-            <ServiceItem num="03" title="Ops Excellence" desc="SOPs and feedback loops to ensure your digital workforce improves over time." />
+            <ServiceItem num="01" title="Workflow Audit" desc="Identifying high-friction manual tasks ripe for agentic replacement." />
+            <ServiceItem num="02" title="Agent Architecture" desc="Designing custom AI agents to handle high-volume processing." />
+            <ServiceItem num="03" title="Ops Excellence" desc="SOPs and feedback loops to ensure digital workforce growth." />
           </div>
         </section>
       </main>
@@ -111,20 +98,38 @@ export default function Home() {
             <div className="max-w-4xl mx-auto py-20 relative text-left">
               <button onClick={() => setActiveFilter(null)} className="absolute top-8 right-8 p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={32}/></button>
               <h2 className="text-6xl md:text-8xl font-black italic mb-12 uppercase">Intake Phase</h2>
+              
               <form className="space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                    <div className="space-y-4">
-                      <label className="text-xs font-black uppercase tracking-widest text-blue-600">Your Name</label>
+                      <label className="text-xs font-black uppercase tracking-widest text-blue-600">Full Name</label>
                       <input className="w-full text-3xl font-bold border-b-4 border-slate-200 focus:border-blue-600 outline-none py-4 text-slate-900 italic bg-transparent" placeholder="Name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
                    </div>
                    <div className="space-y-4">
-                      <label className="text-xs font-black uppercase tracking-widest text-blue-600">Company</label>
+                      <label className="text-xs font-black uppercase tracking-widest text-blue-600">Business Email</label>
+                      <input className="w-full text-3xl font-bold border-b-4 border-slate-200 focus:border-blue-600 outline-none py-4 text-slate-900 italic bg-transparent" placeholder="Email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                   </div>
+                   <div className="space-y-4">
+                      <label className="text-xs font-black uppercase tracking-widest text-blue-600">Company / Project</label>
                       <input className="w-full text-3xl font-bold border-b-4 border-slate-200 focus:border-blue-600 outline-none py-4 text-slate-900 italic bg-transparent" placeholder="Company" value={formData.company} onChange={(e) => setFormData({...formData, company: e.target.value})} />
+                   </div>
+                   <div className="space-y-4">
+                      <label className="text-xs font-black uppercase tracking-widest text-blue-600">Monthly Budget for Automation</label>
+                      <select className="w-full text-3xl font-bold border-b-4 border-slate-200 focus:border-blue-600 outline-none py-4 text-slate-900 italic bg-transparent" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})}>
+                        <option value="">Select Range</option>
+                        <option value="5k-10k">$5k - $10k</option>
+                        <option value="10k-25k">$10k - $25k</option>
+                        <option value="25k+">$25k+</option>
+                      </select>
                    </div>
                 </div>
                 <div className="space-y-4">
-                  <label className="text-xs font-black uppercase tracking-widest text-blue-600">Operational Bottleneck</label>
-                  <textarea rows={4} className="w-full text-3xl font-bold border-b-4 border-slate-200 focus:border-blue-600 outline-none py-4 text-slate-900 italic bg-transparent" placeholder="Describe the friction..." value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} />
+                  <label className="text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome (e.g., Save 20 hours/week)</label>
+                  <input className="w-full text-3xl font-bold border-b-4 border-slate-200 focus:border-blue-600 outline-none py-4 text-slate-900 italic bg-transparent" placeholder="Primary Goal" value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
+                </div>
+                <div className="space-y-4">
+                  <label className="text-xs font-black uppercase tracking-widest text-blue-600">Operational Bottleneck Details</label>
+                  <textarea rows={3} className="w-full text-3xl font-bold border-b-4 border-slate-200 focus:border-blue-600 outline-none py-4 text-slate-900 italic bg-transparent" placeholder="Describe the friction..." value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} />
                 </div>
                 <button type="button" onClick={handleSendEmail} className="w-full bg-blue-600 text-white py-8 rounded-[2rem] text-3xl font-black italic uppercase shadow-2xl transition-all hover:scale-105 active:scale-95">
                   Send Strategy Request
@@ -141,7 +146,7 @@ export default function Home() {
 function ProofCard({ icon: Icon, metric, context, app }: CardProps) {
   return (
     <div className="p-10 bg-white border-4 border-slate-50 rounded-[3rem] hover:border-blue-100 transition-all group">
-      <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform"><Icon size={28} /></div>
+      <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-8"><Icon size={28} /></div>
       <h4 className="text-4xl font-black italic mb-2 tracking-tighter uppercase leading-none">{metric}</h4>
       <p className="text-blue-600 font-black mb-6 text-[10px] uppercase tracking-[0.2em]">{context}</p>
       <p className="text-slate-500 leading-relaxed font-semibold italic">{app}</p>
