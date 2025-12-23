@@ -54,19 +54,22 @@ export default function Home() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-6 pt-48 pb-24 text-left">
-        {/* --- Hero Section --- */}
+        {/* --- Hero Section with Expanded Narrative --- */}
         <section className="flex flex-col md:flex-row gap-16 items-center mb-32">
           <div className="flex-1">
             <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-10 italic uppercase">
               Scale Your Operations. <br />
               <span className="text-blue-600">Remove the &quot;Human.&quot;</span>
             </h1>
-            <p className="text-xl md:text-2xl text-slate-500 max-w-2xl font-medium italic mb-12 leading-relaxed">
-              Deploy intelligent agentic engines to automate complex workflows. Architected by an expert with 10+ years at <strong>Amazon, AWS, and Microsoft</strong>. I build autonomous systems that **Ingest** complex datasets, **Synthesize** intent, and **Execute** multi-step objectives without constant supervision. Whether refining operational friction or scaling global logic, I architect the "Agentic Engines" that plan, decide, and act for your business.
+            <p className="text-xl md:text-2xl text-slate-500 max-w-2xl font-medium italic mb-6 leading-relaxed">
+              Deploy intelligent agentic engines to automate complex workflows. Architected by an expert with 10+ years at <strong>Amazon, AWS, and Microsoft</strong>.
+            </p>
+            <p className="text-lg md:text-xl text-slate-400 max-w-2xl font-medium italic mb-12 leading-relaxed">
+              I build autonomous systems that <strong>Ingest</strong> complex datasets, <strong>Synthesize</strong> intent, and <strong>Execute</strong> multi-step objectives without constant supervision. Whether refining operational friction or scaling global logic, I architect the &quot;Agentic Engines&quot; that plan, decide, and act for your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-6">
               <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl shadow-blue-100 italic uppercase">
-                Build An Agent Workforce
+                Build My Agent Workforce
               </button>
               <a 
                 href="https://www.linkedin.com/in/adamseumae/" 
@@ -83,6 +86,8 @@ export default function Home() {
           </div>
         </section>
 
+        {/*  */}
+
         {/* --- Outcome Metrics --- */}
         <section className="mb-40 grid grid-cols-1 md:grid-cols-3 gap-8">
             <ProofCard icon={Wallet} metric="$6M Saved" context="AWS Contract Renewals" app="Identified inefficiencies and built internal autonomous solutions." />
@@ -90,7 +95,7 @@ export default function Home() {
             <ProofCard icon={ShieldCheck} metric="MVP to Market" context="Airloom AI" app="Established architecture and SOPs to launch AI-driven products fast." />
         </section>
 
-        {/* --- LILO OS --- */}
+        {/* --- Flagship: LILO OS --- */}
         <section className="bg-slate-50 rounded-[4rem] p-12 md:p-24 mb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
@@ -149,7 +154,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* --- Intake Portal with REVISED BUDGET RANGES --- */}
+      {/* --- Intake Portal --- */}
       <AnimatePresence>
         {activeFilter === 'intake' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-6 overflow-y-auto">
@@ -174,7 +179,6 @@ export default function Home() {
                       <label className="text-xs font-black uppercase tracking-widest text-blue-600">Budget Range</label>
                       <select className="w-full text-3xl font-bold border-b-4 border-slate-200 focus:border-blue-600 outline-none py-4 text-slate-900 italic bg-transparent" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})}>
                         <option value="">Select Range</option>
-                        {/* REVISED RANGES PER USER REQUEST */}
                         <option value="0-5k">$0 - $5k</option>
                         <option value="5k-10k">$5k - $10k</option>
                         <option value="10k+">$10k+</option>
