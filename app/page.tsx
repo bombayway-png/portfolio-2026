@@ -79,7 +79,7 @@ export default function Home() {
             </div>
           </div>
           <div className="relative w-64 h-64 md:w-96 md:h-96 rounded-[4rem] overflow-hidden shadow-2xl grayscale">
-             <Image src="/headshot.jpg" alt="Adam Seumae" fill className="object-cover" priority />
+             <Image src="/headshot.jpeg" alt="Adam Seumae" fill className="object-cover" priority />
           </div>
         </section>
 
