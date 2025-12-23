@@ -44,7 +44,7 @@ export default function Home() {
   const bottleneckRef = useRef<HTMLTextAreaElement>(null);
 
   // Dynamic placeholder for use cases
-  const bottleneckPlaceholder = "e.g. Lead Automation, Multi-tenant application, Web Design, Data & Insights\n\nCustomer Support: Team is overwhelmed by repetitive FAQs...\n\nData Synthesis: Need to extract insights from thousands of reviews...";
+  const bottleneckPlaceholder = "e.g. Lead Automation, Multi-tenant application, Web Design, Data & Insights\n\nMe or My Team is overwhelmed by repetitive manual tasks...\n\nData Synthesis: Need to extract insights from thousands of reviews...";
 
   // Effect to adjust height of textarea based on content
   useEffect(() => {
@@ -217,7 +217,7 @@ export default function Home() {
 
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
-                    <input className={inputClasses} placeholder="e.g. Reduce manual data entry by 80%..." value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
+                    <input className={inputClasses} placeholder="Define the goal for this project. For example, create a landing page for my business listing to increase my online presence." value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
                   </div>
 
                   <div className="space-y-3 md:col-span-2">
