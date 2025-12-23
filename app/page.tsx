@@ -39,7 +39,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-4">
             <a 
-              href="https://www.linkedin.com/in/aseumae/" 
+              href="https://www.linkedin.com/in/adamseumae/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
@@ -69,7 +69,7 @@ export default function Home() {
                 Build My Agent Workforce
               </button>
               <a 
-                href="https://www.linkedin.com/in/aseumae/" 
+                href="https://www.linkedin.com/in/adamseumae/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 border-4 border-slate-100 px-10 py-5 rounded-full text-xl font-black hover:bg-slate-50 transition-all italic uppercase text-slate-400 hover:text-blue-600"
@@ -79,7 +79,7 @@ export default function Home() {
             </div>
           </div>
           <div className="relative w-64 h-64 md:w-96 md:h-96 rounded-[4rem] overflow-hidden shadow-2xl grayscale">
-             <Image src="/headshot.jpeg" alt="Adam Seumae" fill className="object-cover" priority />
+             <Image src="/headshot.jpg" alt="Adam Seumae" fill className="object-cover" priority />
           </div>
         </section>
 
@@ -109,7 +109,7 @@ export default function Home() {
               </div>
             </div>
             <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl bg-slate-900 flex items-center justify-center">
-               <BarChart3 className="text-blue-600 w-24 h-24 opacity-20" />
+               < BarChart3 className="text-blue-600 w-24 h-24 opacity-20" />
             </div>
           </div>
         </section>
