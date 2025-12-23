@@ -54,8 +54,8 @@ export default function Home() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-6 md:px-12 pt-32 md:pt-48 pb-24">
-        {/* --- Hero Section --- */}
-        <section className="flex flex-col md:flex-row gap-12 md:gap-16 items-center mb-24 md:mb-32 text-center md:text-left">
+        {/* --- 1. Hero Section --- */}
+        <section className="flex flex-col md:flex-row gap-12 md:gap-16 items-center mb-12 md:mb-16 text-center md:text-left">
           <div className="flex-1 order-2 md:order-1">
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 italic uppercase">
               Scale Your Operations. <br />
@@ -86,14 +86,24 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- Outcome Metrics --- */}
+        {/* --- 2. WHAT YOU'LL GET (Strategic Services) --- */}
+        <section className="bg-slate-900 rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-24 text-white mb-16 md:mb-24">
+          <h2 className="text-3xl md:text-6xl font-black italic mb-12 md:mb-20 uppercase tracking-tighter underline decoration-blue-500 underline-offset-8 italic">What You&apos;ll Get:</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+            <ServiceItem num="01" title="Workflow Audit" desc="Identifying high-friction manual tasks ripe for agentic replacement." />
+            <ServiceItem num="02" title="Agent Architecture" desc="Designing custom AI agents to handle high-volume processing." />
+            <ServiceItem num="03" title="Ops Excellence" desc="SOPs and feedback loops to ensure digital workforce growth." />
+          </div>
+        </section>
+
+        {/* --- 3. Outcome Metrics (Key Outcome Cards) --- */}
         <section className="mb-24 md:mb-40 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <ProofCard icon={Wallet} metric="$6M Saved" context="AWS Contract Renewals" app="Identified inefficiencies and built internal autonomous solutions." />
             <ProofCard icon={TrendingUp} metric="20x Growth" context="Amazon Pipeline" app="Deployed systems that scaled outreach without increasing headcount." />
             <ProofCard icon={ShieldCheck} metric="MVP to Market" context="Airloom AI" app="Established architecture and SOPs to launch AI-driven products fast." />
         </section>
 
-        {/* --- Flagship: LILO OS --- */}
+        {/* --- 4. Flagship: LILO OS --- */}
         <section className="bg-slate-50 rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-24 mb-12 md:mb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
             <div className="space-y-6 md:space-y-8 text-center md:text-left">
@@ -117,7 +127,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- Big Facts Frankie --- */}
+        {/* --- 5. Big Facts Frankie --- */}
         <section className="bg-slate-50 rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-24 mb-24 md:mb-40">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
             <div className="space-y-6 md:space-y-8 text-center md:text-left order-2 md:order-1">
@@ -138,16 +148,6 @@ export default function Home() {
             <div className="relative aspect-video rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-slate-900 flex items-center justify-center order-1 md:order-2">
                <BarChart3 className="text-blue-600 w-16 h-16 md:w-24 md:h-24 opacity-20" />
             </div>
-          </div>
-        </section>
-
-        {/* --- Service Offerings --- */}
-        <section className="bg-slate-900 rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-24 text-white mb-20">
-          <h2 className="text-3xl md:text-6xl font-black italic mb-12 md:mb-20 uppercase tracking-tighter underline decoration-blue-500 underline-offset-8">What You&apos;ll Get:</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
-            <ServiceItem num="01" title="Workflow Audit" desc="Identifying high-friction manual tasks ripe for agentic replacement." />
-            <ServiceItem num="02" title="Agent Architecture" desc="Designing custom AI agents to handle high-volume processing." />
-            <ServiceItem num="03" title="Ops Excellence" desc="SOPs and feedback loops to ensure digital workforce growth." />
           </div>
         </section>
       </main>
