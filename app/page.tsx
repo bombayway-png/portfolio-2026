@@ -18,7 +18,7 @@ export default function Home() {
   const [formData, setFormData] = useState(initialFormState);
 
   const handleSendEmail = () => {
-    const subject = encodeURIComponent(`Build My Agent Workforce: ${formData.company}`);
+    const subject = encodeURIComponent(`Build Agent Workforce: ${formData.company}`);
     const body = encodeURIComponent(
       `Full Name: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company}\nOutcome: ${formData.outcome}\nBudget: ${formData.budget}\nBottleneck: ${formData.description}`
     );
@@ -47,7 +47,7 @@ export default function Home() {
               <Linkedin size={20} className="md:w-6 md:h-6" />
             </a>
             <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-[10px] md:text-sm uppercase italic">
-              Build My Agent Workforce
+              Build Agent Workforce
             </button>
           </div>
         </div>
@@ -69,7 +69,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-black hover:scale-105 transition-all shadow-xl shadow-blue-100 italic uppercase">
-                Build My Agent Workforce
+                Build Agent Workforce
               </button>
               <a 
                 href="https://www.linkedin.com/in/adamseumae/" 
@@ -77,7 +77,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 border-2 md:border-4 border-slate-100 px-8 py-4 rounded-full text-lg font-black hover:bg-slate-50 transition-all italic uppercase text-slate-400 hover:text-blue-600"
               >
-                <Linkedin size={20} /> Authority Profile
+                <Linkedin size={20} /> LinkedIn Profile
               </a>
             </div>
           </div>
