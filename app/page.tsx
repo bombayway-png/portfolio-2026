@@ -62,7 +62,7 @@ export default function Home() {
               <span className="text-blue-600">Remove the &quot;Human.&quot;</span>
             </h1>
             <p className="text-lg md:text-2xl text-slate-500 max-w-2xl font-medium italic mb-6 leading-relaxed mx-auto md:mx-0">
-              Deploy intelligent agentic engines to automate complex workflows. Architected by an expert with 10+ years at <strong>Amazon, AWS, and Microsoft</strong>.
+              Deploy intelligent agentic engines to automate complex workflows. Architected by an Product professional with 10+ years at <strong>Amazon, AWS, and Microsoft (Blizzard and Xbox)</strong>.
             </p>
             <p className="text-base md:text-xl text-slate-400 max-w-2xl font-medium italic mb-10 leading-relaxed mx-auto md:mx-0">
               I build autonomous systems that <strong>Ingest</strong> complex datasets, <strong>Synthesize</strong> intent, and <strong>Execute</strong> multi-step objectives without constant supervision.
