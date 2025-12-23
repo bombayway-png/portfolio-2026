@@ -46,7 +46,7 @@ export default function Home() {
   const bottleneckRef = useRef<HTMLTextAreaElement>(null);
 
   // Professional Placeholders derived from Resume Experience
-  const outcomePlaceholder = "e.g. Design a scalable GTM engine that automates customer intake and increases operational efficiency by 30%...";
+  const outcomePlaceholder = "Clearly define the goal as best as you can today. This will evolve, but a starting point ignites inspiration";
   const bottleneckPlaceholder = "e.g. High manual overhead in lead management, legacy system technical debt, or a lack of real-time BI dashboards to track cross-functional KPIs...";
 
   // Helper to open portal with specific intent
@@ -164,7 +164,7 @@ export default function Home() {
           title="Pillar 1: App & Web Development"
           pitch="I engineer reactive, high-performance frontends."
           proofTitle="Feature Owner @ Blizzard"
-          proofBody={<>Delivered gamepad support for <strong>Battle.net on Xbox</strong> handheld devices and owned the <strong>Video Consumption UX</strong> for World of Warcraft.</>}
+          proofBody={<>Delivered gamepad support for <strong>Battle.net on Xbox</strong> handheld devices and owned the <strong>Media Consumption Strategy</strong> for World of Warcraft, Overwatch and Call of Duty.</>}
           capabilities={[
             { title: "Real-Time Data:", desc: "Implemented Firebase Snapshot Listeners to update interfaces instantly." },
             { title: "Cross-Functional:", desc: "Driving fast-follow improvements to meet MVP deliverables at scale." }
@@ -252,7 +252,7 @@ export default function Home() {
                   </div>
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Project Budget</label>
-                    <input className={inputClasses} placeholder="e.g. $5,000" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+                    <input className={inputClasses} placeholder="e.g. $500" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                   </div>
 
                   <div className="space-y-3 md:col-span-2">
