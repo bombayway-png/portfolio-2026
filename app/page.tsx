@@ -194,7 +194,7 @@ export default function Home() {
             Free &quot;Human-in-the-Loop&quot; Audit
           </h2>
           <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
-            Let&apos;s find some time and chat <strong>Agentic AI</strong>, <strong>Building Custom Applications</strong>, and <strong>Updating your Personal website</strong>
+            Let&apos;s find some time and chat <strong>Agentic AI</strong>, <strong>Building Custom Applications</strong>, and <strong>Updating your Personal or Business Website</strong>
           </p>
           <button 
             onClick={() => openPortal('An AI Strategy Consult')} 
