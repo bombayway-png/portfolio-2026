@@ -62,11 +62,11 @@ export default function Home() {
               <span className="text-blue-600">Remove the &quot;Human.&quot;</span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-500 max-w-2xl font-medium italic mb-12 leading-relaxed">
-              Deploy intelligent agentic engines to automate complex workflows. Architected by an expert with 10+ years at <strong>Amazon, AWS, and Microsoft</strong>.
+              Deploy intelligent agentic engines to automate complex workflows. Architected by an expert with 10+ years at <strong>Amazon, AWS, and Microsoft</strong>. I build autonomous systems that **Ingest** complex datasets, **Synthesize** intent, and **Execute** multi-step objectives without constant supervision. Whether refining operational friction or scaling global logic, I architect the "Agentic Engines" that plan, decide, and act for your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-6">
               <button onClick={() => setActiveFilter('intake')} className="bg-blue-600 text-white px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl shadow-blue-100 italic uppercase">
-                Build My Agent Workforce
+                Build An Agent Workforce
               </button>
               <a 
                 href="https://www.linkedin.com/in/adamseumae/" 
