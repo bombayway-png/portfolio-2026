@@ -158,20 +158,48 @@ export default function Home() {
               <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={24} /></button>
               <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase">Architecture Phase</h2>
               <form className="space-y-8 md:space-y-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-slate-900">
-                   <div className="space-y-3">
-                      <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Full Name</label>
-                      <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
-                   </div>
-                   <div className="space-y-3">
-                      <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Company</label>
-                      <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Company" value={formData.company} onChange={(e) => setFormData({...formData, company: e.target.value})} />
-                   </div>
-                </div>
-                <button type="button" onClick={handleSendEmail} className="w-full bg-blue-600 text-white py-6 md:py-8 rounded-2xl md:rounded-[2rem] text-xl md:text-3xl font-black italic uppercase shadow-2xl hover:scale-[1.02] transition-all">
-                  Begin Architecture
-                </button>
-              </form>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-slate-900">
+    {/* Question 1: Name */}
+    <div className="space-y-3">
+      <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Full Name</label>
+      <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
+    </div>
+
+    {/* Question 2: Email */}
+    <div className="space-y-3">
+      <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Email Address</label>
+      <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Email" type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
+    </div>
+
+    {/* Question 3: Company */}
+    <div className="space-y-3">
+      <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Company</label>
+      <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="Company" value={formData.company} onChange={(e) => setFormData({...formData, company: e.target.value})} />
+    </div>
+
+    {/* Question 4: Budget */}
+    <div className="space-y-3">
+      <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Project Budget</label>
+      <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="e.g. $5k - $15k" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+    </div>
+
+    {/* Question 5: Outcome (Full Width) */}
+    <div className="space-y-3 md:col-span-2">
+      <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
+      <input className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent" placeholder="What does success look like?" value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
+    </div>
+
+    {/* Question 6: Description/Bottleneck (Full Width) */}
+    <div className="space-y-3 md:col-span-2">
+      <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Current Bottleneck</label>
+      <textarea className="w-full text-xl md:text-3xl font-bold border-b-2 md:border-b-4 border-slate-200 focus:border-blue-600 outline-none py-2 md:py-4 italic bg-transparent resize-none" rows={1} placeholder="Describe the problem..." value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} />
+    </div>
+  </div>
+
+  <button type="button" onClick={handleSendEmail} className="w-full bg-blue-600 text-white py-6 md:py-8 rounded-2xl md:rounded-[2rem] text-xl md:text-3xl font-black italic uppercase shadow-2xl hover:scale-[1.02] transition-all">
+    Begin Architecture
+  </button>
+</form>
             </div>
           </motion.div>
         )}
