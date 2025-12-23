@@ -34,7 +34,7 @@ export default function Home() {
     name: '', 
     email: '', 
     company: '', 
-    projectType: '', // Added for dropdown selection
+    projectType: '', 
     description: '', 
     outcome: '', 
     budget: '' 
@@ -46,7 +46,7 @@ export default function Home() {
   const bottleneckRef = useRef<HTMLTextAreaElement>(null);
 
   // Professional Placeholders derived from Resume Experience
-  const outcomePlaceholder = "Provide a clear description on the desired goal.";
+  const outcomePlaceholder = "e.g. Design a scalable GTM engine that automates customer intake and increases operational efficiency by 30%...";
   const bottleneckPlaceholder = "e.g. High manual overhead in lead management, legacy system technical debt, or a lack of real-time BI dashboards to track cross-functional KPIs...";
 
   // Helper to open portal with specific intent
@@ -76,7 +76,8 @@ export default function Home() {
     setActiveFilter(null);
   };
 
-  const inputClasses = "w-full text-xl md:text-2xl font-semibold text-slate-900 border-b-2 border-slate-200 focus:border-blue-600 outline-none py-3 bg-transparent placeholder:text-slate-400 placeholder:font-normal placeholder:not-italic transition-colors appearance-none";
+  // Shared class for crisp inputs. 'appearance-none' is key for custom dropdown styling.
+  const inputClasses = "w-full text-xl md:text-2xl font-semibold text-slate-900 border-b-2 border-slate-200 focus:border-blue-600 outline-none py-3 bg-transparent placeholder:text-slate-400 placeholder:font-normal placeholder:not-italic transition-colors appearance-none cursor-text";
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden">
@@ -210,28 +211,30 @@ export default function Home() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto py-12 md:py-20 relative text-left">
               <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={24} /></button>
-              <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase text-slate-900">customer intake</h2>
+              
+              <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase text-slate-900 tracking-tighter">customer intake</h2>
+              
               <form className="space-y-8 md:space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-slate-900">
                   
-                  {/* Dropdown Selection: First Field for Clarity */}
+                  {/* Dropdown Selection: Styled for seamless integration */}
                   <div className="space-y-3 md:col-span-2 relative">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">I am interested in...</label>
-                    <div className="relative">
+                    <div className="relative group">
                       <select 
-                        className={inputClasses} 
+                        className={`${inputClasses} cursor-pointer hover:border-blue-400`} 
                         value={formData.projectType} 
                         onChange={(e) => setFormData({...formData, projectType: e.target.value})}
                       >
-                        <option value="" disabled>Select an option</option>
-                        <option value="An AI Strategy Consult">An AI Strategy Consult</option>
-                        <option value="Build your first AI Agent">Build your first AI Agent</option>
-                        <option value="Build Multiple AI Autonomous Agents">Build Multiple AI Autonomous Agents</option>
-                        <option value="Build a business landing page">Build a business landing page</option>
-                        <option value="Build a Multi-User Application">Build a Multi-User Application</option>
-                        <option value="Data Synthesis: Visualization and Insights">Data Synthesis: Visualization and Insights</option>
+                        <option value="" disabled className="text-slate-400">Select an option</option>
+                        <option value="An AI Strategy Consult" className="bg-white text-slate-900">An AI Strategy Consult</option>
+                        <option value="Build your first AI Agent" className="bg-white text-slate-900">Build your first AI Agent</option>
+                        <option value="Build Multiple AI Autonomous Agents" className="bg-white text-slate-900">Build Multiple AI Autonomous Agents</option>
+                        <option value="Build a business landing page" className="bg-white text-slate-900">Build a business landing page</option>
+                        <option value="Build a Multi-User Application" className="bg-white text-slate-900">Build a Multi-User Application</option>
+                        <option value="Data Synthesis: Visualization and Insights" className="bg-white text-slate-900">Data Synthesis: Visualization and Insights</option>
                       </select>
-                      <ChevronDown className="absolute right-0 bottom-4 text-slate-400 pointer-events-none" size={24} />
+                      <ChevronDown className="absolute right-0 bottom-4 text-slate-400 pointer-events-none group-hover:text-blue-600 transition-colors" size={24} />
                     </div>
                   </div>
 
@@ -249,8 +252,9 @@ export default function Home() {
                   </div>
                   <div className="space-y-3">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Project Budget</label>
-                    <input className={inputClasses} placeholder="e.g. $500" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+                    <input className={inputClasses} placeholder="e.g. $5,000" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                   </div>
+
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Desired Outcome</label>
                     <textarea 
@@ -262,6 +266,7 @@ export default function Home() {
                       onChange={(e) => setFormData({...formData, outcome: e.target.value})} 
                     />
                   </div>
+
                   <div className="space-y-3 md:col-span-2">
                     <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Current Bottleneck</label>
                     <textarea 
@@ -274,6 +279,7 @@ export default function Home() {
                     />
                   </div>
                 </div>
+                
                 <button type="button" onClick={handleSendEmail} className="w-full bg-blue-600 text-white py-6 md:py-8 rounded-2xl md:rounded-[2rem] text-xl md:text-3xl font-black italic uppercase shadow-2xl hover:scale-[1.02] transition-all">
                   Submit Intake Form
                 </button>
