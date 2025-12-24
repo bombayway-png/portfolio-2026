@@ -91,7 +91,7 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-6 pt-40 pb-24 text-slate-900 text-left">
         {/* --- Hero Section --- */}
         <section className="flex flex-col md:flex-row gap-16 items-center mb-32">
-          <div className="flex-1 order-2 md:order-1">
+          <div className="flex-1 order-2 md:order-1 text-slate-900">
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-8 italic uppercase">
               I Architect Apps. <br /> I Build Backends. <br />
               <span className="text-blue-600">I Deploy AI Agents.</span>
@@ -104,6 +104,7 @@ export default function Home() {
             </p>
             <button onClick={() => openPortal()} className="bg-blue-600 text-white px-10 py-5 rounded-full text-lg font-black hover:scale-105 transition-all shadow-xl italic uppercase">Start Building</button>
           </div>
+          
           <div className="relative order-1 md:order-2 group">
             <div className="relative w-48 h-48 md:w-96 md:h-96 rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-2xl grayscale transition-all group-hover:grayscale-0">
                <Image src="/headshot.jpeg" alt="Adam Seumae" fill className="object-cover" priority />
@@ -119,6 +120,16 @@ export default function Home() {
             <TriadCard icon={LayoutDashboard} title="UX Architecture" desc="Design scalable products from global consumption UX to AI interfaces." color="bg-blue-50 text-blue-600" />
             <TriadCard icon={Server} title="Core Infrastructure" desc="Architecting systems that eliminate legacy debt, forged at AWS." color="bg-slate-900 text-white" />
             <TriadCard icon={Bot} title="Agentic Intelligence" desc="Deploy autonomous agents using React and real-time OpenAI." color="bg-blue-600 text-white" />
+        </section>
+
+        {/* --- WHAT YOU'LL GET (NOW RENDERING GetItem) --- */}
+        <section className="bg-slate-950 rounded-[4rem] p-12 md:p-24 text-white mb-32 shadow-2xl">
+          <h2 className="text-4xl md:text-7xl font-black italic mb-20 uppercase tracking-tighter underline decoration-blue-600 underline-offset-[12px]">What You&apos;ll Get:</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <GetItem num="01" title="Workflow Audit" desc="Identifying high-friction manual tasks ripe for agentic replacement." />
+            <GetItem num="02" title="Agent Architecture" desc="Designing custom AI agents to handle high-volume processing." />
+            <GetItem num="03" title="Ops Excellence" desc="SOPs and feedback loops to ensure digital workforce growth." />
+          </div>
         </section>
 
         {/* --- Service Pillars --- */}
@@ -149,7 +160,7 @@ export default function Home() {
         {activeFilter && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto py-12 md:py-20 relative text-left text-slate-900">
-              <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={24} /></button>
+              <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all text-slate-900"><X size={24} /></button>
               
               {activeFilter === 'intake' ? (
                 <div>
@@ -158,7 +169,7 @@ export default function Home() {
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                         <div className="space-y-3 md:col-span-2 relative">
                            <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">I am interested in...</label>
-                           <div className="relative group">
+                           <div className="relative group text-slate-900">
                              <select className={`${inputClasses} cursor-pointer`} value={formData.projectType} onChange={(e) => setFormData({...formData, projectType: e.target.value})}>
                                <option value="" disabled>Select project type</option>
                                <option value="AI Strategy Consult">An AI Strategy Consult</option>
@@ -179,7 +190,7 @@ export default function Home() {
                         </div>
                         <div className="space-y-3 md:col-span-2">
                            <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600 italic">Budget Range</label>
-                           <div className="relative group">
+                           <div className="relative group text-slate-900">
                              <select className={`${inputClasses} cursor-pointer`} value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})}>
                                <option value="" disabled>Select Range</option>
                                <option value="5k-10k">$5k - $10k</option>
@@ -222,7 +233,7 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="space-y-6">
+                  <div className="space-y-6 text-slate-900">
                     <h3 className="text-2xl font-black italic uppercase tracking-tight">Synchronize Discovery Session</h3>
                     <div className="flex flex-col md:flex-row gap-4">
                       <a href={generateCalendlyUrl()} target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-10 py-6 rounded-full text-2xl font-black italic uppercase hover:bg-blue-700 transition-all flex items-center justify-center gap-4 shadow-xl">
