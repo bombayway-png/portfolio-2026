@@ -147,7 +147,7 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
 
         {/* --- Bottom CTA: Non-Tech --- */}
         <section className="bg-blue-600 rounded-[3rem] p-12 md:p-20 text-center text-white mb-24 shadow-2xl">
-          <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">Free 15-Minute Audit</h2>
+          <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">Free 15-Minute Discovery Session</h2>
           <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
             Let&apos;s chat about your business goals or use case and find one repetitive task we could automate this week. No technical knowledge required.
           </p>
