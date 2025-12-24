@@ -107,7 +107,7 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
                <Clock size={16} /> Strategy & Build Window: Post-3PM & Weekends
             </div>
             <p className="text-xl md:text-2xl text-slate-500 max-w-3xl font-medium italic mb-10 leading-relaxed">
-              I help business owners stop doing manual, repetitive tasks by building smart systems that work while you sleep. Leveraging 10+ years of experience from <strong>Amazon and Microsoft</strong> to build professional tools for you.
+              I deliver individuals and business owners end-to-end digital product solutions. If you are looking to Automate repetitive tasks, Synthesize Data for Insights and Visual performance dashboard, Develop a Professional Websites and/or a Multi-User Application with AI integration (e.g. OpenAI API) lets talk. Leveraging 10+ years of experience from <strong>Amazon (Alexa/AWS), Microsoft(Xbox/Blizzard) and a local AI Startup</strong> to build professional tools for you.
             </p>
             <button onClick={() => openPortal()} className="bg-blue-600 text-white px-10 py-5 rounded-full text-lg font-black hover:scale-105 transition-all shadow-xl italic uppercase">Start My Build</button>
           </div>
