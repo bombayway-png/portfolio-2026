@@ -124,9 +124,9 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
 
         {/* --- Simplified Triad --- */}
         <section className="mb-32 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <TriadCard icon={LayoutDashboard} title="Websites & Apps" desc="I build tools that actually do work—like taking orders, managing clients, or showing your data." color="bg-blue-50 text-blue-600" />
-            <TriadCard icon={Server} title="Digital Machinery" desc="I set up the secure 'engine' behind your business. It’s fast, reliable, and built to grow with you." color="bg-slate-900 text-white" />
-            <TriadCard icon={Bot} title="AI Assistants" desc="I build custom AI Agents to do things like categorize, lable, read/write and review emails for quality and brand voice before sending. Also, update billing PDFs with an email change order from the field maximizing revenue granularly. The posibilities are endless, we just need to find the right fit for your use case." color="bg-blue-600 text-white" />
+            <TriadCard icon={LayoutDashboard} title="Websites & Apps" desc="Stop using websites that just look pretty. I build active business hubs that handle your customer bookings, manage your client files, and track your business numbers automatically. These tools act as a 24/7 digital manager for your front office." color="bg-blue-50 text-blue-600" />
+            <TriadCard icon={Server} title="Digital Machinery" desc="I build the digital 'brain' that connects all your business software so they finally talk to each other. This secure engine automatically moves information between your tools, making sure your operations are fast, safe, and completely hands-off." color="bg-slate-900 text-white" />
+            <TriadCard icon={Bot} title="AI Assistants" desc="I build custom AI Agents to do things like categorize, label, read/write and review emails for quality and brand voice before sending. Also, update billing PDFs with an email change order from the field maximizing revenue granularly. The posibilities are endless, we just need to find the right fit for your use case." color="bg-blue-600 text-white" />
         </section>
 
         {/* --- What You'll Get --- */}
