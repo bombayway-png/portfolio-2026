@@ -1,256 +1,298 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Zap, BarChart3, Globe, Sparkles, ShieldCheck, Map, Activity,
-  Maximize2, X, Cpu, Send, MessageSquare, Clock, Database, 
-  Target, DollarSign, ChevronRight, LayoutDashboard, Briefcase
+  ShieldCheck, X, Database, Linkedin, Code2, Workflow, LayoutDashboard, 
+  Server, Bot, ChevronDown, CheckCircle, Calendar, ArrowRight, FileText, Zap, Clock
 } from 'lucide-react';
 
-// Type for navigation state
-type FilterState = 'capabilities' | 'impact' | 'casestudy' | 'intake' | null;
+type FilterState = 'intake' | 'review' | null;
+
+// --- Strictly Typed Interfaces ---
+interface TriadCardProps {
+  icon: React.ElementType;
+  title: string;
+  desc: string;
+  color: string;
+}
+
+interface ServicePillarCardProps {
+  pillar: string;
+  pitch: string;
+  proof: string;
+  proofDetail: string;
+  tech: string;
+  scale: string;
+  icon: React.ElementType;
+}
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState<FilterState>(null);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({ 
+    name: '', email: '', company: '', projectType: '', description: '', outcome: '', budget: '' 
+  });
+  
+  const outcomeRef = useRef<HTMLTextAreaElement>(null);
+  const bottleneckRef = useRef<HTMLTextAreaElement>(null);
 
-  // Form State: Initializing for "Clear-on-Send" logic
-  const initialFormState = {
-    name: '',
-    email: '',
-    company: '',
-    phone: '',
-    description: '',
-    outcome: '',
-    timeline: 'ASAP (Urgent Friction)',
-    budget: ''
+  // Simplified Placeholders
+  const outcomePlaceholder = "What is the #1 thing you want this tool to do for your business?";
+  const bottleneckPlaceholder = "Describe the 'busy work' that is currently taking up too much of your time...";
+
+  const openPortal = (defaultType: string = '') => {
+    setFormData(prev => ({ ...prev, projectType: defaultType }));
+    setActiveFilter('intake');
   };
-  const [formData, setFormData] = useState(initialFormState);
 
-  const emailAddress = "a.seumae@outlook.com";
+  useEffect(() => {
+    [outcomeRef, bottleneckRef].forEach(ref => {
+      if (ref.current) {
+        ref.current.style.height = 'auto';
+        ref.current.style.height = `${ref.current.scrollHeight}px`;
+      }
+    });
+  }, [formData.outcome, formData.description, activeFilter]);
 
-  // Handles data extraction and state reset
-  const handleSendEmail = () => {
-    const subject = encodeURIComponent(`AI Strategy Inquiry: ${formData.company || 'New Project'}`);
-    const body = encodeURIComponent(
-      `Full Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nCompany: ${formData.company}\n\n` +
-      `Opportunity Description:\n${formData.description}\n\nDesired Outcome:\n${formData.outcome}\n\n` +
-      `Timeline: ${formData.timeline}\nOptional Budget: ${formData.budget || 'Not Provided'}`
-    );
-    
-    // Trigger native mail client
-    window.location.href = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
-    
-    // Visual indicator of completion: reset form
-    setFormData(initialFormState);
+  const generateCalendlyUrl = () => {
+    const fullBriefing = `
+GOAL: ${formData.projectType}
+DESIRED OUTCOME: ${formData.outcome}
+MANUAL BOTTLENECK: ${formData.description}
+BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
+    `.trim();
+
+    const baseUrl = "https://calendly.com/adamseumae/discovery-session";
+    const params = new URLSearchParams({
+      name: formData.name,
+      email: formData.email,
+      'a1': fullBriefing 
+    });
+    return `${baseUrl}?${params.toString()}`;
   };
+
+  const handleInitialSubmit = async () => {
+    setIsSubmitting(true);
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsSubmitting(false);
+    setActiveFilter('review');
+  };
+
+  const inputClasses = "w-full text-xl md:text-2xl font-semibold text-slate-900 border-b-2 border-slate-200 focus:border-blue-600 outline-none py-3 bg-transparent placeholder:text-slate-400 transition-colors appearance-none cursor-text";
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden">
-      {/* Persistent Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center">
-        <div className="max-w-7xl mx-auto px-6 w-full flex justify-between items-center font-bold">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveFilter(null)}>
-            <div className="w-9 h-9 bg-slate-900 rounded-lg flex items-center justify-center shadow-md">
-              <span className="text-white italic tracking-tighter text-xs">AS</span>
-            </div>
-            <span className="tracking-tight text-lg hidden sm:block">Adam Seumae</span>
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden text-left">
+      {/* --- Sticky Navigation --- */}
+      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center px-4 md:px-8">
+        <div className="max-w-7xl mx-auto w-full flex justify-between items-center text-slate-900">
+          <div className="flex items-center gap-2 font-black italic uppercase">
+            <div className="w-8 h-8 md:w-9 md:h-9 bg-slate-900 rounded-lg flex items-center justify-center text-white text-[10px] md:text-xs">AS</div>
+            <span className="text-xs md:text-base tracking-tighter">Adam Seumae</span>
           </div>
-          <button 
-            onClick={() => setActiveFilter('intake')}
-            className="bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all flex items-center gap-2 shadow-lg shadow-blue-100 text-sm"
-          >
-            <MessageSquare size={16} /> Start Project
-          </button>
+          <button onClick={() => openPortal()} className="bg-blue-600 text-white px-6 py-2 rounded-full font-bold text-[10px] md:text-sm uppercase italic hover:bg-blue-700 transition-all shadow-lg">Get Started</button>
         </div>
       </nav>
 
-      <main className="pt-40 pb-32 px-6 max-w-7xl mx-auto">
-        {/* Persistent Hero Section: Pedigree */}
-        <div className="flex flex-col md:flex-row gap-12 items-center md:items-start mb-12">
-          <div className="relative w-48 h-48 md:w-56 md:h-56 bg-white rounded-3xl overflow-hidden border-2 border-white shadow-2xl shrink-0">
-            <Image src="/headshot.jpeg" alt="Headshot" fill className="object-cover" />
-          </div>
-          <div className="max-w-4xl text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
-              <Sparkles className="text-blue-500" size={12} /> Strategic AI Implementation
-            </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-slate-900 italic">
-              Building Intelligent <br />
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent italic underline decoration-blue-500/30">Agentic Engines.</span>
+      <main className="max-w-7xl mx-auto px-6 pt-40 pb-24 text-slate-900">
+        {/* --- Hero Section: Plain English --- */}
+        <section className="flex flex-col md:flex-row gap-16 items-center mb-32">
+          <div className="flex-1 order-2 md:order-1 text-slate-900">
+            <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-8 italic uppercase">
+              I Build Your Tools. <br /> I Automate Your Work. <br />
+              <span className="text-blue-600">I Give You Time Back.</span>
             </h1>
-            <p className="text-xl text-slate-500 max-w-2xl font-medium italic mb-10 leading-relaxed">
-              Over 10 years of experience at <strong>Airloom AI, Amazon, AWS and Microsoft (Xbox, Blizzard)</strong> architecting autonomous systems to solve customer problems globally.
-            </p>
-
-            {/* Contextual Filters: In-line Navigation */}
-            <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-              <FilterButton label="Capabilities" active={activeFilter === 'capabilities'} icon={Cpu} onClick={() => setActiveFilter(activeFilter === 'capabilities' ? null : 'capabilities')} />
-              <FilterButton label="Impact Matrix" active={activeFilter === 'impact'} icon={Activity} onClick={() => setActiveFilter(activeFilter === 'impact' ? null : 'impact')} />
-              <FilterButton label="Case Study" active={activeFilter === 'casestudy'} icon={LayoutDashboard} onClick={() => setActiveFilter(activeFilter === 'casestudy' ? null : 'casestudy')} />
+            <div className="flex items-center justify-start gap-2 text-blue-600 font-black text-[10px] md:text-xs uppercase italic tracking-widest mb-8">
+               <Clock size={16} /> Strategy & Build Window: Post-3PM & Weekends
             </div>
+            <p className="text-xl md:text-2xl text-slate-500 max-w-3xl font-medium italic mb-10 leading-relaxed">
+              I help business owners stop doing manual, repetitive tasks by building smart systems that work while you sleep. Leveraging 10+ years of experience from <strong>Amazon and Microsoft</strong> to build professional tools for you.
+            </p>
+            <button onClick={() => openPortal()} className="bg-blue-600 text-white px-10 py-5 rounded-full text-lg font-black hover:scale-105 transition-all shadow-xl italic uppercase">Start My Build</button>
           </div>
+          
+          <div className="relative order-1 md:order-2 group">
+            <div className="relative w-48 h-48 md:w-96 md:h-96 rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-2xl grayscale transition-all group-hover:grayscale-0">
+               <Image src="/headshot.jpeg" alt="Adam Seumae" fill className="object-cover" priority />
+            </div>
+            <a href="https://www.linkedin.com/in/adamseumae/" target="_blank" rel="noopener noreferrer" className="absolute bottom-4 left-4 p-3 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl text-blue-600 hover:scale-110 hover:text-blue-700 transition-all z-10 border border-slate-100">
+              <Linkedin size={24} />
+            </a>
+          </div>
+        </section>
+
+        {/* --- Simplified Triad --- */}
+        <section className="mb-32 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <TriadCard icon={LayoutDashboard} title="Websites & Apps" desc="I build tools that actually do work—like taking orders, managing clients, or showing your data." color="bg-blue-50 text-blue-600" />
+            <TriadCard icon={Server} title="Digital Machinery" desc="I set up the secure 'engine' behind your business. It’s fast, reliable, and built to grow with you." color="bg-slate-900 text-white" />
+            <TriadCard icon={Bot} title="AI Assistants" desc="I build custom AI that can read emails and update spreadsheets so you don't have to." color="bg-blue-600 text-white" />
+        </section>
+
+        {/* --- What You'll Get --- */}
+        <section className="bg-slate-950 rounded-[4rem] p-12 md:p-24 text-white mb-32 shadow-2xl">
+          <h2 className="text-4xl md:text-7xl font-black italic mb-20 uppercase tracking-tighter underline decoration-blue-600 underline-offset-[12px]">What You&apos;ll Get:</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <GetItem num="01" title="The Efficiency Map" desc="We find exactly where you are wasting hours every week on 'busy work'." />
+            <GetItem num="02" title="Your Custom Tool" desc="A custom-built digital assistant designed to handle your specific daily tasks." />
+            <GetItem num="03" title="Growth System" desc="An easy-to-use tool that lets you manage more customers with significantly less effort." />
+          </div>
+        </section>
+
+        {/* --- Proof Section --- */}
+        <div className="space-y-12 mb-32">
+          <ServicePillarCard pillar="Professional Quality" pitch="&quot;Business-grade tools that don't break.&quot;" proof="Pedigree" proofDetail="I've managed systems for world-famous brands like Call of Duty." tech="Speed: Modern, fast-loading interfaces." scale="Reliability: Built with the same rigor used at Microsoft." icon={Code2} />
+          <ServicePillarCard pillar="Proven Results" pitch="&quot;Turning messy processes into simple savings.&quot;" proof="Direct Impact" proofDetail="At AWS, I built tools that saved millions of dollars for the organization." tech="Security: Keeping your business data private and safe." scale="Global: Experience managing tools across 15 countries." icon={Database} />
         </div>
 
-        {/* Dynamic In-line Content */}
-        <div className="relative overflow-hidden">
-          <AnimatePresence mode="wait">
-            {activeFilter === 'capabilities' && (
-              <motion.div key="capabilities" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.5 }} className="pt-12">
-                <div className="bg-slate-900 rounded-[3rem] p-10 md:p-16 text-white border border-slate-800 shadow-2xl flex flex-col lg:flex-row items-center gap-12 overflow-hidden">
-                  <div className="flex-1">
-                    <h3 className="text-blue-400 font-mono text-sm mb-6 uppercase tracking-widest font-bold">// Technical Proof</h3>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-8 italic">Agentic Engine Design</h2>
-                    <p className="text-slate-400 text-xl leading-relaxed mb-10 font-light italic">
-                      I build autonomous systems that **Ingest** complex datasets, **Synthesize** intent, and **Execute** multi-step objectives without constant human supervision. 
-                    </p>
-                    <div className="flex flex-wrap gap-3 font-mono text-[10px] uppercase font-bold tracking-widest">
-                      {['React.js', 'OpenAI API', 'Vercel', 'Firebase'].map(t => <span key={t} className="px-4 py-1.5 bg-slate-800 rounded-lg border border-slate-700 text-blue-300">{t}</span>)}
-                    </div>
-                  </div>
-                  <Cpu size={140} className="text-blue-500 opacity-20 animate-pulse hidden lg:block" />
-                </div>
-              </motion.div>
-            )}
-
-            {activeFilter === 'impact' && (
-              <motion.div key="impact" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.5 }} className="pt-12 text-center overflow-hidden">
-                <h2 className="text-3xl font-bold mb-12 italic underline decoration-blue-500 decoration-2 underline-offset-8 text-slate-900">Global Impact Matrix</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                  <OutcomeCard icon={Zap} title="Efficiency" sub="Battle.net Handheld" />
-                  <OutcomeCard icon={ShieldCheck} title="Velocity" sub="Airloom AI MVP Strategy" />
-                  <OutcomeCard icon={BarChart3} title="Scale" sub="$6M AWS Cost Avoidance" />
-                  <OutcomeCard icon={Globe} title="Growth" sub="80% Alexa Ad Coverage" />
-                  <OutcomeCard icon={Activity} title="Automation" sub="15 Locales Benchmarked" />
-                  <OutcomeCard icon={Map} title="Expansion" sub="Alexa Americas Preview" />
-                </div>
-                <div className="max-w-4xl mx-auto space-y-6 text-left">
-                  <ExperienceCard company="Blizzard Entertainment" role="Product Manager, Battle.net" date="2025-Present" bullets={["Strategy Owner for Video UX across WoW, CoD, and Overwatch.", "Shipped gamepad support for Xbox handheld devices on-time."]} isCurrent={true} />
-                  <ExperienceCard company="Amazon, AWS & Alexa" role="Product & Program Management" date="2017-2024" bullets={["AWS: Avoided $6M in software costs via strategic 3P migration.", "Alexa Ads: Improved domain CTR from 1.2% to 1.8% in Q1."]} />
-                </div>
-              </motion.div>
-            )}
-
-            {activeFilter === 'casestudy' && (
-              <motion.div key="casestudy" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.5 }} className="pt-12 overflow-hidden">
-                <h2 className="text-4xl font-extrabold mb-8 italic text-slate-900">LILO OS Case Study</h2>
-                <p className="text-lg text-slate-500 mb-12 font-light italic">Applying enterprise rigor to household operations.</p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {['lilologin.png', 'lilo-triage-admin.png', 'lilo-blocking-issue.png', 'lilo-employee-view.jpeg', 'lilo-employee-scorecard.png', 'lilo-dashboard-admin.png'].map((img, i) => (
-                    <div key={i} className="group rounded-3xl overflow-hidden border border-slate-100 shadow-sm transition-all hover:border-blue-200 bg-slate-50">
-                      <div className="relative h-64"><Image src={`/${img}`} alt="Case Study" fill className="object-cover opacity-90 group-hover:scale-105 transition-transform" /></div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {activeFilter === 'intake' && (
-              <motion.div key="intake" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.5 }} className="pt-12 max-w-4xl mx-auto overflow-hidden">
-                <div className="text-center mb-12">
-                  <h2 className="text-4xl font-extrabold italic text-slate-900">Project Intake</h2>
-                  <p className="text-slate-500 italic font-light">Define your use case to begin the architecture process.</p>
-                </div>
-                <form className="space-y-6 bg-white p-10 rounded-[3rem] shadow-2xl border border-slate-100">
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <Input label="FULL NAME" value={formData.name} placeholder="e.g. John Smith" onChange={(v:string) => setFormData({...formData, name:v})} />
-                      <Input label="EMAIL ADDRESS" value={formData.email} placeholder="john.smith@company.com" onChange={(v:string) => setFormData({...formData, email:v})} />
-                   </div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <Input label="COMPANY" value={formData.company} placeholder="Company Name" onChange={(v:string) => setFormData({...formData, company:v})} />
-                      <Input label="PHONE / TEXT" value={formData.phone} placeholder="(555) 000-0000" onChange={(v:string) => setFormData({...formData, phone:v})} />
-                   </div>
-                   <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 flex gap-2 items-center"><Database size={12} /> OPPORTUNITY DESCRIPTION</label>
-                      <textarea className="w-full px-8 py-4 bg-slate-50 rounded-3xl border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all resize-none font-light italic" value={formData.description} rows={4} placeholder="Describe the manual workflow or process you want to automate..." onChange={(e) => setFormData({...formData, description:e.target.value})} />
-                   </div>
-                   <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 flex gap-2 items-center"><Target size={12} /> DESIRED OUTCOME</label>
-                      <textarea className="w-full px-8 py-4 bg-slate-50 rounded-3xl border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all resize-none font-light italic" value={formData.outcome} rows={3} placeholder="What is the project goal or autonomous outcome you want to achieve?" onChange={(e) => setFormData({...formData, outcome:e.target.value})} />
-                   </div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 flex gap-2"><Clock size={12} /> TIMELINE</label>
-                        <select className="w-full px-8 py-4 bg-slate-50 rounded-3xl border border-transparent outline-none appearance-none cursor-pointer" value={formData.timeline} onChange={(e) => setFormData({...formData, timeline:e.target.value})}>
-                          <option>ASAP (Urgent Friction)</option>
-                          <option>1-3 Months (Strategic MVP)</option>
-                          <option>Exploring / Discovery</option>
-                        </select>
-                      </div>
-                      <Input label="BUDGET RANGE (OPTIONAL)" value={formData.budget} placeholder="e.g. $1 - $50k" color="text-blue-500" onChange={(v:string) => setFormData({...formData, budget:v})} />
-                   </div>
-                   <button type="button" onClick={handleSendEmail} className="w-full bg-slate-900 text-white font-bold py-6 rounded-3xl hover:bg-blue-600 transition-all flex items-center justify-center gap-3 shadow-xl">
-                      Send Strategy Request <Send size={20} />
-                   </button>
-                </form>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+        {/* --- Bottom CTA: Non-Tech --- */}
+        <section className="bg-blue-600 rounded-[3rem] p-12 md:p-20 text-center text-white mb-24 shadow-2xl">
+          <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">Free 15-Minute Audit</h2>
+          <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
+            Let&apos;s chat about your business goals and find one repetitive task we can automate this week. No technical knowledge required.
+          </p>
+          <button onClick={() => openPortal('Strategy Talk')} className="bg-white text-blue-600 px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl italic uppercase inline-flex items-center gap-4">
+            Book My Audit <ArrowRight size={24} />
+          </button>
+        </section>
       </main>
 
-      <footer className="py-12 text-center border-t border-slate-50 italic text-slate-900 bg-slate-50/50">
-        <p className="text-slate-300 text-[10px] font-medium uppercase tracking-[0.5em] mb-4 italic">Adam Seumae | Fractional AI Leadership | 2026</p>
-      </footer>
+      {/* --- Handshake Portal Modal --- */}
+      <AnimatePresence mode="wait">
+        {activeFilter && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto">
+            <div className="max-w-4xl mx-auto py-12 md:py-20 relative text-left text-slate-900">
+              <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all text-slate-900"><X size={24} /></button>
+              
+              {activeFilter === 'intake' ? (
+                <div>
+                  <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase tracking-tighter">Business Intake</h2>
+                  <form className="space-y-8 md:space-y-12">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                        <div className="space-y-3 md:col-span-2 relative">
+                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">I need help with...</label>
+                           <div className="relative group">
+                             <select className={`${inputClasses} cursor-pointer`} value={formData.projectType} onChange={(e) => setFormData({...formData, projectType: e.target.value})}>
+                               <option value="" disabled>Select an option</option>
+                               <option value="Saving time on daily tasks">Saving time on daily tasks</option>
+                               <option value="Building a custom tool">Building a custom tool</option>
+                               <option value="Building a professional website">Building a professional website</option>
+                               <option value="Organizing my data">Organizing my data</option>
+                               <option value="AI Strategy talk">Just a strategy talk</option>
+                             </select>
+                             <ChevronDown className="absolute right-0 bottom-4 text-slate-400 pointer-events-none" size={24} />
+                           </div>
+                        </div>
+                        <div className="space-y-3">
+                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Full Name</label>
+                           <input className={inputClasses} placeholder="Name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
+                        </div>
+                        <div className="space-y-3">
+                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Best Email</label>
+                           <input className={inputClasses} placeholder="Email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                        </div>
+                        <div className="space-y-3 md:col-span-2">
+                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600 italic">Project Budget (Optional)</label>
+                           <input className={inputClasses} placeholder="e.g. $750" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+                        </div>
+                     </div>
+                     <div className="space-y-3 md:col-span-2">
+                        <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Main Goal</label>
+                        <textarea ref={outcomeRef} className={`${inputClasses} resize-none overflow-hidden`} rows={1} placeholder={outcomePlaceholder} value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
+                     </div>
+                     <div className="space-y-3 md:col-span-2">
+                        <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Current Bottleneck</label>
+                        <textarea ref={bottleneckRef} className={`${inputClasses} resize-none overflow-hidden`} rows={3} placeholder={bottleneckPlaceholder} value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} />
+                     </div>
+                    <button type="button" onClick={handleInitialSubmit} disabled={isSubmitting} className="w-full bg-blue-600 text-white py-6 md:py-8 rounded-2xl md:rounded-[2rem] text-xl md:text-3xl font-black italic uppercase shadow-2xl hover:scale-[1.02] transition-all flex items-center justify-center gap-4">
+                      {isSubmitting ? "Generating Plan..." : "Generate Business Blueprint"} <ArrowRight size={32} />
+                    </button>
+                  </form>
+                </div>
+              ) : (
+                <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="space-y-12 text-left">
+                  <div className="bg-slate-900 text-white p-8 md:p-12 rounded-[3rem] shadow-2xl border-4 border-blue-600 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-8 opacity-10"><FileText size={120} /></div>
+                    <h2 className="text-sm font-black uppercase tracking-[0.5em] text-blue-400 mb-8 italic">Your Business Blueprint</h2>
+                    <div className="space-y-8 relative z-10">
+                      <div>
+                        <p className="text-xs font-black uppercase text-slate-500 tracking-widest mb-1">Business Owner</p>
+                        <p className="text-3xl font-black italic uppercase text-white">{formData.name}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-black uppercase text-slate-500 tracking-widest mb-1">Project Intent & Budget</p>
+                        <p className="text-xl font-bold italic text-blue-400 uppercase tracking-tighter">{formData.projectType} • {formData.budget || 'To Be Discussed'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-black uppercase text-slate-500 tracking-widest mb-1">Target Bottleneck</p>
+                        <p className="text-xl font-medium italic text-slate-300 leading-relaxed">&quot;{formData.description}&quot;</p>
+                      </div>
+                      <div className="pt-6 border-t border-slate-800 flex items-center gap-2 text-blue-400 font-bold italic">
+                        <Zap size={18} /> Ready to Simplify Your Work
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-6 text-slate-900">
+                    <h3 className="text-2xl font-black italic uppercase tracking-tight">Schedule Your Blueprint Review</h3>
+                    <div className="flex flex-col md:flex-row gap-4">
+                      <a href={generateCalendlyUrl()} target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-10 py-6 rounded-full text-2xl font-black italic uppercase hover:bg-blue-700 transition-all flex items-center justify-center gap-4 shadow-xl">
+                        <CheckCircle size={28} /> Confirm & Book <Calendar size={24} />
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-// --- Specialized UI Components ---
-
-function FilterButton({ label, active, icon: Icon, onClick }: any) {
+// --- Visual Sub-Components ---
+function TriadCard({ icon: Icon, title, desc, color }: TriadCardProps) {
   return (
-    <button 
-      onClick={onClick}
-      className={`px-8 py-3 rounded-full flex items-center gap-3 font-bold transition-all duration-300 border shadow-sm ${
-        active 
-          ? 'bg-slate-900 text-white border-slate-900 scale-105 shadow-xl' 
-          : 'bg-white text-slate-500 border-slate-200 hover:border-blue-200 opacity-60 grayscale hover:opacity-100 hover:grayscale-0'
-      }`}
-    >
-      <Icon size={18} /> {label}
-    </button>
-  );
-}
-
-function Input({ label, placeholder, value, onChange, color = "text-slate-400" }: any) {
-  return (
-    <div className="space-y-2 text-left">
-      <label className={`text-[10px] font-black uppercase tracking-widest ${color} ml-4`}>{label}</label>
-      <input type="text" placeholder={placeholder} value={value} className="w-full px-8 py-4 bg-slate-50 rounded-3xl border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all font-light italic" onChange={(e) => onChange(e.target.value)} />
+    <div className={`p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] ${color} space-y-4 md:space-y-6 shadow-xl text-left`}>
+      <Icon size={32} />
+      <h3 className="text-xl md:text-2xl font-black italic uppercase tracking-tighter leading-tight">{title}</h3>
+      <p className="text-sm md:text-base font-medium leading-relaxed opacity-90">{desc}</p>
     </div>
   );
 }
 
-function OutcomeCard({ icon: Icon, title, sub }: any) {
+function GetItem({ num, title, desc }: { num: string; title: string; desc: string }) {
   return (
-    <div className="p-8 bg-white rounded-[2rem] border border-slate-100 flex flex-col items-center shadow-sm">
-      <div className="text-blue-600 mb-4"><Icon size={32} /></div>
-      <h4 className="font-bold text-slate-900 italic text-sm tracking-tight">{title}</h4>
-      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-2">{sub}</p>
+    <div className="space-y-6 text-left">
+      <span className="text-blue-600 font-black text-6xl italic opacity-50">{num}</span>
+      <h3 className="text-4xl font-black italic uppercase tracking-tighter text-white">{title}</h3>
+      <p className="text-xl text-slate-400 font-medium italic leading-relaxed">{desc}</p>
     </div>
   );
 }
 
-function ExperienceCard({ company, role, date, bullets, isCurrent }: any) {
+function ServicePillarCard({ pillar, pitch, proof, proofDetail, tech, scale, icon: Icon }: ServicePillarCardProps) {
   return (
-    <div className={`p-8 rounded-[2rem] border transition-all duration-500 bg-white ${isCurrent ? 'border-blue-200 shadow-md ring-1 ring-blue-50' : 'border-slate-50'}`}>
-      <div className="flex flex-col md:flex-row justify-between items-start mb-6 gap-2">
-        <div>
-          <h4 className="font-bold text-xl italic text-slate-900">{company}</h4>
-          <p className="text-blue-600 font-bold text-sm italic">{role}</p>
+    <div className="bg-slate-50 rounded-[3rem] p-10 md:p-16 flex flex-col lg:flex-row gap-16 items-center shadow-sm border border-slate-100 hover:shadow-xl transition-all group text-left">
+      <div className="flex-1 space-y-8">
+        <h4 className="text-blue-600 font-black text-xs uppercase tracking-[0.3em] italic">{pillar}</h4>
+        <h3 className="text-4xl md:text-5xl font-black italic leading-[1.1] text-slate-900">{pitch}</h3>
+        <div className="space-y-4 text-slate-900">
+          <div className="flex items-center gap-3">
+             <span className="bg-blue-600 text-white px-3 py-1 rounded font-black text-[10px] uppercase italic">Proven Record</span>
+             <span className="font-black italic uppercase tracking-tight text-slate-900">{proof}</span>
+          </div>
+          <p className="text-lg text-slate-500 italic font-medium">{proofDetail}</p>
         </div>
-        <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest bg-slate-50 px-3 py-1 rounded-full border border-slate-100">{date}</span>
+        <div className="pt-6 border-t border-slate-200 space-y-4">
+           <p className="text-sm font-black uppercase text-slate-400 italic tracking-widest">How It Helps You</p>
+           <div className="flex gap-3 text-slate-700 font-bold italic"><Workflow size={20} className="text-blue-600 shrink-0" /> {tech}</div>
+           <div className="flex gap-3 text-slate-700 font-bold italic"><ShieldCheck size={20} className="text-blue-600 shrink-0" /> {scale}</div>
+        </div>
       </div>
-      <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
-        {bullets.map((b: string, i: number) => (
-          <li key={i} className="text-sm text-slate-500 font-light italic flex gap-3 leading-relaxed">
-            <span className="text-blue-400 font-black shrink-0 mt-0.5 tracking-tighter">///</span> {b}
-          </li>
-        ))}
-      </ul>
+      <div className="relative w-full lg:w-[400px] aspect-square rounded-[2rem] bg-slate-950 flex items-center justify-center overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform">
+         <Icon size={120} className="text-blue-600 opacity-40" />
+      </div>
     </div>
   );
 }
