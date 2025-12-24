@@ -133,26 +133,26 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
         <section className="bg-slate-950 rounded-[4rem] p-12 md:p-24 text-white mb-32 shadow-2xl">
           <h2 className="text-4xl md:text-7xl font-black italic mb-20 uppercase tracking-tighter underline decoration-blue-600 underline-offset-[12px]">What You&apos;ll Get:</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-            <GetItem num="01" title="The Efficiency Map" desc="We find exactly where you are wasting hours every week on 'busy work'." />
-            <GetItem num="02" title="Your Custom Tool" desc="A custom-built digital assistant designed to handle your specific daily tasks." />
-            <GetItem num="03" title="Growth System" desc="An easy-to-use tool that lets you manage more customers with significantly less effort." />
+            <GetItem num="01" title="The Efficiency Map" desc="We will clearly define the problem > design a solution > align on the project scope." />
+            <GetItem num="02" title="Your Digital Product" desc="A custom-built digital product designed to solve your use case." />
+            <GetItem num="03" title="Outcome" desc="An easy-to-use product that lets you spend your time solving the other opportunitiy areas." />
           </div>
         </section>
 
         {/* --- Proof Section --- */}
         <div className="space-y-12 mb-32">
-          <ServicePillarCard pillar="Professional Quality" pitch="&quot;Business-grade tools that don't break.&quot;" proof="Pedigree" proofDetail="I've managed systems for world-famous brands like Call of Duty." tech="Speed: Modern, fast-loading interfaces." scale="Reliability: Built with the same rigor used at Microsoft." icon={Code2} />
-          <ServicePillarCard pillar="Proven Results" pitch="&quot;Turning messy processes into simple savings.&quot;" proof="Direct Impact" proofDetail="At AWS, I built tools that saved millions of dollars for the organization." tech="Security: Keeping your business data private and safe." scale="Global: Experience managing tools across 15 countries." icon={Database} />
+          <ServicePillarCard pillar="Experience" pitch="&quot;Building business-grade tools for top tech companies globally.&quot;" proof="Pedigree" proofDetail="I've managed systems for global brands like Alexa, AWS, Xbox, Procter & Gamble, Blizzard." tech="Speed: Modern tech, speed to market." scale="Reliability: Built with the same rigor used with every company and brand that I have worked with." icon={Code2} />
+          <ServicePillarCard pillar="Proven Results" pitch="&quot;Turning messy processes into simple savings.&quot;" proof="Direct Impact" proofDetail="At AWS, my team built the internal Revenue Operations Sales tooling, saving the business millions in 3rd party contract renewals." tech="Security: Keeping your business data private and safe." scale="Global: AWS Worldwide Sales adoption." icon={Database} />
         </div>
 
         {/* --- Bottom CTA: Non-Tech --- */}
         <section className="bg-blue-600 rounded-[3rem] p-12 md:p-20 text-center text-white mb-24 shadow-2xl">
           <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">Free 15-Minute Audit</h2>
           <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
-            Let&apos;s chat about your business goals and find one repetitive task we can automate this week. No technical knowledge required.
+            Let&apos;s chat about your business goals or use case and find one repetitive task we could automate this week. No technical knowledge required.
           </p>
           <button onClick={() => openPortal('Strategy Talk')} className="bg-white text-blue-600 px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl italic uppercase inline-flex items-center gap-4">
-            Book My Audit <ArrowRight size={24} />
+            Book a Meeting <ArrowRight size={24} />
           </button>
         </section>
       </main>
