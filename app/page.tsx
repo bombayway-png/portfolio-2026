@@ -38,8 +38,8 @@ export default function Home() {
   const outcomeRef = useRef<HTMLTextAreaElement>(null);
   const bottleneckRef = useRef<HTMLTextAreaElement>(null);
 
-  const outcomePlaceholder = "Clearly define the goal as best as you can today. This will evolve, but a starting point ignites inspiration";
-  const bottleneckPlaceholder = "e.g. High manual overhead in lead management, legacy system technical debt, or a lack of real-time BI dashboards to track cross-functional KPIs...";
+  const outcomePlaceholder = "Clearly define the goal as best as you can today...";
+  const bottleneckPlaceholder = "e.g. High manual overhead in lead management, legacy system technical debt...";
 
   const openPortal = (defaultType: string = '') => {
     setFormData(prev => ({ ...prev, projectType: defaultType }));
@@ -55,13 +55,20 @@ export default function Home() {
     });
   }, [formData.outcome, formData.description, activeFilter]);
 
+  // --- Deep Ingestion Handshake ---
   const generateCalendlyUrl = () => {
-    const baseUrl = "https://calendly.com/adamseumae/architecture-discovery";
+    const fullBriefing = `
+PROJECT: ${formData.projectType}
+OUTCOME: ${formData.outcome}
+BOTTLENECK: ${formData.description}
+BUDGET: ${formData.budget || 'Not specified'}
+    `.trim();
+
+    const baseUrl = "https://calendly.com/adamseumae/discovery-session";
     const params = new URLSearchParams({
       name: formData.name,
       email: formData.email,
-      'a1': formData.projectType, 
-      'a2': `OUTCOME: ${formData.outcome}\n\nBOTTLENECK: ${formData.description}\n\nBUDGET: ${formData.budget || 'Optional'}`
+      'a1': fullBriefing // Bundled for invite notes visibility
     });
     return `${baseUrl}?${params.toString()}`;
   };
@@ -77,21 +84,20 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden text-left">
-      {/* --- Sticky Navigation --- */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center px-4 md:px-8">
         <div className="max-w-7xl mx-auto w-full flex justify-between items-center text-slate-900">
           <div className="flex items-center gap-2 font-black italic uppercase">
             <div className="w-8 h-8 md:w-9 md:h-9 bg-slate-900 rounded-lg flex items-center justify-center text-white text-[10px] md:text-xs">AS</div>
             <span className="text-xs md:text-base tracking-tighter">AI Product Architect</span>
           </div>
-          <button onClick={() => openPortal()} className="bg-blue-600 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-[10px] md:text-sm uppercase italic hover:bg-blue-700 transition-all">Get Started</button>
+          <button onClick={() => openPortal()} className="bg-blue-600 text-white px-6 py-2 rounded-full font-bold text-[10px] md:text-sm uppercase italic hover:bg-blue-700 transition-all">Get Started</button>
         </div>
       </nav>
 
       <main className="max-w-7xl mx-auto px-6 pt-40 pb-24 text-slate-900">
         {/* --- Hero Section --- */}
         <section className="flex flex-col md:flex-row gap-16 items-center mb-32">
-          <div className="flex-1 order-2 md:order-1">
+          <div className="flex-1 order-2 md:order-1 text-slate-900">
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-8 italic uppercase">
               I Architect Apps. <br /> I Build Backends. <br />
               <span className="text-blue-600">I Deploy AI Agents.</span>
@@ -104,7 +110,6 @@ export default function Home() {
             </p>
             <button onClick={() => openPortal()} className="bg-blue-600 text-white px-10 py-5 rounded-full text-lg font-black hover:scale-105 transition-all shadow-xl italic uppercase">Start Building</button>
           </div>
-          
           <div className="relative order-1 md:order-2 group">
             <div className="relative w-48 h-48 md:w-96 md:h-96 rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-2xl grayscale transition-all group-hover:grayscale-0">
                <Image src="/headshot.jpeg" alt="Adam Seumae" fill className="object-cover" priority />
@@ -122,7 +127,7 @@ export default function Home() {
             <TriadCard icon={Bot} title="Agentic Intelligence" desc="Deploy autonomous agents using React and real-time OpenAI." color="bg-blue-600 text-white" />
         </section>
 
-        {/* --- What You'll Get (Renders GetItem) --- */}
+        {/* --- Rendered "What You'll Get" --- */}
         <section className="bg-slate-950 rounded-[4rem] p-12 md:p-24 text-white mb-32 shadow-2xl">
           <h2 className="text-4xl md:text-7xl font-black italic mb-20 uppercase tracking-tighter underline decoration-blue-600 underline-offset-[12px]">What You&apos;ll Get:</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
@@ -134,35 +139,32 @@ export default function Home() {
 
         {/* --- Service Pillars --- */}
         <div className="space-y-12 mb-32">
-          <ServicePillarCard pillar="Pillar 1: App Development" pitch="&quot;I engineer reactive, high-performance frontends.&quot;" proof="Feature Owner @ Blizzard" proofDetail="Delivered gamepad support for battle.net on Xbox." tech="Real-Time: Firebase state synchronization." scale="Ownership of high-traffic UX for Call of Duty." icon={Code2} />
-          <ServicePillarCard pillar="Pillar 2: Backend & AI" pitch="&quot;I build the Central Nervous System of your business.&quot;" proof="Ops Excellence @ AWS" proofDetail="Engineered solutions saving $6M in renewals." tech="Security: Zero-trust serverless backend logic." scale="Benchmarking automation across 15 international locales." icon={Database} />
+          <ServicePillarCard pillar="Pillar 1: App Development" pitch="&quot;I engineer reactive, high-performance frontends.&quot;" proof="Feature Owner @ Blizzard" proofDetail="Delivered gamepad support for battle.net on Xbox." tech="Real-Time: Firebase synchronization." scale="UX for Call of Duty." icon={Code2} />
+          <ServicePillarCard pillar="Pillar 2: Backend & AI" pitch="&quot;I build the Central Nervous System of your business.&quot;" proof="Ops Excellence @ AWS" proofDetail="Engineered solutions saving $6M in renewals." tech="Security: Zero-trust serverless." scale="Automation for 15 locales." icon={Database} />
         </div>
 
-        {/* --- Human-in-the-Loop CTA --- */}
+        {/* --- Bottom CTA --- */}
         <section className="bg-blue-600 rounded-[3rem] p-12 md:p-20 text-center text-white mb-24 shadow-2xl">
           <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">Free &quot;Human-in-the-Loop&quot; Audit</h2>
-          <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
-            Let&apos;s find some time and chat <strong>Agentic AI</strong>, <strong>Building Custom Applications</strong>, and <strong>Updating your Personal or Business Website</strong>.
-          </p>
           <button onClick={() => openPortal('AI Strategy Consult')} className="bg-white text-blue-600 px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl italic uppercase inline-flex items-center gap-4">
             Schedule a Call <ArrowRight size={24} />
           </button>
         </section>
       </main>
 
-      {/* --- Unified Portal Modal --- */}
+      {/* --- Handshake Portal Modal --- */}
       <AnimatePresence mode="wait">
         {activeFilter && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto py-12 md:py-20 relative text-left text-slate-900">
-              <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={24} /></button>
+              <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all text-slate-900"><X size={24} /></button>
               
               {activeFilter === 'intake' ? (
                 <div>
                   <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase tracking-tighter">customer intake</h2>
                   <form className="space-y-8 md:space-y-12">
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                        <div className="space-y-3 md:col-span-2 relative">
+                        <div className="space-y-3 md:col-span-2 relative text-slate-900">
                            <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">I am interested in...</label>
                            <div className="relative group">
                              <select className={`${inputClasses} cursor-pointer`} value={formData.projectType} onChange={(e) => setFormData({...formData, projectType: e.target.value})}>
@@ -182,20 +184,19 @@ export default function Home() {
                            <input className={inputClasses} placeholder="Name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
                         </div>
                         <div className="space-y-3">
-                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Email Address</label>
+                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Business Email</label>
                            <input className={inputClasses} placeholder="Email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
                         </div>
-                        {/* UPDATED OPTIONAL BUDGET INPUT */}
-                        <div className="space-y-3 md:col-span-2">
+                        <div className="space-y-3 md:col-span-2 text-slate-900">
                            <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600 italic">Project Budget (Optional)</label>
                            <input className={inputClasses} placeholder="e.g. $750" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                         </div>
                      </div>
-                     <div className="space-y-3 md:col-span-2">
+                     <div className="space-y-3 md:col-span-2 text-slate-900">
                         <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Target Outcome</label>
                         <textarea ref={outcomeRef} className={`${inputClasses} resize-none overflow-hidden`} rows={1} placeholder={outcomePlaceholder} value={formData.outcome} onChange={(e) => setFormData({...formData, outcome: e.target.value})} />
                      </div>
-                     <div className="space-y-3 md:col-span-2">
+                     <div className="space-y-3 md:col-span-2 text-slate-900">
                         <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Technical Bottleneck</label>
                         <textarea ref={bottleneckRef} className={`${inputClasses} resize-none overflow-hidden`} rows={3} placeholder={bottleneckPlaceholder} value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} />
                      </div>
@@ -208,11 +209,11 @@ export default function Home() {
                 <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="space-y-12 text-left">
                   <div className="bg-slate-900 text-white p-8 md:p-12 rounded-[3rem] shadow-2xl border-4 border-blue-600 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-8 opacity-10"><FileText size={120} /></div>
-                    <h2 className="text-sm font-black uppercase tracking-[0.5em] text-blue-400 mb-8 italic">Architecture Briefing Card</h2>
-                    <div className="space-y-8 relative z-10">
+                    <h2 className="text-sm font-black uppercase tracking-[0.5em] text-blue-400 mb-8 italic text-blue-400">Architecture Briefing Card</h2>
+                    <div className="space-y-8 relative z-10 text-white">
                       <div>
                         <p className="text-xs font-black uppercase text-slate-500 tracking-widest mb-1">Architectural Lead</p>
-                        <p className="text-3xl font-black italic uppercase">{formData.name}</p>
+                        <p className="text-3xl font-black italic uppercase text-white">{formData.name}</p>
                       </div>
                       <div>
                         <p className="text-xs font-black uppercase text-slate-500 tracking-widest mb-1">Project Intent & Budget</p>
@@ -220,7 +221,7 @@ export default function Home() {
                       </div>
                       <div>
                         <p className="text-xs font-black uppercase text-slate-500 tracking-widest mb-1">Target Bottleneck</p>
-                        <p className="text-xl font-medium italic text-slate-300 leading-relaxed">&quot;{formData.description}&quot;</p>
+                        <p className="text-xl font-medium italic text-slate-300 leading-relaxed text-white">&quot;{formData.description}&quot;</p>
                       </div>
                       <div className="pt-6 border-t border-slate-800 flex items-center gap-2 text-blue-400 font-bold italic">
                         <Zap size={18} /> Ready for Agentic Synchronization
@@ -228,7 +229,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="space-y-6 text-slate-900">
-                    <h3 className="text-2xl font-black italic uppercase tracking-tight">Synchronize Discovery Session</h3>
+                    <h3 className="text-2xl font-black italic uppercase tracking-tight text-slate-900">Synchronize Discovery Session</h3>
                     <div className="flex flex-col md:flex-row gap-4">
                       <a href={generateCalendlyUrl()} target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-10 py-6 rounded-full text-2xl font-black italic uppercase hover:bg-blue-700 transition-all flex items-center justify-center gap-4 shadow-xl">
                         <CheckCircle size={28} /> Approve & Schedule <Calendar size={24} />
@@ -245,8 +246,7 @@ export default function Home() {
   );
 }
 
-// --- Visual Helpers ---
-
+// --- Visual Sub-Components ---
 function TriadCard({ icon: Icon, title, desc, color }: TriadCardProps) {
   return (
     <div className={`p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] ${color} space-y-4 md:space-y-6 shadow-xl text-left`}>
@@ -276,7 +276,7 @@ function ServicePillarCard({ pillar, pitch, proof, proofDetail, tech, scale, ico
         <div className="space-y-4 text-slate-900">
           <div className="flex items-center gap-3">
              <span className="bg-blue-600 text-white px-3 py-1 rounded font-black text-[10px] uppercase italic">The Proof</span>
-             <span className="font-black italic uppercase tracking-tight">{proof}</span>
+             <span className="font-black italic uppercase tracking-tight text-slate-900">{proof}</span>
           </div>
           <p className="text-lg text-slate-500 italic font-medium">{proofDetail}</p>
         </div>
@@ -287,7 +287,6 @@ function ServicePillarCard({ pillar, pitch, proof, proofDetail, tech, scale, ico
         </div>
       </div>
       <div className="relative w-full lg:w-[400px] aspect-square rounded-[2rem] bg-slate-950 flex items-center justify-center overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform">
-         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-600 to-transparent"></div>
          <Icon size={120} className="text-blue-600 opacity-40" />
       </div>
     </div>
