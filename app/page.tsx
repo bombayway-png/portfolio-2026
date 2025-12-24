@@ -4,13 +4,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ShieldCheck, X, Linkedin, Workflow, LayoutDashboard, 
-  Server, Bot, ChevronDown, Calendar, ArrowRight, FileText, Zap, Clock, Database, Code2
+  ShieldCheck, X, Linkedin, Workflow, 
+  ChevronDown, Calendar, FileText, Zap, Clock, Database, Code2
 } from 'lucide-react';
 
 type FilterState = 'intake' | 'review' | null;
 
-interface TriadProps { icon: React.ElementType; title: string; desc: string; color: string; }
+// --- Interface for Pillar Component ---
 interface ServicePillarProps {
   title: string; pitch: string; proofTitle: string; proofBody: React.ReactNode;
   capabilities: { title: string; desc: string }[];
@@ -81,7 +81,7 @@ export default function Home() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-6 md:px-12 pt-32 md:pt-48 pb-24 text-slate-900">
-        {/* --- Hero Section --- */}
+        {/* --- Hero Section with LinkedIn Anchor --- */}
         <section className="flex flex-col md:flex-row gap-12 md:gap-16 items-center mb-16 md:mb-24 text-center md:text-left">
           <div className="flex-1 order-2 md:order-1">
             <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-8 italic uppercase">
@@ -99,18 +99,15 @@ export default function Home() {
             </button>
           </div>
 
-          {/* --- Updated Headshot Container with LinkedIn Overlay --- */}
           <div className="relative order-1 md:order-2 group">
             <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-2xl grayscale transition-all group-hover:grayscale-0">
                <Image src="/headshot.jpeg" alt="Adam Seumae" fill className="object-cover" priority />
             </div>
-            {/* LinkedIn Overlay Button */}
             <a 
               href="https://www.linkedin.com/in/adamseumae/" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="absolute bottom-4 left-4 p-3 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl text-blue-600 hover:scale-110 hover:text-blue-700 transition-all z-10 border border-slate-100"
-              title="Verify Authority on LinkedIn"
             >
               <Linkedin size={24} />
             </a>
@@ -147,7 +144,7 @@ export default function Home() {
         />
       </main>
 
-      {/* --- Unified Portal Modal (Intake + Review) --- */}
+      {/* --- Handshake Portal Modal --- */}
       <AnimatePresence mode="wait">
         {activeFilter && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto">
@@ -159,7 +156,7 @@ export default function Home() {
                   <h2 className="text-4xl md:text-8xl font-black italic mb-8 md:mb-12 uppercase tracking-tighter">Customer Intake</h2>
                   <form className="space-y-8 md:space-y-12">
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                        <div className="space-y-3 md:col-span-2 relative">
+                        <div className="space-y-3 md:col-span-2 relative text-slate-900">
                            <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Interest</label>
                            <div className="relative group">
                              <select className={`${inputClasses} cursor-pointer`} value={formData.projectType} onChange={(e) => setFormData({...formData, projectType: e.target.value})}>
@@ -180,17 +177,18 @@ export default function Home() {
                            <input className={inputClasses} placeholder="Email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
                         </div>
                      </div>
-                     <div className="space-y-3 md:col-span-2">
+                     <div className="space-y-3 md:col-span-2 text-slate-900">
                         <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Bottleneck</label>
                         <textarea ref={bottleneckRef} className={`${inputClasses} resize-none overflow-hidden`} rows={3} placeholder="Describe the current friction..." value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} />
                      </div>
-                    <button type="button" onClick={handleInitialSubmit} disabled={isSubmitting} className="w-full bg-blue-600 text-white py-6 md:py-8 rounded-2xl md:rounded-[2rem] text-xl md:text-3xl font-black italic uppercase shadow-2xl hover:scale-[1.02] transition-all flex items-center justify-center gap-4">
+                    <button type="button" onClick={handleInitialSubmit} disabled={isSubmitting} className="w-full bg-blue-600 text-white py-6 md:py-8 rounded-2xl md:rounded-[2rem] text-xl md:text-3xl font-black italic uppercase shadow-2xl hover:scale-[1.02] transition-all">
                       {isSubmitting ? "Synthesizing Requirements..." : "Generate Briefing Card"}
                     </button>
                   </form>
                 </div>
               ) : (
                 <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-left space-y-12">
+                  {/* --- Technical Briefing Card --- */}
                   <div className="bg-slate-900 text-white p-8 md:p-12 rounded-[3rem] shadow-2xl border-4 border-blue-600 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-8 opacity-10"><FileText size={120} /></div>
                     <h2 className="text-sm font-black uppercase tracking-[0.5em] text-blue-400 mb-8 italic">Architecture Briefing Card</h2>
@@ -208,8 +206,8 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="space-y-6">
-                    <h3 className="text-2xl font-black italic uppercase tracking-tight text-slate-900">Synchronize Calendar</h3>
+                  <div className="space-y-6 text-slate-900">
+                    <h3 className="text-2xl font-black italic uppercase tracking-tight">Synchronize Calendar</h3>
                     <div className="flex flex-col md:flex-row gap-4">
                       <a href={generateCalendlyUrl()} target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-10 py-6 rounded-full text-2xl font-black italic uppercase hover:bg-blue-700 transition-all flex items-center justify-center gap-4 shadow-xl">
                         <Calendar size={28} /> Approve & Schedule
