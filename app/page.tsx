@@ -10,7 +10,7 @@ import {
 
 type FilterState = 'intake' | 'review' | null;
 
-// --- Defined Interfaces for Strict Type Safety ---
+// --- Strictly Typed Interfaces ---
 interface TriadCardProps {
   icon: React.ElementType;
   title: string;
@@ -61,7 +61,7 @@ export default function Home() {
       name: formData.name,
       email: formData.email,
       'a1': formData.projectType, 
-      'a2': `OUTCOME: ${formData.outcome}\n\nBOTTLENECK: ${formData.description}\n\nBUDGET: ${formData.budget}`
+      'a2': `OUTCOME: ${formData.outcome}\n\nBOTTLENECK: ${formData.description}\n\nBUDGET: ${formData.budget || 'Optional'}`
     });
     return `${baseUrl}?${params.toString()}`;
   };
@@ -76,7 +76,7 @@ export default function Home() {
   const inputClasses = "w-full text-xl md:text-2xl font-semibold text-slate-900 border-b-2 border-slate-200 focus:border-blue-600 outline-none py-3 bg-transparent placeholder:text-slate-400 transition-colors appearance-none cursor-text";
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden">
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden text-left">
       {/* --- Sticky Navigation --- */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center px-4 md:px-8">
         <div className="max-w-7xl mx-auto w-full flex justify-between items-center text-slate-900">
@@ -84,14 +84,14 @@ export default function Home() {
             <div className="w-8 h-8 md:w-9 md:h-9 bg-slate-900 rounded-lg flex items-center justify-center text-white text-[10px] md:text-xs">AS</div>
             <span className="text-xs md:text-base tracking-tighter">AI Product Architect</span>
           </div>
-          <button onClick={() => openPortal()} className="bg-blue-600 text-white px-6 py-2 rounded-full font-bold text-xs uppercase italic hover:bg-blue-700 transition-all">Get Started</button>
+          <button onClick={() => openPortal()} className="bg-blue-600 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-[10px] md:text-sm uppercase italic hover:bg-blue-700 transition-all">Get Started</button>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 pt-40 pb-24 text-slate-900 text-left">
+      <main className="max-w-7xl mx-auto px-6 pt-40 pb-24 text-slate-900">
         {/* --- Hero Section --- */}
         <section className="flex flex-col md:flex-row gap-16 items-center mb-32">
-          <div className="flex-1 order-2 md:order-1 text-slate-900">
+          <div className="flex-1 order-2 md:order-1">
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-8 italic uppercase">
               I Architect Apps. <br /> I Build Backends. <br />
               <span className="text-blue-600">I Deploy AI Agents.</span>
@@ -115,14 +115,14 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- Integration Triad Section --- */}
+        {/* --- Integration Triad --- */}
         <section className="mb-32 grid grid-cols-1 md:grid-cols-3 gap-8">
             <TriadCard icon={LayoutDashboard} title="UX Architecture" desc="Design scalable products from global consumption UX to AI interfaces." color="bg-blue-50 text-blue-600" />
             <TriadCard icon={Server} title="Core Infrastructure" desc="Architecting systems that eliminate legacy debt, forged at AWS." color="bg-slate-900 text-white" />
             <TriadCard icon={Bot} title="Agentic Intelligence" desc="Deploy autonomous agents using React and real-time OpenAI." color="bg-blue-600 text-white" />
         </section>
 
-        {/* --- WHAT YOU'LL GET (NOW RENDERING GetItem) --- */}
+        {/* --- What You'll Get (Renders GetItem) --- */}
         <section className="bg-slate-950 rounded-[4rem] p-12 md:p-24 text-white mb-32 shadow-2xl">
           <h2 className="text-4xl md:text-7xl font-black italic mb-20 uppercase tracking-tighter underline decoration-blue-600 underline-offset-[12px]">What You&apos;ll Get:</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
@@ -134,33 +134,28 @@ export default function Home() {
 
         {/* --- Service Pillars --- */}
         <div className="space-y-12 mb-32">
-          <ServicePillarCard 
-            pillar="Pillar 1: App Development"
-            pitch="&quot;I engineer reactive, high-performance frontends.&quot;"
-            proof="Feature Owner @ Blizzard"
-            proofDetail="Delivered gamepad support for battle.net on Xbox."
-            tech="Real-Time: Firebase state synchronization."
-            scale="Ownership of high-traffic UX for Call of Duty."
-            icon={Code2}
-          />
-          <ServicePillarCard 
-            pillar="Pillar 2: Backend & AI"
-            pitch="&quot;I build the Central Nervous System of your business.&quot;"
-            proof="Ops Excellence @ AWS"
-            proofDetail="Engineered solutions saving $6M in renewals."
-            tech="Security: Zero-trust serverless backend logic."
-            scale="Benchmarking automation across 15 international locales."
-            icon={Database}
-          />
+          <ServicePillarCard pillar="Pillar 1: App Development" pitch="&quot;I engineer reactive, high-performance frontends.&quot;" proof="Feature Owner @ Blizzard" proofDetail="Delivered gamepad support for battle.net on Xbox." tech="Real-Time: Firebase state synchronization." scale="Ownership of high-traffic UX for Call of Duty." icon={Code2} />
+          <ServicePillarCard pillar="Pillar 2: Backend & AI" pitch="&quot;I build the Central Nervous System of your business.&quot;" proof="Ops Excellence @ AWS" proofDetail="Engineered solutions saving $6M in renewals." tech="Security: Zero-trust serverless backend logic." scale="Benchmarking automation across 15 international locales." icon={Database} />
         </div>
+
+        {/* --- Human-in-the-Loop CTA --- */}
+        <section className="bg-blue-600 rounded-[3rem] p-12 md:p-20 text-center text-white mb-24 shadow-2xl">
+          <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">Free &quot;Human-in-the-Loop&quot; Audit</h2>
+          <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
+            Let&apos;s find some time and chat <strong>Agentic AI</strong>, <strong>Building Custom Applications</strong>, and <strong>Updating your Personal or Business Website</strong>.
+          </p>
+          <button onClick={() => openPortal('AI Strategy Consult')} className="bg-white text-blue-600 px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl italic uppercase inline-flex items-center gap-4">
+            Schedule a Call <ArrowRight size={24} />
+          </button>
+        </section>
       </main>
 
-      {/* --- Handshake Portal Modal --- */}
+      {/* --- Unified Portal Modal --- */}
       <AnimatePresence mode="wait">
         {activeFilter && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto py-12 md:py-20 relative text-left text-slate-900">
-              <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all text-slate-900"><X size={24} /></button>
+              <button onClick={() => setActiveFilter(null)} className="absolute top-0 right-0 p-3 md:p-4 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={24} /></button>
               
               {activeFilter === 'intake' ? (
                 <div>
@@ -169,13 +164,15 @@ export default function Home() {
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                         <div className="space-y-3 md:col-span-2 relative">
                            <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">I am interested in...</label>
-                           <div className="relative group text-slate-900">
+                           <div className="relative group">
                              <select className={`${inputClasses} cursor-pointer`} value={formData.projectType} onChange={(e) => setFormData({...formData, projectType: e.target.value})}>
                                <option value="" disabled>Select project type</option>
                                <option value="AI Strategy Consult">An AI Strategy Consult</option>
                                <option value="First AI Agent">Build your first AI Agent</option>
                                <option value="Multiple AI Agents">Build Multiple AI Autonomous Agents</option>
+                               <option value="Business Landing Page">Build a business landing page</option>
                                <option value="Multi-User App">Build a Multi-User Application</option>
+                               <option value="Data Synthesis">Data Synthesis: Visualization and Insights</option>
                              </select>
                              <ChevronDown className="absolute right-0 bottom-4 text-slate-400 pointer-events-none" size={24} />
                            </div>
@@ -188,17 +185,10 @@ export default function Home() {
                            <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600">Email Address</label>
                            <input className={inputClasses} placeholder="Email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
                         </div>
+                        {/* UPDATED OPTIONAL BUDGET INPUT */}
                         <div className="space-y-3 md:col-span-2">
-                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600 italic">Budget Range</label>
-                           <div className="relative group text-slate-900">
-                             <select className={`${inputClasses} cursor-pointer`} value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})}>
-                               <option value="" disabled>Select Range</option>
-                               <option value="5k-10k">$5k - $10k</option>
-                               <option value="10k-25k">$10k - $25k</option>
-                               <option value="25k+">$25k+</option>
-                             </select>
-                             <ChevronDown className="absolute right-0 bottom-4 text-slate-400" size={24} />
-                           </div>
+                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-blue-600 italic">Project Budget (Optional)</label>
+                           <input className={inputClasses} placeholder="e.g. $750" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                         </div>
                      </div>
                      <div className="space-y-3 md:col-span-2">
@@ -223,6 +213,10 @@ export default function Home() {
                       <div>
                         <p className="text-xs font-black uppercase text-slate-500 tracking-widest mb-1">Architectural Lead</p>
                         <p className="text-3xl font-black italic uppercase">{formData.name}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-black uppercase text-slate-500 tracking-widest mb-1">Project Intent & Budget</p>
+                        <p className="text-xl font-bold italic text-blue-400 uppercase tracking-tighter">{formData.projectType} • {formData.budget || 'Optional'}</p>
                       </div>
                       <div>
                         <p className="text-xs font-black uppercase text-slate-500 tracking-widest mb-1">Target Bottleneck</p>
@@ -251,7 +245,7 @@ export default function Home() {
   );
 }
 
-// --- Strictly Typed Visual Helpers ---
+// --- Visual Helpers ---
 
 function TriadCard({ icon: Icon, title, desc, color }: TriadCardProps) {
   return (
@@ -267,7 +261,7 @@ function GetItem({ num, title, desc }: { num: string; title: string; desc: strin
   return (
     <div className="space-y-6 text-left">
       <span className="text-blue-600 font-black text-6xl italic opacity-50">{num}</span>
-      <h3 className="text-4xl font-black italic uppercase tracking-tighter">{title}</h3>
+      <h3 className="text-4xl font-black italic uppercase tracking-tighter text-white">{title}</h3>
       <p className="text-xl text-slate-400 font-medium italic leading-relaxed">{desc}</p>
     </div>
   );
