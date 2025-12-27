@@ -8,6 +8,10 @@ import {
   Server, Bot, ChevronDown, CheckCircle, Calendar, ArrowRight, FileText, Zap, Clock
 } from 'lucide-react';
 
+// --- Firebase Ingestion Imports ---
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
 type FilterState = 'intake' | 'review' | null;
 
 // --- Strictly Typed Interfaces ---
@@ -73,11 +77,33 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
     return `${baseUrl}?${params.toString()}`;
   };
 
+  // --- Updated: Production-Ready Data Flow ---
   const handleInitialSubmit = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setActiveFilter('review');
+    
+    try {
+      // Save to Firestore: Capturing lead before they reach Calendly
+      await addDoc(collection(db, "architect_leads"), {
+        name: formData.name,
+        email: formData.email,
+        projectType: formData.projectType,
+        budget: formData.budget || 'Not specified',
+        goal: formData.outcome,
+        bottleneck: formData.description,
+        status: 'pending_booking',
+        createdAt: serverTimestamp() // Enterprise-grade tracking
+      });
+
+      // Maintain the "Synthesis" UX feel
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      setActiveFilter('review');
+    } catch (error) {
+      console.error("Lead Storage Error:", error);
+      // Fallback: Proceed to review even if storage fails so the user experience isn't blocked
+      setActiveFilter('review');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputClasses = "w-full text-xl md:text-2xl font-semibold text-slate-900 border-b-2 border-slate-200 focus:border-blue-600 outline-none py-3 bg-transparent placeholder:text-slate-400 transition-colors appearance-none cursor-text";
