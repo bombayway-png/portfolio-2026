@@ -11,8 +11,11 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase once to prevent "duplicate app" errors
+// Prevent "duplicate app" initialization errors during hot reloads
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+
+// Initialize Firestore
 const db = getFirestore(app);
 
+// Export 'db' so it can be imported in page.tsx
 export { db };
