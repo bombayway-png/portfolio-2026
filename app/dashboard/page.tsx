@@ -4,17 +4,27 @@ import React, { useEffect, useState } from 'react';
 import { db } from '@/lib/firebase';
 import { 
   collection, query, where, onSnapshot, orderBy, 
-  doc, updateDoc, serverTimestamp 
+  doc, updateDoc, serverTimestamp, Timestamp 
 } from 'firebase/firestore';
-import { Clock, DollarSign, User, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Clock, User, ArrowRight, CheckCircle2 } from 'lucide-react';
+
+// 1. ADDED INTERFACE TO REMOVE 'ANY' ERROR
+interface LiloTask {
+  id: string;
+  artifact_content: string;
+  contact_email: string;
+  description: string;
+  status: string;
+  timestamp: Timestamp;
+  uid: string;
+  orgId: string;
+}
 
 export default function LeadManager() {
-  const [leads, setLeads] = useState<any[]>([]);
+  const [leads, setLeads] = useState<LiloTask[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 1. REAL-TIME DATA FETCH
   useEffect(() => {
-    // Queries only your leads within your Org, sorted by newest first
     const q = query(
       collection(db, "lilo_tasks"),
       where("uid", "==", "5kbTnmiFdOQJUtonagrHovqb1sG3"),
@@ -26,7 +36,8 @@ export default function LeadManager() {
       const leadData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
-      }));
+      })) as LiloTask[];
+      
       setLeads(leadData);
       setLoading(false);
     });
@@ -34,7 +45,6 @@ export default function LeadManager() {
     return () => unsubscribe();
   }, []);
 
-  // 2. INTERACTIVE STATUS UPDATE
   const updateStatus = async (leadId: string, nextStatus: string) => {
     const leadRef = doc(db, "lilo_tasks", leadId);
     await updateDoc(leadRef, { 
@@ -58,7 +68,6 @@ export default function LeadManager() {
         </div>
       </header>
 
-      {/* LEAD GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {leads.map((lead) => (
           <div key={lead.id} className="bg-white rounded-3xl p-6 shadow-lg border border-slate-100 flex flex-col justify-between">
