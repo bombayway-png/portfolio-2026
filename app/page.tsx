@@ -77,12 +77,34 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
     return `${baseUrl}?${params.toString()}`;
   };
 
-  // --- Updated: Production-Ready Data Flow ---
+  // --- Production Data Flow: Unified Schema Update ---
   const handleInitialSubmit = async () => {
     setIsSubmitting(true);
     
     try {
-      // Save to Firestore: Capturing lead before they reach Calendly
+      // 1. PUSH TO LILO-OS (Cloud Run Engine)
+      const liloEndpoint = "https://calendlywebhook-hven7xzwra-uc.a.run.app";
+      const liloPayload = {
+        name: formData.name,
+        email: formData.email,
+        notes: `
+PROJECT: ${formData.projectType}
+GOAL: ${formData.outcome}
+BOTTLENECK: ${formData.description}
+BUDGET: ${formData.budget || 'To be discussed'}
+        `.trim(),
+        source: "Website_Direct_Intake"
+      };
+
+      // Standard 'cors' mode supported by updated backend
+      await fetch(liloEndpoint, {
+        method: "POST",
+        mode: "cors", 
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(liloPayload)
+      });
+
+      // 2. SAVE TO LOCAL FIRESTORE (Updated field name to 'timestamp')
       await addDoc(collection(db, "architect_leads"), {
         name: formData.name,
         email: formData.email,
@@ -91,15 +113,14 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
         goal: formData.outcome,
         bottleneck: formData.description,
         status: 'pending_booking',
-        createdAt: serverTimestamp() // Enterprise-grade tracking
+        timestamp: serverTimestamp() // Unified with LILO-OS dashboard field name
       });
 
       // Maintain the "Synthesis" UX feel
       await new Promise(resolve => setTimeout(resolve, 1500));
       setActiveFilter('review');
     } catch (error) {
-      console.error("Lead Storage Error:", error);
-      // Fallback: Proceed to review even if storage fails so the user experience isn't blocked
+      console.error("Submission Error:", error);
       setActiveFilter('review');
     } finally {
       setIsSubmitting(false);
@@ -110,7 +131,7 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 overflow-x-hidden text-left">
-      {/* --- Sticky Navigation --- */}
+      {/* Sticky Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center px-4 md:px-8">
         <div className="max-w-7xl mx-auto w-full flex justify-between items-center text-slate-900">
           <div className="flex items-center gap-2 font-black italic uppercase">
@@ -122,7 +143,7 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
       </nav>
 
       <main className="max-w-7xl mx-auto px-6 pt-40 pb-24 text-slate-900">
-        {/* --- Hero Section: Plain English --- */}
+        {/* Hero Section */}
         <section className="flex flex-col md:flex-row gap-16 items-center mb-32">
           <div className="flex-1 order-2 md:order-1 text-slate-900">
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-8 italic uppercase">
@@ -148,14 +169,14 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
           </div>
         </section>
 
-        {/* --- Simplified Triad --- */}
+        {/* Simplified Triad */}
         <section className="mb-32 grid grid-cols-1 md:grid-cols-3 gap-8">
             <TriadCard icon={LayoutDashboard} title="Websites & Apps" desc="Stop using websites that just look pretty. I build active business hubs that handle your customer bookings, manage your client files, and track your business numbers automatically. These tools act as a 24/7 digital manager for your front office." color="bg-blue-50 text-blue-600" />
             <TriadCard icon={Server} title="Digital Machinery" desc="I build the digital 'brain' that connects all your business software so they finally talk to each other. This secure engine automatically moves information between your tools, making sure your operations are fast, safe, and completely hands-off." color="bg-slate-900 text-white" />
-            <TriadCard icon={Bot} title="AI Assistants" desc="I build custom AI Agents to do things like categorize, label, read/write and review emails for quality and brand voice before sending. Also, update billing PDFs with an email change order from the field maximizing revenue granularly. The posibilities are endless, we just need to find the right fit for your use case." color="bg-blue-600 text-white" />
+            <TriadCard icon={Bot} title="AI Assistants" desc="I build custom AI Agents to do things like categorize, label, read/write and review emails for quality and brand voice before sending. Also, update billing PDFs with an email change order from the field maximizing revenue granularly." color="bg-blue-600 text-white" />
         </section>
 
-        {/* --- What You'll Get --- */}
+        {/* What You'll Get */}
         <section className="bg-slate-950 rounded-[4rem] p-12 md:p-24 text-white mb-32 shadow-2xl">
           <h2 className="text-4xl md:text-7xl font-black italic mb-20 uppercase tracking-tighter underline decoration-blue-600 underline-offset-[12px]">What You&apos;ll Get:</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
@@ -165,17 +186,17 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
           </div>
         </section>
 
-        {/* --- Proof Section --- */}
+        {/* Proof Section */}
         <div className="space-y-12 mb-32">
-          <ServicePillarCard pillar="Experience" pitch="&quot;Building business-grade tools for top tech companies globally.&quot;" proof="Pedigree" proofDetail="I've managed systems for global brands like Alexa, AWS, Xbox, Procter & Gamble, Blizzard." tech="Speed: Modern tech, speed to market." scale="Reliability: Built with the same rigor used with every company and brand that I have worked with." icon={Code2} />
-          <ServicePillarCard pillar="Proven Results" pitch="&quot;Turning messy processes into simple savings.&quot;" proof="Direct Impact" proofDetail="At AWS, my team built the internal Revenue Operations Sales tooling, saving the business millions in 3rd party contract renewals." tech="Security: Keeping your business data private and safe." scale="Global: AWS Worldwide Sales adoption." icon={Database} />
+          <ServicePillarCard pillar="Experience" pitch="&quot;Building business-grade tools for top tech companies globally.&quot;" proof="Pedigree" proofDetail="I've managed systems for global brands like Alexa, AWS, Xbox, Procter & Gamble, Blizzard." tech="Modern tech, speed to market." scale="Built with the same rigor used with every company I have worked with." icon={Code2} />
+          <ServicePillarCard pillar="Proven Results" pitch="&quot;Turning messy processes into simple savings.&quot;" proof="Direct Impact" proofDetail="At AWS, my team built internal Revenue Operations Sales tooling, saving millions in 3rd party contract renewals." tech="Security: Keeping your business data private and safe." scale="Global: AWS Worldwide Sales adoption." icon={Database} />
         </div>
 
-        {/* --- Bottom CTA: Non-Tech --- */}
+        {/* Bottom CTA */}
         <section className="bg-blue-600 rounded-[3rem] p-12 md:p-20 text-center text-white mb-24 shadow-2xl">
           <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">Free 15-Minute Discovery Session</h2>
           <p className="text-xl md:text-2xl font-medium italic leading-relaxed max-w-4xl mx-auto mb-12 opacity-90">
-            Let&apos;s chat about your business goals or use case and find one repetitive task we could automate this week. No technical knowledge required.
+            Let&apos;s chat about your business goals and find one repetitive task we could automate this week. No technical knowledge required.
           </p>
           <button onClick={() => openPortal('Strategy Talk')} className="bg-white text-blue-600 px-10 py-5 rounded-full text-xl font-black hover:scale-105 transition-all shadow-2xl italic uppercase inline-flex items-center gap-4">
             Book a Meeting <ArrowRight size={24} />
@@ -183,7 +204,7 @@ BUDGET ESTIMATE: ${formData.budget || 'To be discussed'}
         </section>
       </main>
 
-      {/* --- Handshake Portal Modal --- */}
+      {/* Handshake Portal Modal */}
       <AnimatePresence mode="wait">
         {activeFilter && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-white p-4 md:p-6 overflow-y-auto">
