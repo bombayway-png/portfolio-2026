@@ -69,7 +69,7 @@ export default function LeadManager() {
       where("orgId", "==", "J5CITH")
     );
 
-    const unsubscribeData = onSnapshot(q, (snapshot) => {
+   const unsubscribeData = onSnapshot(q, (snapshot) => {
       const leadData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -83,6 +83,7 @@ export default function LeadManager() {
 
       setLeads(sortedLeads);
     }, (error) => {
+      // Correctly handles the error callback without syntax errors
       console.error("Firestore Error:", error);
     });
 
