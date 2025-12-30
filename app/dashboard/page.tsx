@@ -1,41 +1,4 @@
-export default function LeadManager() {
-  const [leads, setLeads] = useState<LiloTask[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [authorized, setAuthorized] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(true); // NEW: Track the "checking" phase
-  const router = useRouter();
-
-  useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
-        setAuthorized(true);
-        setIsVerifying(false); // Stop verifying, we found you
-      } else {
-        // Only redirect if we are CERTAIN you aren't logged in
-        setIsVerifying(false); 
-        if (!user) router.push('/'); 
-      }
-    });
-
-    return () => unsubscribeAuth();
-  }, [router]);
-
-  // Prevent the "Flash" of home page redirect
-  if (isVerifying) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="flex flex-col items-center gap-4 text-slate-400 italic font-black uppercase">
-          <Lock size={48} className="animate-pulse" />
-          Verifying Identity...
-        </div>
-      </div>
-    );
-  }
-
-  if (!authorized) return null;
-}
-
-"use client";
+"use client"; // MUST BE THE FIRST LINE
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -45,7 +8,7 @@ import {
   collection, query, where, onSnapshot, orderBy, 
   doc, updateDoc, serverTimestamp, Timestamp 
 } from 'firebase/firestore';
-import { Clock, User, ArrowRight, Lock } from 'lucide-react'; // Removed CheckCircle2
+import { Clock, User, ArrowRight, Lock } from 'lucide-react';
 
 interface LiloTask {
   id: string;
@@ -62,14 +25,19 @@ export default function LeadManager() {
   const [leads, setLeads] = useState<LiloTask[]>([]);
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(true); 
   const router = useRouter();
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      // Check for your specific UID
       if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
         setAuthorized(true);
+        setIsVerifying(false);
       } else {
-        router.push('/'); 
+        setIsVerifying(false);
+        // Only redirect if we've finished checking and no user is found
+        if (!user) router.push('/'); 
       }
     });
 
@@ -107,7 +75,7 @@ export default function LeadManager() {
     });
   };
 
-  if (loading && !authorized) {
+  if (isVerifying) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="flex flex-col items-center gap-4 text-slate-400 italic font-black uppercase">
