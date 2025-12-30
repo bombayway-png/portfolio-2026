@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { 
-  collection, query, where, onSnapshot, orderBy, 
+  collection, query, where, onSnapshot, 
   doc, updateDoc, serverTimestamp, Timestamp 
-} from 'firebase/firestore';
+} from 'firebase/firestore'; // Removed orderBy from imports
 import { Clock, User, ArrowRight, Lock } from 'lucide-react';
 
 interface LiloTask {
@@ -41,14 +41,15 @@ export default function LeadManager() {
     return () => unsubscribeAuth();
   }, [router]);
 
+  // --- UPDATED DATA FETCH: Simplified Query with Browser-side Sorting ---
   useEffect(() => {
     if (!authorized) return;
 
+    // We remove the .orderBy() here to bypass index errors
     const q = query(
       collection(db, "lilo_tasks"),
       where("uid", "==", "5kbTnmiFdOQJUtonagrHovqb1sG3"),
-      where("orgId", "==", "J5CITH"),
-      orderBy("timestamp", "desc")
+      where("orgId", "==", "J5CITH")
     );
 
     const unsubscribeData = onSnapshot(q, (snapshot) => {
@@ -57,7 +58,14 @@ export default function LeadManager() {
         ...doc.data()
       })) as LiloTask[];
       
-      setLeads(leadData);
+      // Perform manual sort by timestamp (newest first) to ensure correct UI order
+      const sortedLeads = leadData.sort((a, b) => {
+        const timeA = a.timestamp?.toMillis() || 0;
+        const timeB = b.timestamp?.toMillis() || 0;
+        return timeB - timeA;
+      });
+
+      setLeads(sortedLeads);
     });
 
     return () => unsubscribeData();
