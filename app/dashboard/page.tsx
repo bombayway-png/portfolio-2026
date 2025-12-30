@@ -3,13 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth, db } from '@/lib/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFunctions, httpsCallable } from 'firebase/functions'; 
 import { 
   collection, query, where, onSnapshot, 
   doc, updateDoc, serverTimestamp, Timestamp 
 } from 'firebase/firestore';
-import { Clock, User, ArrowRight, Lock } from 'lucide-react';
+import { Clock, User, ArrowRight, Lock, ShieldAlert } from 'lucide-react';
 
 interface LiloTask {
   id: string;
@@ -40,13 +40,17 @@ export default function LeadManager() {
     }
   };
 
+  // --- 1. AUTHENTICATION HANDSHAKE ---
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      // Security: Matches the UID from Ty's production lead
       if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
         setAuthorized(true);
         setIsVerifying(false);
       } else {
+        setAuthorized(false);
         setIsVerifying(false);
+        // Redirect to landing if not logged in at all
         if (!user) router.push('/'); 
       }
     });
@@ -54,9 +58,11 @@ export default function LeadManager() {
     return () => unsubscribeAuth();
   }, [router]);
 
+  // --- 2. DATA SUBSCRIPTION ---
   useEffect(() => {
     if (!authorized) return;
 
+    // Filters match Ty Fitzpatrick's exact document
     const q = query(
       collection(db, "lilo_tasks"),
       where("uid", "==", "5kbTnmiFdOQJUtonagrHovqb1sG3"),
@@ -69,7 +75,6 @@ export default function LeadManager() {
         ...doc.data()
       })) as LiloTask[];
       
-      // Resilient Sort: Prevents blank screen if a lead is missing a timestamp
       const sortedLeads = leadData.sort((a, b) => {
         const timeA = a.timestamp ? a.timestamp.toMillis() : 0;
         const timeB = b.timestamp ? b.timestamp.toMillis() : 0;
@@ -78,7 +83,6 @@ export default function LeadManager() {
 
       setLeads(sortedLeads);
     }, (error) => {
-      // Diagnostic: Logs errors like missing indexes or permission issues
       console.error("Firestore Error:", error);
     });
 
@@ -93,6 +97,8 @@ export default function LeadManager() {
     });
   };
 
+  // --- 3. PRODUCTION RENDER GATES ---
+
   if (isVerifying) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -104,7 +110,28 @@ export default function LeadManager() {
     );
   }
 
-  if (!authorized) return null;
+  // Prevents the "White Screen" if the session doesn't match the Admin UID
+  if (!authorized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
+        <div className="max-w-md w-full bg-white rounded-[3rem] p-12 shadow-xl border border-red-100 text-center">
+          <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6 text-red-500">
+            <ShieldAlert size={32} />
+          </div>
+          <h2 className="text-2xl font-black italic uppercase tracking-tighter mb-2 text-slate-900">Access Denied</h2>
+          <p className="text-slate-500 text-sm italic font-medium leading-relaxed mb-8">
+            Terminal restricted. Current ID does not match the administrative clearance for LILO-OS.
+          </p>
+          <button 
+            onClick={() => signOut(auth)}
+            className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black italic uppercase text-xs hover:bg-slate-800 transition-all"
+          >
+            Sign Out & Switch Account
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 p-8 text-slate-900">
@@ -114,7 +141,7 @@ export default function LeadManager() {
           <p className="text-slate-500 font-medium italic">Secure Session: Dad</p>
         </div>
         <button 
-          onClick={() => auth.signOut()} 
+          onClick={() => signOut(auth)} 
           className="text-xs font-black uppercase italic text-slate-400 hover:text-red-500 transition-colors"
         >
           Secure Sign Out
