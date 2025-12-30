@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { db } from '@/lib/firebase';
+import { useRouter } from 'next/navigation'; // For redirecting unauthorized users
+import { auth, db } from '@/lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { 
   collection, query, where, onSnapshot, orderBy, 
   doc, updateDoc, serverTimestamp, Timestamp 
 } from 'firebase/firestore';
-import { Clock, User, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Clock, User, ArrowRight, CheckCircle2, Lock } from 'lucide-react';
 
-// 1. ADDED INTERFACE TO REMOVE 'ANY' ERROR
 interface LiloTask {
   id: string;
   artifact_content: string;
@@ -23,8 +24,27 @@ interface LiloTask {
 export default function LeadManager() {
   const [leads, setLeads] = useState<LiloTask[]>([]);
   const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
+  const router = useRouter();
 
+  // 1. AUTH GUARD: Verify your specific UID
   useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
+        setAuthorized(true);
+      } else {
+        // If not you, send them away after 2 seconds or redirect immediately
+        router.push('/'); 
+      }
+    });
+
+    return () => unsubscribeAuth();
+  }, [router]);
+
+  // 2. DATA FETCH: Only runs if authorized
+  useEffect(() => {
+    if (!authorized) return;
+
     const q = query(
       collection(db, "lilo_tasks"),
       where("uid", "==", "5kbTnmiFdOQJUtonagrHovqb1sG3"),
@@ -32,7 +52,7 @@ export default function LeadManager() {
       orderBy("timestamp", "desc")
     );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribeData = onSnapshot(q, (snapshot) => {
       const leadData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -42,8 +62,8 @@ export default function LeadManager() {
       setLoading(false);
     });
 
-    return () => unsubscribe();
-  }, []);
+    return () => unsubscribeData();
+  }, [authorized]);
 
   const updateStatus = async (leadId: string, nextStatus: string) => {
     const leadRef = doc(db, "lilo_tasks", leadId);
@@ -53,19 +73,33 @@ export default function LeadManager() {
     });
   };
 
-  if (loading) return <div className="p-10 font-black italic uppercase">Loading LILO-OS Pipeline...</div>;
+  if (loading && !authorized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="flex flex-col items-center gap-4 text-slate-400 italic font-black uppercase">
+          <Lock size={48} className="animate-pulse" />
+          Verifying Identity...
+        </div>
+      </div>
+    );
+  }
+
+  if (!authorized) return null;
 
   return (
     <div className="min-h-screen bg-slate-50 p-8 text-slate-900">
+      {/* Rest of your Dashboard UI remains the same */}
       <header className="mb-12 flex justify-between items-end">
         <div>
           <h1 className="text-4xl font-black italic uppercase tracking-tighter">Lead Nurture Dashboard</h1>
-          <p className="text-slate-500 font-medium italic">Org: J5CITH | User: Dad</p>
+          <p className="text-slate-500 font-medium italic">Secure Session: Dad</p>
         </div>
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <p className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Active Pipeline</p>
-          <p className="text-2xl font-black italic">{leads.length} Leads</p>
-        </div>
+        <button 
+          onClick={() => auth.signOut()} 
+          className="text-xs font-black uppercase italic text-slate-400 hover:text-red-500 transition-colors"
+        >
+          Secure Sign Out
+        </button>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -96,20 +130,12 @@ export default function LeadManager() {
             </div>
 
             <div className="mt-8 pt-6 border-t border-slate-100 flex gap-2">
-              {lead.status === 'Needs Follow-up' ? (
-                <button 
-                  onClick={() => updateStatus(lead.id, 'In Review')}
-                  className="w-full bg-slate-900 text-white py-3 rounded-xl font-black italic uppercase text-xs flex items-center justify-center gap-2 hover:bg-slate-800 transition-all"
-                >
-                  Start Review <ArrowRight size={14} />
-                </button>
-              ) : (
-                <button 
-                  className="w-full bg-green-600 text-white py-3 rounded-xl font-black italic uppercase text-xs flex items-center justify-center gap-2"
-                >
-                  <CheckCircle2 size={14} /> Success
-                </button>
-              )}
+              <button 
+                onClick={() => updateStatus(lead.id, lead.status === 'Needs Follow-up' ? 'In Review' : 'Success')}
+                className="w-full bg-slate-900 text-white py-3 rounded-xl font-black italic uppercase text-xs flex items-center justify-center gap-2 hover:bg-slate-800 transition-all"
+              >
+                {lead.status === 'Needs Follow-up' ? 'Start Review' : 'Mark Success'} <ArrowRight size={14} />
+              </button>
             </div>
           </div>
         ))}

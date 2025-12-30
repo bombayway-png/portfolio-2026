@@ -1,5 +1,6 @@
 import { initializeApp, getApps } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth"; // 1. Import the Auth getter
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,8 +15,9 @@ const firebaseConfig = {
 // Prevent "duplicate app" initialization errors during hot reloads
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-// Initialize Firestore
+// Initialize Services
 const db = getFirestore(app);
+const auth = getAuth(app); // 2. Initialize the Auth service
 
-// Export 'db' so it can be imported in page.tsx
-export { db };
+// 3. Export both so they can be used in your dashboard
+export { db, auth };
