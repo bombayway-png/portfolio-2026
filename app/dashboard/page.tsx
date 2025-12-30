@@ -1,3 +1,40 @@
+export default function LeadManager() {
+  const [leads, setLeads] = useState<LiloTask[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(true); // NEW: Track the "checking" phase
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
+        setAuthorized(true);
+        setIsVerifying(false); // Stop verifying, we found you
+      } else {
+        // Only redirect if we are CERTAIN you aren't logged in
+        setIsVerifying(false); 
+        if (!user) router.push('/'); 
+      }
+    });
+
+    return () => unsubscribeAuth();
+  }, [router]);
+
+  // Prevent the "Flash" of home page redirect
+  if (isVerifying) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="flex flex-col items-center gap-4 text-slate-400 italic font-black uppercase">
+          <Lock size={48} className="animate-pulse" />
+          Verifying Identity...
+        </div>
+      </div>
+    );
+  }
+
+  if (!authorized) return null;
+}
+
 "use client";
 
 import React, { useEffect, useState } from 'react';
