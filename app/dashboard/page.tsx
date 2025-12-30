@@ -1,4 +1,4 @@
-"use client"; // MUST BE THE FIRST LINE
+"use client";
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -23,20 +23,17 @@ interface LiloTask {
 
 export default function LeadManager() {
   const [leads, setLeads] = useState<LiloTask[]>([]);
-  const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
   const [isVerifying, setIsVerifying] = useState(true); 
   const router = useRouter();
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      // Check for your specific UID
       if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
         setAuthorized(true);
         setIsVerifying(false);
       } else {
         setIsVerifying(false);
-        // Only redirect if we've finished checking and no user is found
         if (!user) router.push('/'); 
       }
     });
@@ -61,7 +58,6 @@ export default function LeadManager() {
       })) as LiloTask[];
       
       setLeads(leadData);
-      setLoading(false);
     });
 
     return () => unsubscribeData();
