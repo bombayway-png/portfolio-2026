@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'; // For redirecting unauthorized users
+import { useRouter } from 'next/navigation';
 import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { 
   collection, query, where, onSnapshot, orderBy, 
   doc, updateDoc, serverTimestamp, Timestamp 
 } from 'firebase/firestore';
-import { Clock, User, ArrowRight, CheckCircle2, Lock } from 'lucide-react';
+import { Clock, User, ArrowRight, Lock } from 'lucide-react'; // Removed CheckCircle2
 
 interface LiloTask {
   id: string;
@@ -27,13 +27,11 @@ export default function LeadManager() {
   const [authorized, setAuthorized] = useState(false);
   const router = useRouter();
 
-  // 1. AUTH GUARD: Verify your specific UID
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
         setAuthorized(true);
       } else {
-        // If not you, send them away after 2 seconds or redirect immediately
         router.push('/'); 
       }
     });
@@ -41,7 +39,6 @@ export default function LeadManager() {
     return () => unsubscribeAuth();
   }, [router]);
 
-  // 2. DATA FETCH: Only runs if authorized
   useEffect(() => {
     if (!authorized) return;
 
@@ -88,7 +85,6 @@ export default function LeadManager() {
 
   return (
     <div className="min-h-screen bg-slate-50 p-8 text-slate-900">
-      {/* Rest of your Dashboard UI remains the same */}
       <header className="mb-12 flex justify-between items-end">
         <div>
           <h1 className="text-4xl font-black italic uppercase tracking-tighter">Lead Nurture Dashboard</h1>
