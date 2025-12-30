@@ -14,8 +14,9 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/dashboard'); // Successful login sends you to the leads
-    } catch (error) {
+      router.push('/dashboard'); 
+    } catch {
+      // Removed the 'error' variable here to satisfy ESLint
       alert("Access Denied: Admin Only");
     }
   };
@@ -28,14 +29,16 @@ export default function LoginPage() {
           <input 
             type="email" 
             placeholder="Email" 
-            className="w-full p-4 rounded-xl bg-slate-700 border-none outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full p-4 rounded-xl bg-slate-700 border-none outline-none focus:ring-2 focus:ring-blue-600 text-white"
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input 
             type="password" 
             placeholder="Password" 
-            className="w-full p-4 rounded-xl bg-slate-700 border-none outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full p-4 rounded-xl bg-slate-700 border-none outline-none focus:ring-2 focus:ring-blue-600 text-white"
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
         <button type="submit" className="w-full bg-blue-600 py-4 rounded-xl font-black italic uppercase hover:bg-blue-700 transition-all">
