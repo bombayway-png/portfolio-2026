@@ -9,7 +9,7 @@ import {
   collection, query, where, onSnapshot, 
   doc, updateDoc, serverTimestamp, Timestamp 
 } from 'firebase/firestore';
-import { Clock, User, ArrowRight } from 'lucide-react';
+import { Clock, User, ArrowRight, Play } from 'lucide-react';
 
 interface LiloTask {
   id: string;
@@ -177,7 +177,7 @@ export default function LeadManager() {
                       onClick={() => runAgent(lead.id, lead.description)}
                       className="w-full bg-blue-600 text-white py-4 rounded-2xl font-black italic uppercase text-xs flex items-center justify-center gap-2 hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-[0.98]"
                     >
-                      Run Ideation Agent
+                      <Play size={14} fill="currentColor" className="mr-2" /> Run Ideation Agent
                     </button>
                   )}
                 </div>
