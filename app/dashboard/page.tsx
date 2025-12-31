@@ -9,7 +9,7 @@ import {
   collection, query, where, onSnapshot, 
   doc, updateDoc, serverTimestamp, Timestamp 
 } from 'firebase/firestore';
-import { Clock, User, ArrowRight, Lock, ShieldAlert } from 'lucide-react';
+import { Clock, User, ArrowRight, Lock } from 'lucide-react';
 
 interface LiloTask {
   id: string;
