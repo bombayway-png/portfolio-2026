@@ -44,7 +44,7 @@ export default function LeadManager() {
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       // Security: Matches the UID from Ty's production lead
-      if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
+      if (user && user.uid === "5kbTnmiFd0QJUtonagrHovqb1sG3") {
         setAuthorized(true);
         setIsVerifying(false);
       } else {
