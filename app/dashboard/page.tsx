@@ -29,8 +29,7 @@ export default function LeadManager() {
   const [isVerifying, setIsVerifying] = useState(true); 
   const router = useRouter();
 
-  // --- THE CORRECT MASTER KEY ---
-  // Verified: Using '0' (zero) instead of 'O'
+  // --- THE MASTER KEY (Verified: Using '0' zero) ---
   const ADMIN_UID = "5kbTnmiFd0QJUtonagrHovqb1sG3"; 
 
   const runAgent = async (leadId: string, description: string) => {
@@ -44,9 +43,9 @@ export default function LeadManager() {
     }
   };
 
+  // --- 1. AUTHENTICATION HANDSHAKE ---
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      // Logic: Matches your verified ID exactly
       if (user && user.uid === ADMIN_UID) {
         setAuthorized(true);
         setIsVerifying(false);
@@ -59,16 +58,19 @@ export default function LeadManager() {
     return () => unsubscribeAuth();
   }, [router]);
 
+  // --- 2. SECURE DATA SUBSCRIPTION ---
   useEffect(() => {
     if (!authorized) return;
 
-    // Secure Query: Looking for documents tagged with your verified ID
     const q = query(
       collection(db, "lilo_tasks"),
       where("uid", "==", ADMIN_UID)
     );
 
     const unsubscribeData = onSnapshot(q, (snapshot) => {
+      // DEBUG LOG: Open Browser Console (F12) to see this
+      console.log(`Firestore Sync: Found ${snapshot.docs.length} leads for UID: ${ADMIN_UID}`);
+      
       const leadData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -82,7 +84,7 @@ export default function LeadManager() {
 
       setLeads(sortedLeads);
     }, (error) => {
-      console.error("Database Sync Error:", error.message);
+      console.error("Database Error:", error.message);
     });
 
     return () => unsubscribeData();
@@ -110,7 +112,7 @@ export default function LeadManager() {
         <div className="max-w-md w-full bg-white rounded-[3rem] p-12 shadow-xl border border-red-100 text-center">
           <h2 className="text-2xl font-black italic uppercase tracking-tighter mb-2 text-slate-900">Access Denied</h2>
           <p className="text-slate-500 text-sm italic font-medium leading-relaxed mb-8">
-            Terminal restricted. Your ID does not match the administrative clearance for LILO-OS.
+            Terminal restricted. Current ID does not match the administrative clearance for LILO-OS.
           </p>
           <button 
             onClick={() => signOut(auth)}
