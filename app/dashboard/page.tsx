@@ -11,8 +11,7 @@ import {
 } from 'firebase/firestore';
 import { Clock, User, ArrowRight, Play, Filter, Calendar, Loader2 } from 'lucide-react';
 
-// --- CRITICAL CONFIGURATION: SET YOUR REGION ---
-// Check Firebase Console > Build > Functions to find your region (e.g., 'us-west1')
+// --- CONFIGURATION: CHANGE THIS TO MATCH YOUR FIREBASE CONSOLE ---
 const FUNCTION_REGION = 'us-central1'; 
 
 type FlexibleTimestamp = {
@@ -61,9 +60,11 @@ export default function LeadManager() {
   }, [leads, statusFilter, timeFilter]);
 
   const runAgent = async (leadId: string, description: string | object) => {
+    console.log(`🚀 Initiating Agent in region: ${FUNCTION_REGION}`);
     setProcessingIds(prev => new Set(prev).add(leadId));
+    
     try {
-      // FIX: Passing auth.app and FUNCTION_REGION resolves the 404
+      // FIX: Passing the explicit region to getFunctions resolves the 404
       const functions = getFunctions(auth.app, FUNCTION_REGION); 
       const kickstart = httpsCallable(functions, 'kickstartIdeation');
       
@@ -116,8 +117,6 @@ export default function LeadManager() {
         return getTime(b.timestamp) - getTime(a.timestamp);
       });
       setLeads(sorted);
-    }, (error) => {
-      console.error("Database Sync Error:", error.message);
     });
     return () => unsubscribeData();
   }, [authorized]);
