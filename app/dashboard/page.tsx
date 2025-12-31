@@ -6,7 +6,7 @@ import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFunctions, httpsCallable } from 'firebase/functions'; 
 import { 
-  collection, query, onSnapshot, 
+  collection, query, where, onSnapshot, 
   doc, updateDoc, serverTimestamp, Timestamp 
 } from 'firebase/firestore';
 import { Clock, User, ArrowRight, Play } from 'lucide-react';
@@ -34,7 +34,6 @@ export default function LeadManager() {
     try {
       const functions = getFunctions();
       const kickstart = httpsCallable(functions, 'kickstartIdeation');
-      // Triggers the Gemini 1.5 Flash agent to process the lead description
       await kickstart({ leadId, description });
       alert("Agent started! The themes will appear on the card shortly.");
     } catch (err) {
@@ -46,26 +45,33 @@ export default function LeadManager() {
   // --- 2. AUTHENTICATION GATE ---
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      if (user) {
+      // Logic: Matches the UID defined in your Firestore Security Rules
+      if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
         setAuthorized(true);
         setIsVerifying(false);
       } else {
         setAuthorized(false);
         setIsVerifying(false);
-        router.push('/'); 
+        if (!user) router.push('/'); 
       }
     });
     return () => unsubscribeAuth();
   }, [router]);
 
-  // --- 3. DATA SYNC (BROAD SEARCH) ---
+  // --- 3. DATA SYNC (SECURE QUERY) ---
   useEffect(() => {
     if (!authorized) return;
 
-    // Pulls all leads to ensure Ty's document is found
-    const q = query(collection(db, "lilo_tasks"));
+    // SYNCED TO RULES: Only queries documents owned by 'Dad'
+    const q = query(
+      collection(db, "lilo_tasks"),
+      where("uid", "==", "5kbTnmiFdOQJUtonagrHovqb1sG3")
+    );
 
     const unsubscribeData = onSnapshot(q, (snapshot) => {
+      // Diagnostic check: Open Browser Console (F12) to see this
+      console.log(`SECURE SYNC: Found ${snapshot.docs.length} leads matching UID.`);
+      
       const leadData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -79,7 +85,8 @@ export default function LeadManager() {
 
       setLeads(sortedLeads);
     }, (error) => {
-      console.error("Database Sync Error:", error);
+      // This will trigger if the query and security rules don't match
+      console.error("Database Sync Error:", error.message);
     });
 
     return () => unsubscribeData();
@@ -96,7 +103,27 @@ export default function LeadManager() {
   if (isVerifying) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 italic font-black uppercase text-slate-400 animate-pulse">
-        Initializing Dashboard...
+        Initializing Secure Dashboard...
+      </div>
+    );
+  }
+
+  // --- 4. ACCESS DENIED UI ---
+  if (!authorized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
+        <div className="max-w-md w-full bg-white rounded-[3rem] p-12 shadow-xl border border-red-100 text-center">
+          <h2 className="text-2xl font-black italic uppercase tracking-tighter mb-2 text-slate-900">Access Denied</h2>
+          <p className="text-slate-500 text-sm italic font-medium leading-relaxed mb-8">
+            Terminal restricted. Current ID does not match the administrative clearance for LILO-OS.
+          </p>
+          <button 
+            onClick={() => signOut(auth)}
+            className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black italic uppercase text-xs hover:bg-slate-800 transition-all"
+          >
+            Sign Out & Switch Account
+          </button>
+        </div>
       </div>
     );
   }
@@ -106,7 +133,7 @@ export default function LeadManager() {
       <header className="mb-12 flex justify-between items-end border-b border-slate-200 pb-8">
         <div>
           <h1 className="text-4xl font-black italic uppercase tracking-tighter leading-none">LILO-OS</h1>
-          <p className="text-blue-600 font-medium italic text-sm mt-1">Status: Active Review Mode</p>
+          <p className="text-blue-600 font-medium italic text-sm mt-1">Status: Secure Admin Mode</p>
         </div>
         <button onClick={() => signOut(auth)} className="text-[10px] font-black uppercase italic text-slate-400 hover:text-red-500 transition-colors">
           Secure Sign Out
@@ -116,7 +143,7 @@ export default function LeadManager() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {leads.length === 0 ? (
           <div className="col-span-full py-20 text-center text-slate-300 font-black italic uppercase text-2xl border-4 border-dashed border-slate-100 rounded-[3rem]">
-            Searching for Lead Data...
+            No leads found for this account
           </div>
         ) : (
           leads.map((lead) => (
