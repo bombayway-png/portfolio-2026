@@ -11,23 +11,22 @@ import {
 } from 'firebase/firestore';
 import { Clock, User, ArrowRight, Play } from 'lucide-react';
 
-// Define a flexible type for the timestamp to satisfy ESLint without using 'any'
+// Strict type definitions to pass production linting
 type FlexibleTimestamp = {
   toMillis?: () => number;
   toDate?: () => Date;
-  seconds?: number;
-} | Date | number | null;
+} | Date | number | null | undefined;
 
 interface LiloTask {
   id: string;
-  artifact_content: string;
+  artifact_content: string | object;
   contact_email: string;
-  description: string;
+  description: string | object;
   status: string;
   timestamp: FlexibleTimestamp;
   uid: string;
   orgId: string;
-  ai_ideation?: string; 
+  ai_ideation?: string | object; 
 }
 
 export default function LeadManager() {
@@ -36,11 +35,18 @@ export default function LeadManager() {
   const [isVerifying, setIsVerifying] = useState(true); 
   const router = useRouter();
 
-  const runAgent = async (leadId: string, description: string) => {
+  // Helper to prevent Minified React error #31
+  const safeRender = (val: string | object | undefined): string => {
+    if (!val) return "";
+    if (typeof val === 'string') return val;
+    return JSON.stringify(val);
+  };
+
+  const runAgent = async (leadId: string, description: string | object) => {
     try {
       const functions = getFunctions();
       const kickstart = httpsCallable(functions, 'kickstartIdeation');
-      await kickstart({ leadId, description });
+      await kickstart({ leadId, description: safeRender(description) });
       alert("Agent started! Themes will appear shortly.");
     } catch (err) {
       console.error("Agent Error:", err);
@@ -75,11 +81,11 @@ export default function LeadManager() {
       const sortedLeads = leadData.sort((a, b) => {
         const getTime = (ts: FlexibleTimestamp): number => {
           if (ts && typeof ts === 'object' && 'toMillis' in ts && typeof ts.toMillis === 'function') {
-             return ts.toMillis();
+            return ts.toMillis();
           }
           if (ts instanceof Date) return ts.getTime();
           if (typeof ts === 'number') return ts;
-          return 0; 
+          return 0;
         };
         return getTime(b.timestamp) - getTime(a.timestamp);
       });
@@ -103,7 +109,7 @@ export default function LeadManager() {
   if (isVerifying) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 italic font-black uppercase text-slate-400 animate-pulse">
-        Initializing Dashboard...
+        Syncing Leads...
       </div>
     );
   }
@@ -139,21 +145,23 @@ export default function LeadManager() {
                 </div>
 
                 <div>
-                  <h3 className="text-2xl font-black italic uppercase tracking-tight mb-2 leading-tight">{lead.artifact_content}</h3>
+                  <h3 className="text-2xl font-black italic uppercase tracking-tight mb-2 leading-tight">
+                    {safeRender(lead.artifact_content)}
+                  </h3>
                   <p className="text-slate-400 text-sm flex items-center gap-1 font-bold italic">
                     <User size={14} /> {lead.contact_email}
                   </p>
                 </div>
 
                 <div className="bg-slate-50 p-6 rounded-[1.5rem] text-sm italic text-slate-600 border border-slate-100/50 leading-relaxed">
-                  &quot;{lead.description}&quot;
+                  &quot;{safeRender(lead.description)}&quot;
                 </div>
 
                 <div className="mt-6 pt-6 border-t border-slate-100">
                   <p className="text-[10px] font-black uppercase text-blue-600 mb-3 tracking-widest">Ideation Results</p>
                   {lead.ai_ideation ? (
                     <div className="text-xs italic text-slate-700 bg-blue-50/50 p-5 rounded-[1.5rem] whitespace-pre-wrap leading-relaxed border border-blue-100/50">
-                      {lead.ai_ideation}
+                      {safeRender(lead.ai_ideation)}
                     </div>
                   ) : (
                     <button 
