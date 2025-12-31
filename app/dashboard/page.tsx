@@ -44,7 +44,7 @@ export default function LeadManager() {
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       // Verified UID from Ty Fitzpatrick's production document
-      if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
+      if (user && user.uid === "5kbTnmiFd0QJUtonagrHovqb1sG3") {
         setAuthorized(true);
         setIsVerifying(false);
       } else {
@@ -64,7 +64,7 @@ export default function LeadManager() {
     // Direct match for Ty's lead
     const q = query(
       collection(db, "lilo_tasks"),
-      where("uid", "==", "5kbTnmiFdOQJUtonagrHovqb1sG3"),
+      where("uid", "==", "5kbTnmiFd0QJUtonagrHovqb1sG3"),
       where("orgId", "==", "J5CITH")
     );
 
