@@ -43,14 +43,13 @@ export default function LeadManager() {
   // --- 1. AUTHENTICATION HANDSHAKE ---
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      // Security: Matches the UID from Ty's production lead
-      if (user && user.uid === "5kbTnmiFd0QJUtonagrHovqb1sG3") {
+      // Verified UID from Ty Fitzpatrick's production document
+      if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
         setAuthorized(true);
         setIsVerifying(false);
       } else {
         setAuthorized(false);
         setIsVerifying(false);
-        // Redirect to landing if not logged in at all
         if (!user) router.push('/'); 
       }
     });
@@ -58,18 +57,21 @@ export default function LeadManager() {
     return () => unsubscribeAuth();
   }, [router]);
 
-  // --- 2. DATA SUBSCRIPTION ---
+  // --- 2. DATA SUBSCRIPTION (SYNCED TO FIRESTORE) ---
   useEffect(() => {
     if (!authorized) return;
 
-    // Filters match Ty Fitzpatrick's exact document
+    // Direct match for Ty's lead
     const q = query(
       collection(db, "lilo_tasks"),
       where("uid", "==", "5kbTnmiFdOQJUtonagrHovqb1sG3"),
       where("orgId", "==", "J5CITH")
     );
 
-   const unsubscribeData = onSnapshot(q, (snapshot) => {
+    const unsubscribeData = onSnapshot(q, (snapshot) => {
+      // Diagnostic: Check browser console to see if docs are arriving
+      console.log("Dashboard Sync: ", snapshot.docs.length, " leads found.");
+      
       const leadData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -83,7 +85,6 @@ export default function LeadManager() {
 
       setLeads(sortedLeads);
     }, (error) => {
-      // Correctly handles the error callback without syntax errors
       console.error("Firestore Error:", error);
     });
 
@@ -111,7 +112,6 @@ export default function LeadManager() {
     );
   }
 
-  // Prevents the "White Screen" if the session doesn't match the Admin UID
   if (!authorized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
