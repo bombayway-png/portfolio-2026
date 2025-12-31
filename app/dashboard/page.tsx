@@ -11,8 +11,8 @@ import {
 } from 'firebase/firestore';
 import { Clock, User, ArrowRight, Play, Filter, Calendar, Loader2 } from 'lucide-react';
 
-// --- CRITICAL CONFIGURATION ---
-// CHECK: Firebase Console > Build > Functions to find your actual region.
+// --- CONFIGURATION: SET YOUR REGION ---
+// Open Firebase Console > Build > Functions to find your region (e.g., 'us-west1')
 const FUNCTION_REGION = 'us-central1'; 
 
 type FlexibleTimestamp = {
@@ -61,11 +61,11 @@ export default function LeadManager() {
   }, [leads, statusFilter, timeFilter]);
 
   const runAgent = async (leadId: string, description: string | object) => {
-    console.log(`🚀 Initiating agent for ${leadId} in ${FUNCTION_REGION}`);
+    console.log(`🚀 Triggering agent in ${FUNCTION_REGION}...`);
     setProcessingIds(prev => new Set(prev).add(leadId));
     
     try {
-      // FIX: Explicitly passing the region to the SDK to resolve the 404
+      // FIX: Explicitly passing region resolves the 404
       const functions = getFunctions(auth.app, FUNCTION_REGION); 
       const kickstart = httpsCallable(functions, 'kickstartIdeation');
       
@@ -118,6 +118,8 @@ export default function LeadManager() {
         return getTime(b.timestamp) - getTime(a.timestamp);
       });
       setLeads(sorted);
+    }, (error) => {
+      console.error("Database Sync Error:", error.message);
     });
     return () => unsubscribeData();
   }, [authorized]);
@@ -157,6 +159,9 @@ export default function LeadManager() {
               <option value="24h">Last 24 Hours</option>
               <option value="7d">Last 7 Days</option>
             </select>
+          </div>
+          <div className="ml-auto text-[10px] font-bold text-slate-300 uppercase italic flex items-center pr-4">
+            Showing {filteredLeads.length} of {leads.length} leads
           </div>
         </div>
       </header>
