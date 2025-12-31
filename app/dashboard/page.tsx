@@ -7,9 +7,16 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFunctions, httpsCallable } from 'firebase/functions'; 
 import { 
   collection, query, onSnapshot, 
-  doc, updateDoc, serverTimestamp, Timestamp 
+  doc, updateDoc, serverTimestamp
 } from 'firebase/firestore';
 import { Clock, User, ArrowRight, Play } from 'lucide-react';
+
+// Define a flexible type for the timestamp to satisfy ESLint without using 'any'
+type FlexibleTimestamp = {
+  toMillis?: () => number;
+  toDate?: () => Date;
+  seconds?: number;
+} | Date | number | null;
 
 interface LiloTask {
   id: string;
@@ -17,7 +24,7 @@ interface LiloTask {
   contact_email: string;
   description: string;
   status: string;
-  timestamp: any; // Flexible type to prevent sorting crashes
+  timestamp: FlexibleTimestamp;
   uid: string;
   orgId: string;
   ai_ideation?: string; 
@@ -57,7 +64,6 @@ export default function LeadManager() {
   useEffect(() => {
     if (!authorized) return;
 
-    // BROAD QUERY: Pulling all documents in the collection
     const q = query(collection(db, "lilo_tasks"));
 
     const unsubscribeData = onSnapshot(q, (snapshot) => {
@@ -66,13 +72,14 @@ export default function LeadManager() {
         ...doc.data()
       })) as LiloTask[];
       
-      // CRASH-PROOF SORTING: Safely handles malformed timestamps
       const sortedLeads = leadData.sort((a, b) => {
-        const getTime = (ts: any) => {
-          if (ts && typeof ts.toMillis === 'function') return ts.toMillis();
+        const getTime = (ts: FlexibleTimestamp): number => {
+          if (ts && typeof ts === 'object' && 'toMillis' in ts && typeof ts.toMillis === 'function') {
+             return ts.toMillis();
+          }
           if (ts instanceof Date) return ts.getTime();
           if (typeof ts === 'number') return ts;
-          return 0; // Fallback for missing/null timestamps
+          return 0; 
         };
         return getTime(b.timestamp) - getTime(a.timestamp);
       });
@@ -96,7 +103,7 @@ export default function LeadManager() {
   if (isVerifying) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 italic font-black uppercase text-slate-400 animate-pulse">
-        Initializing...
+        Initializing Dashboard...
       </div>
     );
   }
@@ -127,7 +134,7 @@ export default function LeadManager() {
                     {lead.status}
                   </span>
                   <p className="text-slate-400 text-[10px] font-bold flex items-center gap-1">
-                    <Clock size={12} /> {lead.timestamp && typeof lead.timestamp.toDate === 'function' ? lead.timestamp.toDate().toLocaleDateString() : 'Active'}
+                    <Clock size={12} /> {lead.timestamp && typeof lead.timestamp === 'object' && 'toDate' in lead.timestamp && typeof lead.timestamp.toDate === 'function' ? lead.timestamp.toDate().toLocaleDateString() : 'Active'}
                   </p>
                 </div>
 
