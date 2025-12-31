@@ -9,7 +9,7 @@ import {
   collection, query, where, onSnapshot, 
   doc, updateDoc, serverTimestamp, Timestamp 
 } from 'firebase/firestore';
-import { Clock, User, ArrowRight, Play } from 'lucide-react';
+import { Clock, User, ArrowRight } from 'lucide-react';
 
 interface LiloTask {
   id: string;
@@ -29,24 +29,22 @@ export default function LeadManager() {
   const [isVerifying, setIsVerifying] = useState(true); 
   const router = useRouter();
 
-  // --- 1. THE AGENT TRIGGER ---
+  const ADMIN_UID = "5kbTnmiFdOQJUtonagrHovqb1sG3";
+
   const runAgent = async (leadId: string, description: string) => {
     try {
       const functions = getFunctions();
       const kickstart = httpsCallable(functions, 'kickstartIdeation');
       await kickstart({ leadId, description });
-      alert("Agent started! The themes will appear on the card shortly.");
+      alert("Agent started! The themes will appear shortly.");
     } catch (err) {
       console.error("Agent Error:", err);
-      alert("Agent failed to start. Check Firebase logs.");
     }
   };
 
-  // --- 2. AUTHENTICATION GATE ---
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      // Logic: Matches the UID defined in your Firestore Security Rules
-      if (user && user.uid === "5kbTnmiFdOQJUtonagrHovqb1sG3") {
+      if (user && user.uid === ADMIN_UID) {
         setAuthorized(true);
         setIsVerifying(false);
       } else {
@@ -58,20 +56,16 @@ export default function LeadManager() {
     return () => unsubscribeAuth();
   }, [router]);
 
-  // --- 3. DATA SYNC (SECURE QUERY) ---
   useEffect(() => {
     if (!authorized) return;
 
-    // SYNCED TO RULES: Only queries documents owned by 'Dad'
+    // SYNCED TO RULES: Query must match security logic to pass
     const q = query(
       collection(db, "lilo_tasks"),
-      where("uid", "==", "5kbTnmiFdOQJUtonagrHovqb1sG3")
+      where("uid", "==", ADMIN_UID)
     );
 
     const unsubscribeData = onSnapshot(q, (snapshot) => {
-      // Diagnostic check: Open Browser Console (F12) to see this
-      console.log(`SECURE SYNC: Found ${snapshot.docs.length} leads matching UID.`);
-      
       const leadData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -85,7 +79,6 @@ export default function LeadManager() {
 
       setLeads(sortedLeads);
     }, (error) => {
-      // This will trigger if the query and security rules don't match
       console.error("Database Sync Error:", error.message);
     });
 
@@ -108,7 +101,6 @@ export default function LeadManager() {
     );
   }
 
-  // --- 4. ACCESS DENIED UI ---
   if (!authorized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
@@ -143,7 +135,7 @@ export default function LeadManager() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {leads.length === 0 ? (
           <div className="col-span-full py-20 text-center text-slate-300 font-black italic uppercase text-2xl border-4 border-dashed border-slate-100 rounded-[3rem]">
-            No leads found for this account
+            No leads captured yet
           </div>
         ) : (
           leads.map((lead) => (
@@ -182,7 +174,7 @@ export default function LeadManager() {
                       onClick={() => runAgent(lead.id, lead.description)}
                       className="w-full bg-blue-600 text-white py-4 rounded-2xl font-black italic uppercase text-xs flex items-center justify-center gap-2 hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-[0.98]"
                     >
-                      <Play size={14} fill="currentColor" /> Run Ideation Agent
+                      Run Ideation Agent
                     </button>
                   )}
                 </div>
