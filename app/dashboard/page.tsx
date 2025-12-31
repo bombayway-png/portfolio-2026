@@ -11,8 +11,8 @@ import {
 } from 'firebase/firestore';
 import { Clock, User, ArrowRight, Play, Filter, Calendar, Loader2 } from 'lucide-react';
 
-// --- CONFIGURATION ---
-// 1. Check Firebase Console > Functions to find your region (e.g., 'us-west1')
+// --- CRITICAL CONFIGURATION ---
+// CHECK: Firebase Console > Build > Functions to find your actual region.
 const FUNCTION_REGION = 'us-central1'; 
 
 type FlexibleTimestamp = {
@@ -61,9 +61,11 @@ export default function LeadManager() {
   }, [leads, statusFilter, timeFilter]);
 
   const runAgent = async (leadId: string, description: string | object) => {
+    console.log(`🚀 Initiating agent for ${leadId} in ${FUNCTION_REGION}`);
     setProcessingIds(prev => new Set(prev).add(leadId));
+    
     try {
-      // FIX: Explicitly passing the region to find the deployed function
+      // FIX: Explicitly passing the region to the SDK to resolve the 404
       const functions = getFunctions(auth.app, FUNCTION_REGION); 
       const kickstart = httpsCallable(functions, 'kickstartIdeation');
       
@@ -74,8 +76,8 @@ export default function LeadManager() {
 
       alert("Success! The AI is now brainstorming themes.");
     } catch (err) {
-      console.error("❌ Agent Deployment Error:", err);
-      const errorMessage = err instanceof Error ? err.message : 'Check Firebase Logs';
+      console.error("❌ Agent Failure Details:", err);
+      const errorMessage = err instanceof Error ? err.message : 'Check Console logs';
       alert(`Agent Failed: ${errorMessage}`);
     } finally {
       setProcessingIds(prev => {
