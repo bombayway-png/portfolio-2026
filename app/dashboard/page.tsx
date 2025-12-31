@@ -29,14 +29,16 @@ export default function LeadManager() {
   const [isVerifying, setIsVerifying] = useState(true); 
   const router = useRouter();
 
-  const ADMIN_UID = "5kbTnmiFdOQJUtonagrHovqb1sG3";
+  // --- THE CORRECT MASTER KEY ---
+  // Verified: Using '0' (zero) instead of 'O'
+  const ADMIN_UID = "5kbTnmiFd0QJUtonagrHovqb1sG3"; 
 
   const runAgent = async (leadId: string, description: string) => {
     try {
       const functions = getFunctions();
       const kickstart = httpsCallable(functions, 'kickstartIdeation');
       await kickstart({ leadId, description });
-      alert("Agent started! The themes will appear shortly.");
+      alert("Agent started! Themes will appear shortly.");
     } catch (err) {
       console.error("Agent Error:", err);
     }
@@ -44,6 +46,7 @@ export default function LeadManager() {
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      // Logic: Matches your verified ID exactly
       if (user && user.uid === ADMIN_UID) {
         setAuthorized(true);
         setIsVerifying(false);
@@ -59,7 +62,7 @@ export default function LeadManager() {
   useEffect(() => {
     if (!authorized) return;
 
-    // SYNCED TO RULES: Query must match security logic to pass
+    // Secure Query: Looking for documents tagged with your verified ID
     const q = query(
       collection(db, "lilo_tasks"),
       where("uid", "==", ADMIN_UID)
@@ -96,7 +99,7 @@ export default function LeadManager() {
   if (isVerifying) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 italic font-black uppercase text-slate-400 animate-pulse">
-        Initializing Secure Dashboard...
+        Verifying Identity...
       </div>
     );
   }
@@ -107,7 +110,7 @@ export default function LeadManager() {
         <div className="max-w-md w-full bg-white rounded-[3rem] p-12 shadow-xl border border-red-100 text-center">
           <h2 className="text-2xl font-black italic uppercase tracking-tighter mb-2 text-slate-900">Access Denied</h2>
           <p className="text-slate-500 text-sm italic font-medium leading-relaxed mb-8">
-            Terminal restricted. Current ID does not match the administrative clearance for LILO-OS.
+            Terminal restricted. Your ID does not match the administrative clearance for LILO-OS.
           </p>
           <button 
             onClick={() => signOut(auth)}
