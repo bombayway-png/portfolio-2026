@@ -40,10 +40,8 @@ export default function LeadManager() {
     }
   };
 
-  // --- 1. AUTHENTICATION HANDSHAKE (MEETING MODE) ---
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      // Logic: Trust any authenticated user to ensure access during the demo
       if (user) {
         setAuthorized(true);
         setIsVerifying(false);
@@ -56,15 +54,15 @@ export default function LeadManager() {
     return () => unsubscribeAuth();
   }, [router]);
 
-  // --- 2. BROAD DATA SUBSCRIPTION (BYPASS FILTERS) ---
   useEffect(() => {
     if (!authorized) return;
 
-    // BYPASS: Fetching all leads in lilo_tasks to guarantee Ty's card appears
+    // BROAD QUERY: Pulling every document in the collection
     const q = query(collection(db, "lilo_tasks"));
 
     const unsubscribeData = onSnapshot(q, (snapshot) => {
-      console.log(`Live Update: Found ${snapshot.docs.length} leads in collection.`);
+      // PRO TIP: Open browser console (F12) to see this heartbeat count
+      console.log(`DATABASE HEARTBEAT: Found ${snapshot.docs.length} leads in lilo_tasks.`);
       
       const leadData = snapshot.docs.map(doc => ({
         id: doc.id,
@@ -79,7 +77,7 @@ export default function LeadManager() {
 
       setLeads(sortedLeads);
     }, (error) => {
-      console.error("Database Sync Error:", error.message);
+      console.error("Firestore Sync Error:", error.message);
     });
 
     return () => unsubscribeData();
@@ -123,9 +121,7 @@ export default function LeadManager() {
             <div key={lead.id} className="bg-white rounded-[2.5rem] p-8 shadow-2xl border border-slate-100 flex flex-col justify-between transition-all hover:translate-y-[-4px]">
               <div className="space-y-6">
                 <div className="flex justify-between items-start">
-                  <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase italic ${
-                    lead.status === 'Needs Follow-up' ? 'bg-blue-50 text-blue-600' : 'bg-green-50 text-green-600'
-                  }`}>
+                  <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase italic bg-blue-50 text-blue-600`}>
                     {lead.status}
                   </span>
                   <p className="text-slate-400 text-[10px] font-bold flex items-center gap-1">
@@ -145,7 +141,6 @@ export default function LeadManager() {
                 </div>
 
                 <div className="mt-6 pt-6 border-t border-slate-100">
-                  <p className="text-[10px] font-black uppercase text-blue-600 mb-3 tracking-widest">Ideation Results</p>
                   {lead.ai_ideation ? (
                     <div className="text-xs italic text-slate-700 bg-blue-50/50 p-5 rounded-[1.5rem] whitespace-pre-wrap leading-relaxed border border-blue-100/50">
                       {lead.ai_ideation}
