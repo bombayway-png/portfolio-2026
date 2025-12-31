@@ -29,6 +29,11 @@ export default function LeadManager() {
   const [isVerifying, setIsVerifying] = useState(true); 
   const router = useRouter();
 
+  // --- CONFIGURATION CONSTANTS ---
+  // Exactly matching the UID found in Ty Fitzpatrick's document
+  const ADMIN_UID = "5kbTnmiFdOQJUtonagrHovqb1sG3"; 
+  const ORG_ID = "J5CITH";
+
   const runAgent = async (leadId: string, description: string) => {
     try {
       const functions = getFunctions();
@@ -43,8 +48,9 @@ export default function LeadManager() {
   // --- 1. AUTHENTICATION HANDSHAKE ---
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      // Verified UID from Ty Fitzpatrick's production document
-      if (user && user.uid === "5kbTnmiFd0QJUtonagrHovqb1sG3") {
+      console.log("LOGGED IN UID:", user?.uid); // This tells us who you actually are
+      
+      if (user && user.uid === ADMIN_UID) {
         setAuthorized(true);
         setIsVerifying(false);
       } else {
@@ -57,20 +63,18 @@ export default function LeadManager() {
     return () => unsubscribeAuth();
   }, [router]);
 
-  // --- 2. DATA SUBSCRIPTION (SYNCED TO FIRESTORE) ---
+  // --- 2. DATA SUBSCRIPTION ---
   useEffect(() => {
     if (!authorized) return;
 
-    // Direct match for Ty's lead
     const q = query(
       collection(db, "lilo_tasks"),
-      where("uid", "==", "5kbTnmiFd0QJUtonagrHovqb1sG3"),
-      where("orgId", "==", "J5CITH")
+      where("uid", "==", ADMIN_UID),
+      where("orgId", "==", ORG_ID)
     );
 
     const unsubscribeData = onSnapshot(q, (snapshot) => {
-      // Diagnostic: Check browser console to see if docs are arriving
-      console.log("Dashboard Sync: ", snapshot.docs.length, " leads found.");
+      console.log(`FOUND ${snapshot.docs.length} LEADS IN DB`);
       
       const leadData = snapshot.docs.map(doc => ({
         id: doc.id,
@@ -100,7 +104,6 @@ export default function LeadManager() {
   };
 
   // --- 3. PRODUCTION RENDER GATES ---
-
   if (isVerifying) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -121,7 +124,7 @@ export default function LeadManager() {
           </div>
           <h2 className="text-2xl font-black italic uppercase tracking-tighter mb-2 text-slate-900">Access Denied</h2>
           <p className="text-slate-500 text-sm italic font-medium leading-relaxed mb-8">
-            Terminal restricted. Current ID does not match the administrative clearance for LILO-OS.
+            Terminal restricted. Current ID ({auth.currentUser?.uid || 'N/A'}) does not match the administrative clearance for LILO-OS.
           </p>
           <button 
             onClick={() => signOut(auth)}
