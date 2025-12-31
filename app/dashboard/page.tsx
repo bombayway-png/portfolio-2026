@@ -11,7 +11,10 @@ import {
 } from 'firebase/firestore';
 import { Clock, User, ArrowRight, Play, Filter, Calendar, Loader2 } from 'lucide-react';
 
-// Strict type definitions to pass production linting
+// --- CONFIGURATION ---
+// 1. Check Firebase Console > Functions to find your region (e.g., 'us-west1')
+const FUNCTION_REGION = 'us-central1'; 
+
 type FlexibleTimestamp = {
   toMillis?: () => number;
   toDate?: () => Date;
@@ -35,10 +38,7 @@ export default function LeadManager() {
   const [isVerifying, setIsVerifying] = useState(true); 
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [timeFilter, setTimeFilter] = useState<string>('All');
-  
-  // Track processing states without using 'any'
   const [processingIds, setProcessingIds] = useState<Set<string>>(new Set());
-  
   const router = useRouter();
 
   const safeRender = (val: string | object | undefined): string => {
@@ -53,20 +53,18 @@ export default function LeadManager() {
       const now = Date.now();
       const leadTime = (lead.timestamp && typeof lead.timestamp === 'object' && 'toMillis' in lead.timestamp && typeof lead.timestamp.toMillis === 'function') 
         ? lead.timestamp.toMillis() : 0;
-      
       let matchesTime = true;
       if (timeFilter === '24h') matchesTime = now - leadTime < 86400000;
       if (timeFilter === '7d') matchesTime = now - leadTime < 604800000;
-
       return matchesStatus && matchesTime;
     });
   }, [leads, statusFilter, timeFilter]);
 
   const runAgent = async (leadId: string, description: string | object) => {
     setProcessingIds(prev => new Set(prev).add(leadId));
-    
     try {
-      const functions = getFunctions(); 
+      // FIX: Explicitly passing the region to find the deployed function
+      const functions = getFunctions(auth.app, FUNCTION_REGION); 
       const kickstart = httpsCallable(functions, 'kickstartIdeation');
       
       await kickstart({ 
@@ -76,7 +74,6 @@ export default function LeadManager() {
 
       alert("Success! The AI is now brainstorming themes.");
     } catch (err) {
-      // Corrected: Replacing 'any' with type checking to pass Vercel build
       console.error("❌ Agent Deployment Error:", err);
       const errorMessage = err instanceof Error ? err.message : 'Check Firebase Logs';
       alert(`Agent Failed: ${errorMessage}`);
@@ -111,30 +108,24 @@ export default function LeadManager() {
         id: doc.id,
         ...doc.data()
       })) as LiloTask[];
-      
-      const sortedLeads = leadData.sort((a, b) => {
+      const sorted = leadData.sort((a, b) => {
         const getTime = (ts: FlexibleTimestamp): number => {
           if (ts && typeof ts === 'object' && 'toMillis' in ts && typeof ts.toMillis === 'function') return ts.toMillis();
           return 0;
         };
         return getTime(b.timestamp) - getTime(a.timestamp);
       });
-      setLeads(sortedLeads);
-    }, (error) => {
-      console.error("Database Sync Error:", error.message);
+      setLeads(sorted);
     });
     return () => unsubscribeData();
   }, [authorized]);
 
   const updateStatus = async (leadId: string, nextStatus: string) => {
     const leadRef = doc(db, "lilo_tasks", leadId);
-    await updateDoc(leadRef, { 
-      status: nextStatus,
-      last_updated: serverTimestamp()
-    });
+    await updateDoc(leadRef, { status: nextStatus, last_updated: serverTimestamp() });
   };
 
-  if (isVerifying) return <div className="min-h-screen flex items-center justify-center bg-slate-50 italic font-black uppercase text-slate-400 animate-pulse">Syncing Dashboard...</div>;
+  if (isVerifying) return <div className="min-h-screen flex items-center justify-center bg-slate-50 italic font-black uppercase text-slate-400 animate-pulse">Syncing...</div>;
 
   return (
     <div className="min-h-screen bg-slate-50 p-8 text-slate-900 font-sans">
@@ -144,7 +135,7 @@ export default function LeadManager() {
             <h1 className="text-4xl font-black italic uppercase tracking-tighter leading-none">LILO-OS</h1>
             <p className="text-blue-600 font-medium italic text-sm mt-1">Status: Active Review Mode</p>
           </div>
-          <button onClick={() => signOut(auth)} className="text-[10px] font-black uppercase italic text-slate-400 hover:text-red-500 transition-colors">Secure Sign Out</button>
+          <button onClick={() => signOut(auth)} className="text-[10px] font-black uppercase italic text-slate-400 hover:text-red-500 transition-colors">Sign Out</button>
         </div>
 
         <div className="flex flex-wrap gap-4 bg-white p-4 rounded-[1.5rem] shadow-sm border border-slate-100">
@@ -180,36 +171,26 @@ export default function LeadManager() {
                   <Clock size={12} /> {lead.timestamp && typeof lead.timestamp === 'object' && 'toDate' in lead.timestamp && typeof lead.timestamp.toDate === 'function' ? lead.timestamp.toDate().toLocaleDateString() : 'Active'}
                 </p>
               </div>
-
               <div>
                 <h3 className="text-2xl font-black italic uppercase tracking-tight mb-2 leading-tight">{safeRender(lead.artifact_content)}</h3>
                 <p className="text-slate-400 text-sm flex items-center gap-1 font-bold italic"><User size={14} /> {lead.contact_email}</p>
               </div>
-
               <div className="bg-slate-50 p-6 rounded-[1.5rem] text-sm italic text-slate-600 border border-slate-100/50 leading-relaxed">&quot;{safeRender(lead.description)}&quot;</div>
-
               <div className="mt-6 pt-6 border-t border-slate-100">
                 <p className="text-[10px] font-black uppercase text-blue-600 mb-3 tracking-widest">Ideation Results</p>
                 {lead.ai_ideation ? (
-                  <div className="text-xs italic text-slate-700 bg-blue-50/50 p-5 rounded-[1.5rem] whitespace-pre-wrap leading-relaxed border border-blue-100/50">
-                    {safeRender(lead.ai_ideation)}
-                  </div>
+                  <div className="text-xs italic text-slate-700 bg-blue-50/50 p-5 rounded-[1.5rem] whitespace-pre-wrap leading-relaxed border border-blue-100/50">{safeRender(lead.ai_ideation)}</div>
                 ) : (
                   <button 
                     onClick={() => runAgent(lead.id, lead.description)}
                     disabled={processingIds.has(lead.id)}
                     className="w-full bg-blue-600 text-white py-4 rounded-2xl font-black italic uppercase text-xs flex items-center justify-center gap-2 hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-[0.98] disabled:opacity-50"
                   >
-                    {processingIds.has(lead.id) ? (
-                      <Loader2 size={14} className="animate-spin" />
-                    ) : (
-                      <><Play size={14} fill="currentColor" className="mr-2" /> Run Ideation Agent</>
-                    )}
+                    {processingIds.has(lead.id) ? <Loader2 size={14} className="animate-spin" /> : <><Play size={14} fill="currentColor" className="mr-2" /> Run Ideation Agent</>}
                   </button>
                 )}
               </div>
             </div>
-
             <div className="mt-8 pt-6 border-t border-slate-100">
               <button onClick={() => updateStatus(lead.id, 'In Review')} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black italic uppercase text-xs flex items-center justify-center gap-2 hover:bg-slate-800 transition-all shadow-lg">
                 Mark for Review <ArrowRight size={14} />
