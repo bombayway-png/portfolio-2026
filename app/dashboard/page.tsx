@@ -11,6 +11,7 @@ import {
 } from 'firebase/firestore';
 import { Clock, User, ArrowRight, Play, Filter, Calendar, Loader2 } from 'lucide-react';
 
+// Strict type definitions to pass production linting
 type FlexibleTimestamp = {
   toMillis?: () => number;
   toDate?: () => Date;
@@ -35,7 +36,7 @@ export default function LeadManager() {
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [timeFilter, setTimeFilter] = useState<string>('All');
   
-  // Track which agents are currently running to prevent double-clicks
+  // Track processing states without using 'any'
   const [processingIds, setProcessingIds] = useState<Set<string>>(new Set());
   
   const router = useRouter();
@@ -62,26 +63,23 @@ export default function LeadManager() {
   }, [leads, statusFilter, timeFilter]);
 
   const runAgent = async (leadId: string, description: string | object) => {
-    // 1. Diagnostic Log
-    console.log(`🚀 Triggering agent for lead: ${leadId}`);
     setProcessingIds(prev => new Set(prev).add(leadId));
     
     try {
-      // NOTE: If your function is NOT in us-central1, change the region below
-      // e.g., getFunctions(auth.app, 'us-west1')
       const functions = getFunctions(); 
       const kickstart = httpsCallable(functions, 'kickstartIdeation');
       
-      const result = await kickstart({ 
+      await kickstart({ 
         leadId, 
         description: safeRender(description) 
       });
 
-      console.log("✅ Agent Response:", result.data);
-      alert("Success! The AI is now brainstorming themes. Results will appear on this card shortly.");
-    } catch (err: any) {
+      alert("Success! The AI is now brainstorming themes.");
+    } catch (err) {
+      // Corrected: Replacing 'any' with type checking to pass Vercel build
       console.error("❌ Agent Deployment Error:", err);
-      alert(`Agent Failed: ${err.message || 'Check Firebase Logs'}`);
+      const errorMessage = err instanceof Error ? err.message : 'Check Firebase Logs';
+      alert(`Agent Failed: ${errorMessage}`);
     } finally {
       setProcessingIds(prev => {
         const next = new Set(prev);
