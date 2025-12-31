@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
@@ -9,7 +9,7 @@ import {
   collection, query, onSnapshot, 
   doc, updateDoc, serverTimestamp
 } from 'firebase/firestore';
-import { Clock, User, ArrowRight, Play } from 'lucide-react';
+import { Clock, User, ArrowRight, Play, Filter, Calendar } from 'lucide-react';
 
 // Strict type definitions to pass production linting
 type FlexibleTimestamp = {
@@ -33,6 +33,8 @@ export default function LeadManager() {
   const [leads, setLeads] = useState<LiloTask[]>([]);
   const [authorized, setAuthorized] = useState(false);
   const [isVerifying, setIsVerifying] = useState(true); 
+  const [statusFilter, setStatusFilter] = useState<string>('All');
+  const [timeFilter, setTimeFilter] = useState<string>('All');
   const router = useRouter();
 
   // Helper to prevent Minified React error #31
@@ -41,6 +43,25 @@ export default function LeadManager() {
     if (typeof val === 'string') return val;
     return JSON.stringify(val);
   };
+
+  // --- FILTER LOGIC (Recency & Status) ---
+  const filteredLeads = useMemo(() => {
+    return leads.filter(lead => {
+      // 1. Status Filter
+      const matchesStatus = statusFilter === 'All' || lead.status === statusFilter;
+
+      // 2. Time Filter (Recency)
+      const now = Date.now();
+      const leadTime = (lead.timestamp && typeof lead.timestamp === 'object' && 'toMillis' in lead.timestamp && typeof lead.timestamp.toMillis === 'function') 
+        ? lead.timestamp.toMillis() : 0;
+      
+      let matchesTime = true;
+      if (timeFilter === '24h') matchesTime = now - leadTime < 86400000;
+      if (timeFilter === '7d') matchesTime = now - leadTime < 604800000;
+
+      return matchesStatus && matchesTime;
+    });
+  }, [leads, statusFilter, timeFilter]);
 
   const runAgent = async (leadId: string, description: string | object) => {
     try {
@@ -116,27 +137,63 @@ export default function LeadManager() {
 
   return (
     <div className="min-h-screen bg-slate-50 p-8 text-slate-900 font-sans">
-      <header className="mb-12 flex justify-between items-end border-b border-slate-200 pb-8">
-        <div>
-          <h1 className="text-4xl font-black italic uppercase tracking-tighter leading-none">LILO-OS</h1>
-          <p className="text-blue-600 font-medium italic text-sm mt-1">Status: Active Review Mode</p>
+      <header className="mb-12 flex flex-col gap-8 border-b border-slate-200 pb-8">
+        <div className="flex justify-between items-end">
+          <div>
+            <h1 className="text-4xl font-black italic uppercase tracking-tighter leading-none">LILO-OS</h1>
+            <p className="text-blue-600 font-medium italic text-sm mt-1">Status: Active Review Mode</p>
+          </div>
+          <button onClick={() => signOut(auth)} className="text-[10px] font-black uppercase italic text-slate-400 hover:text-red-500 transition-colors">
+            Secure Sign Out
+          </button>
         </div>
-        <button onClick={() => signOut(auth)} className="text-[10px] font-black uppercase italic text-slate-400 hover:text-red-500 transition-colors">
-          Secure Sign Out
-        </button>
+
+        {/* --- FILTER CONTROL BAR --- */}
+        <div className="flex flex-wrap gap-4 bg-white p-4 rounded-[1.5rem] shadow-sm border border-slate-100">
+          <div className="flex items-center gap-2 px-4 border-r border-slate-100">
+            <Filter size={16} className="text-slate-400" />
+            <select 
+              value={statusFilter} 
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="text-xs font-black uppercase italic outline-none bg-transparent cursor-pointer"
+            >
+              <option value="All">All Statuses</option>
+              <option value="Needs Follow-up">Needs Follow-up</option>
+              <option value="In Review">In Review</option>
+              <option value="Success">Success</option>
+            </select>
+          </div>
+          <div className="flex items-center gap-2 px-4">
+            <Calendar size={16} className="text-slate-400" />
+            <select 
+              value={timeFilter} 
+              onChange={(e) => setTimeFilter(e.target.value)}
+              className="text-xs font-black uppercase italic outline-none bg-transparent cursor-pointer"
+            >
+              <option value="All">All Time</option>
+              <option value="24h">Last 24 Hours</option>
+              <option value="7d">Last 7 Days</option>
+            </select>
+          </div>
+          <div className="ml-auto text-[10px] font-bold text-slate-300 uppercase italic flex items-center pr-4">
+            Showing {filteredLeads.length} of {leads.length} leads
+          </div>
+        </div>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {leads.length === 0 ? (
+        {filteredLeads.length === 0 ? (
           <div className="col-span-full py-20 text-center text-slate-300 font-black italic uppercase text-2xl border-4 border-dashed border-slate-100 rounded-[3rem]">
-            No leads captured yet
+            No leads match filters
           </div>
         ) : (
-          leads.map((lead) => (
+          filteredLeads.map((lead) => (
             <div key={lead.id} className="bg-white rounded-[2.5rem] p-8 shadow-2xl border border-slate-100 flex flex-col justify-between transition-all hover:translate-y-[-4px]">
               <div className="space-y-6">
                 <div className="flex justify-between items-start">
-                  <span className="px-4 py-1.5 rounded-full text-[10px] font-black uppercase italic bg-blue-50 text-blue-600">
+                  <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase italic ${
+                    lead.status === 'Needs Follow-up' ? 'bg-blue-50 text-blue-600' : 'bg-green-50 text-green-600'
+                  }`}>
                     {lead.status}
                   </span>
                   <p className="text-slate-400 text-[10px] font-bold flex items-center gap-1">
