@@ -7,7 +7,9 @@ admin.initializeApp();
 // Use the key you copied from your Enatai FF project
 const genAI = new GoogleGenerativeAI("AIzaSyBxO1SPo8UmXI0cF83v7ik2ZnIwK9p4D-I");
 
-export const kickstartIdeation = functions.https.onCall(async (data, context) => {
+export const kickstartIdeation = functions
+  .region('us-central1') 
+  .https.onCall(async (data, context) => {
   // 1. Security check: Only you (Dad) can trigger this
   if (context.auth?.uid !== "5kbTnmiFdOQJUtonagrHovqb1sG3") {
     throw new functions.https.HttpsError('permission-denied', 'Unauthorized Access');
