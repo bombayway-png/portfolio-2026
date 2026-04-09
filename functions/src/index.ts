@@ -12,13 +12,15 @@ export const kickstartIdeation = functions
   .region('us-central1') 
   .https.onCall(async (request) => { 
     
-    // Security check: Using the modern 'request' object
-   if (request.auth?.uid !== "5kbTnmiFd0QJUtonagrHovqb1sG3") {
+    // Security check: Use the correct UID with '0' (zero)
+    // This ensures only your specific account can trigger the AI
+    if (request.auth?.uid !== "5kbTnmiFd0QJUtonagrHovqb1sG3") {
       throw new functions.https.HttpsError('permission-denied', 'Unauthorized Access');
     }
 
-    // Extracting your lead data safely
-    const data = request.data;
+    // Extracting data safely from the modern request object
+    // 'as any' prevents TypeScript from erroring on 'unknown' types
+    const data = request.data as any;
     const leadId = data?.leadId;
     const description = data?.description;
 
@@ -44,6 +46,7 @@ export const kickstartIdeation = functions
       const themes = result.response.text();
 
       // Update Firestore with the results
+      // NOTE: Ensure your collection name is exactly "lilo_tasks"
       await admin.firestore().collection("lilo_tasks").doc(leadId).update({
         ai_ideation: themes,
         status: "In Review",
