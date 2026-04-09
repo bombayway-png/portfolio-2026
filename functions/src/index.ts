@@ -13,7 +13,7 @@ export const kickstartIdeation = functions
   .https.onCall(async (request) => { 
     
     // Security check: Using the modern 'request' object
-    if (request.auth?.uid !== "5kbTnmiFdOQJUtonagrHovqb1sG3") {
+   if (request.auth?.uid !== "5kbTnmiFd0QJUtonagrHovqb1sG3") {
       throw new functions.https.HttpsError('permission-denied', 'Unauthorized Access');
     }
 
