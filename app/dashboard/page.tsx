@@ -1,3 +1,4 @@
+TypeScript
 "use client";
 
 import React, { useEffect, useState, useMemo } from 'react';
@@ -195,14 +196,14 @@ export default function LeadManager() {
               <div className="mt-6 pt-6 border-t border-slate-100">
                 <p className="text-[10px] font-black uppercase text-blue-600 mb-3 tracking-widest">Ideation Results</p>
                 {lead.ai_ideation ? (
-                  <div className="text-xs text-slate-700 bg-blue-50/50 p-5 rounded-[1.5rem] border border-blue-100/50 text-left">
-                    <ReactMarkdown 
-                      className="space-y-4 text-slate-800
-                                 [&>h3]:font-black [&>h3]:uppercase [&>h3]:tracking-tight [&>h3]:text-slate-950 [&>h3]:text-sm [&>h3]:mt-5 [&>h3]:mb-1 [&>h3]:block
-                                 [&>p]:leading-relaxed [&>p]:text-slate-700
-                                 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1.5 [&>ul]:my-2
-                                 [&>strong]:font-black [&>strong]:text-slate-950"
-                    >
+                  /* 🟢 Type Fix Applied: Styles moved safely to parent div with descendant configuration targeting */
+                  <div className="text-xs bg-blue-50/50 p-5 rounded-[1.5rem] border border-blue-100/50 text-left space-y-4 text-slate-800
+                                  [&_h3]:font-black [&_h3]:uppercase [&_h3]:tracking-tight [&_h3]:text-slate-950 [&_h3]:text-sm [&_h3]:mt-5 [&_h3]:mb-1 [&_h3]:block
+                                  [&_p]:leading-relaxed [&_p]:text-slate-700
+                                  [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_ul]:my-2
+                                  [&_strong]:font-black [&_strong]:text-slate-950"
+                  >
+                    <ReactMarkdown>
                       {formatMarkdownText(lead.ai_ideation)}
                     </ReactMarkdown>
                   </div>
