@@ -1,5 +1,7 @@
 {
   "projects": {
     "default": "project-cmb-a2022"
-  }
+  },
+  "targets": {},
+  "etags": {}
 }

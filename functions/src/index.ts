@@ -1,61 +1,65 @@
-import * as functions from "firebase-functions";
+import { onCall, HttpsError, onRequest } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { VertexAI } from "@google-cloud/vertexai";
+import * as logger from "firebase-functions/logger";
 
 admin.initializeApp();
 
-// 1. Initialize Gemini with your API Key
-const genAI = new GoogleGenerativeAI("AIzaSyBxO1SPo8UmXI0cF83v7ik2ZnIwK9p4D-I");
+// Initialize Vertex (Uses the project's internal permissions)
+const vertexAI = new VertexAI({ project: 'project-cmb-a2022', location: 'us-central1' });
 
-// 2. The Cloud Function
-export const kickstartIdeation = functions
-  .region('us-central1') 
-  .https.onCall(async (request) => { 
-    
-    // Security check: Use the correct UID with '0' (zero)
-    // This ensures only your specific account can trigger the AI
-    if (request.auth?.uid !== "5kbTnmiFd0QJUtonagrHovqb1sG3") {
-      throw new functions.https.HttpsError('permission-denied', 'Unauthorized Access');
-    }
+export const kickstartIdeation = onCall({ 
+  region: "us-central1",
+  invoker: "public" 
+}, async (request: any) => {
+  
+  if (request.auth?.uid !== "5kbTnmiFd0QJUtonagrHovqb1sG3") {
+    throw new HttpsError('permission-denied', 'Unauthorized Access');
+  }
 
-    // Extracting data safely from the modern request object
-    // 'as any' prevents TypeScript from erroring on 'unknown' types
-    const data = request.data as any;
-    const leadId = data?.leadId;
-    const description = data?.description;
+  const { leadId, description } = request.data;
+  if (!leadId) throw new HttpsError('invalid-argument', 'Missing leadId');
 
-    if (!leadId) {
-      throw new functions.https.HttpsError('invalid-argument', 'Missing leadId.');
-    }
+  logger.info(`VERTEX AGENT START: High-Fidelity Strategic Analysis for ${leadId}`);
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  // Use Gemini 2.0 Flash - The 2026 Production Standard
+  const generativeModel = vertexAI.getGenerativeModel({
+    model: 'gemini-2.0-flash-001',
+  });
 
-    const prompt = `
-      You are a Senior Product Operations Agent for LILO-OS.
-      Analyze this user bottleneck: "${description}"
-      Your goal is to prepare for a discovery meeting. 
-      Propose 3 distinct themes focused on automation and ROI:
-      1. THEME: Coordination (Solving manual route/driver assignments)
-      2. THEME: Optimization (Fixing timing and field-readiness)
-      3. THEME: Orchestration (End-to-end seasonal automation)
-      Keep the output professional, bulleted, and ready for an executive summary.
-    `;
+  const prompt = `
+    You are the LILO-OS Strategic Discovery Agent, a world-class Operations Architect.
+    Transform this customer bottleneck into an elite automation roadmap: "${description}"
 
-    try {
-      const result = await model.generateContent(prompt);
-      const themes = result.response.text();
+    STRUCTURE:
+    1. ROOT CAUSE DIAGNOSIS: Identify why this friction exists at a logic/data level.
+    2. THE THREE-PILLAR STRATEGY:
+       - **PILLAR 1: Coordination**: Unifying data & communication flow.
+       - **PILLAR 2: Optimization**: Removing manual logic gates and human latency.
+       - **PILLAR 3: Orchestration**: Self-sustaining, end-to-end AI workflows.
+    3. ROI ANALYSIS: Provide a specific, measurable business outcome.
 
-      // Update Firestore with the results
-      // NOTE: Ensure your collection name is exactly "lilo_tasks"
-      await admin.firestore().collection("lilo_tasks").doc(leadId).update({
-        ai_ideation: themes,
-        status: "In Review",
-        last_updated: admin.firestore.FieldValue.serverTimestamp()
-      });
+    TONE: Executive, authoritative, and visionary. Under 350 words. No intro fluff.
+  `;
 
-      return { success: true };
-    } catch (error) {
-      console.error("Gemini Agent Error:", error);
-      throw new functions.https.HttpsError('internal', 'Agent failed to process ideation.');
-    }
+  try {
+    const result = await generativeModel.generateContent(prompt);
+    const response = await result.response;
+    const themes = response.candidates?.[0].content.parts[0].text || "Strategy generation failed.";
+
+    await admin.firestore().collection("lilo_tasks").doc(leadId).update({
+      ai_ideation: themes,
+      status: "In Review",
+      last_updated: admin.firestore.FieldValue.serverTimestamp()
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    logger.error("Vertex AI Strategic Failure:", error);
+    throw new HttpsError('internal', `Agent Error: ${error.message}`);
+  }
+});
+
+export const calendlyWebhook = onRequest({ cors: true, region: "us-central1" }, async (req, res) => {
+  res.status(200).send("Webhook received");
 });
