@@ -10,9 +10,8 @@ import {
   doc, updateDoc, serverTimestamp
 } from 'firebase/firestore';
 import { Clock, User, ArrowRight, Play, Filter, Calendar, Loader2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
-// --- CONFIGURATION: CHANGE THIS TO MATCH YOUR FIREBASE CONSOLE ---
-// Common regions: 'us-central1', 'us-west1', 'us-east1'
 const FUNCTION_REGION = 'us-central1'; 
 
 type FlexibleTimestamp = {
@@ -47,6 +46,16 @@ export default function LeadManager() {
     return JSON.stringify(val);
   };
 
+  // Helper to force-convert data into Markdown-digestible formatting lines
+  const formatMarkdownText = (val: string | object | undefined): string => {
+    const raw = safeRender(val);
+    // Cleans wrapped JSON quotes, ensures actual linebreaks render, and cleans carriage returns
+    return raw
+      .replace(/^"|"$/g, '')
+      .replace(/\\n/g, '\n')
+      .replace(/\r/g, '');
+  };
+
   const filteredLeads = useMemo(() => {
     return leads.filter(lead => {
       const matchesStatus = statusFilter === 'All' || lead.status === statusFilter;
@@ -65,7 +74,6 @@ export default function LeadManager() {
     setProcessingIds(prev => new Set(prev).add(leadId));
     
     try {
-      // FIX: Passing the explicit region to getFunctions resolves the 404
       const functions = getFunctions(auth.app, FUNCTION_REGION); 
       const kickstart = httpsCallable(functions, 'kickstartIdeation');
       
@@ -132,7 +140,7 @@ export default function LeadManager() {
   if (isVerifying) return <div className="min-h-screen flex items-center justify-center bg-slate-50 italic font-black uppercase text-slate-400 animate-pulse">Syncing...</div>;
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8 text-slate-900 font-sans">
+    <div className="min-h-screen bg-slate-50 p-8 text-slate-900 font-sans text-left">
       <header className="mb-12 flex flex-col gap-8 border-b border-slate-200 pb-8">
         <div className="flex justify-between items-end">
           <div>
@@ -183,10 +191,21 @@ export default function LeadManager() {
                 <p className="text-slate-400 text-sm flex items-center gap-1 font-bold italic"><User size={14} /> {lead.contact_email}</p>
               </div>
               <div className="bg-slate-50 p-6 rounded-[1.5rem] text-sm italic text-slate-600 border border-slate-100/50 leading-relaxed">&quot;{safeRender(lead.description)}&quot;</div>
+              
               <div className="mt-6 pt-6 border-t border-slate-100">
                 <p className="text-[10px] font-black uppercase text-blue-600 mb-3 tracking-widest">Ideation Results</p>
                 {lead.ai_ideation ? (
-                  <div className="text-xs italic text-slate-700 bg-blue-50/50 p-5 rounded-[1.5rem] whitespace-pre-wrap leading-relaxed border border-blue-100/50">{safeRender(lead.ai_ideation)}</div>
+                  <div className="text-xs text-slate-700 bg-blue-50/50 p-5 rounded-[1.5rem] border border-blue-100/50 text-left">
+                    <ReactMarkdown 
+                      className="space-y-4 text-slate-800
+                                 [&>h3]:font-black [&>h3]:uppercase [&>h3]:tracking-tight [&>h3]:text-slate-950 [&>h3]:text-sm [&>h3]:mt-5 [&>h3]:mb-1 [&>h3]:block
+                                 [&>p]:leading-relaxed [&>p]:text-slate-700
+                                 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1.5 [&>ul]:my-2
+                                 [&>strong]:font-black [&>strong]:text-slate-950"
+                    >
+                      {formatMarkdownText(lead.ai_ideation)}
+                    </ReactMarkdown>
+                  </div>
                 ) : (
                   <button 
                     onClick={() => runAgent(lead.id, lead.description)}
